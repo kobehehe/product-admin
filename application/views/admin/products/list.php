@@ -3,12 +3,12 @@
       <ul class="breadcrumb">
         <li>
           <a href="<?php echo site_url("admin"); ?>">
-            <?php echo ucfirst($this->uri->segment(1));?>
+            <?php echo '后台管理';?>
           </a> 
           <span class="divider">/</span>
         </li>
         <li class="active">
-          <?php echo ucfirst($this->uri->segment(2));?>
+          <?php echo '商品管理';?>
         </li>
       </ul>
 
@@ -53,7 +53,7 @@ height: 26px;"');
               echo form_label('Order by:', 'order');
               echo form_dropdown('order', $options_products, $order, 'class="span2"');
 
-              $data_submit = array('name' => 'mysubmit', 'class' => 'btn btn-primary', 'value' => 'Go');
+              $data_submit = array('name' => 'mysubmit', 'class' => 'btn btn-primary', 'value' => '搜索');
 
               $options_order_type = array('Asc' => 'Asc', 'Desc' => 'Desc');
               echo form_dropdown('order_type', $options_order_type, $order_type_selected, 'class="span1"');

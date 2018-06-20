@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html lang="en-US">
   <head>
-    <title>CodeIgniter Admin Sample Project</title>
+    <title>商品管理系统</title>
     <meta charset="utf-8">
     <link href="<?php echo base_url(); ?>assets/css/admin/global.css" rel="stylesheet" type="text/css">
   </head>
@@ -10,7 +10,7 @@
       <?php 
       $attributes = array('class' => 'form-signin');
       echo form_open('admin/login/validate_credentials', $attributes);
-      echo '<h2 class="form-signin-heading">Login</h2>';
+      echo '<h2 class="form-signin-heading">登录</h2>';
       echo form_input('user_name', '', 'placeholder="Username"');
       echo form_password('password', '', 'placeholder="Password"');
       if(isset($message_error) && $message_error){
@@ -20,7 +20,7 @@
           echo '</div>';             
       }
       echo "<br />";
-      echo anchor('admin/signup', 'Signup!');
+      echo anchor('admin/signup', '点我注册!');
       echo "<br />";
       echo "<br />";
       echo form_submit('submit', 'Login', 'class="btn btn-large btn-primary"');
