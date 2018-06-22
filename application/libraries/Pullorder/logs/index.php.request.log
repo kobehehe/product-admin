@@ -108,3 +108,220 @@ decode get:Array
     [go] => go
 )
 
+2018-06-22 17:45:48 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth
+2018-06-22 17:47:01 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth?shopid=1
+decode get:Array
+(
+    [shopid] => 1
+)
+
+2018-06-22 17:48:53 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth?shopid=1
+decode get:Array
+(
+    [shopid] => 1
+)
+
+2018-06-22 17:52:04 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index?shopid=1
+decode get:Array
+(
+    [shopid] => 1
+)
+
+2018-06-22 17:52:08 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index?shopid=1?go=go
+decode get:Array
+(
+    [shopid] => 1?go=go
+)
+
+2018-06-22 17:52:27 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index?shopid=1
+decode get:Array
+(
+    [shopid] => 1
+)
+
+2018-06-22 17:55:33 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index?shopid=1
+decode get:Array
+(
+    [shopid] => 1
+)
+
+2018-06-22 17:55:34 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index?shopid=1?go=go
+decode get:Array
+(
+    [shopid] => 1?go=go
+)
+
+2018-06-22 17:55:48 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index?shopid=1?go=go?go=go
+decode get:Array
+(
+    [shopid] => 1?go=go?go=go
+)
+
+2018-06-22 17:57:23 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1
+2018-06-22 17:57:28 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go
+decode get:Array
+(
+    [go] => go
+)
+
+2018-06-22 17:58:02 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go&oauth_token=2e7bc7f7f4455d7d689b5bff4bbf0f&oauth_verifier=1ffa2b63
+decode get:Array
+(
+    [go] => go
+    [oauth_token] => 2e7bc7f7f4455d7d689b5bff4bbf0f
+    [oauth_verifier] => 1ffa2b63
+)
+
+2018-06-22 18:01:17 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go&oauth_token=2e7bc7f7f4455d7d689b5bff4bbf0f&oauth_verifier=1ffa2b63
+decode get:Array
+(
+    [go] => go
+    [oauth_token] => 2e7bc7f7f4455d7d689b5bff4bbf0f
+    [oauth_verifier] => 1ffa2b63
+)
+
+2018-06-22 18:01:19 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1
+2018-06-22 18:02:31 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1
+2018-06-22 18:04:54 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1
+2018-06-22 18:05:37 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1
+2018-06-22 18:05:39 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go
+decode get:Array
+(
+    [go] => go
+)
+
+2018-06-22 18:05:44 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go&oauth_token=bea2127ffd19511303ad70f6fe193f&oauth_verifier=eeec0526
+decode get:Array
+(
+    [go] => go
+    [oauth_token] => bea2127ffd19511303ad70f6fe193f
+    [oauth_verifier] => eeec0526
+)
+
+2018-06-22 18:06:49 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go&oauth_token=bea2127ffd19511303ad70f6fe193f&oauth_verifier=eeec0526
+decode get:Array
+(
+    [go] => go
+    [oauth_token] => bea2127ffd19511303ad70f6fe193f
+    [oauth_verifier] => eeec0526
+)
+
+2018-06-22 18:06:53 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go&oauth_token=bea2127ffd19511303ad70f6fe193f&oauth_verifier=eeec0526
+decode get:Array
+(
+    [go] => go
+    [oauth_token] => bea2127ffd19511303ad70f6fe193f
+    [oauth_verifier] => eeec0526
+)
+
+2018-06-22 18:06:56 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1
+2018-06-22 18:06:57 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go
+decode get:Array
+(
+    [go] => go
+)
+
+2018-06-22 18:07:01 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go&oauth_token=5f073a1d63d8f067d6e5b56dbb4513&oauth_verifier=a09808e7
+decode get:Array
+(
+    [go] => go
+    [oauth_token] => 5f073a1d63d8f067d6e5b56dbb4513
+    [oauth_verifier] => a09808e7
+)
+
+2018-06-22 18:07:51 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go&oauth_token=5f073a1d63d8f067d6e5b56dbb4513&oauth_verifier=a09808e7
+decode get:Array
+(
+    [go] => go
+    [oauth_token] => 5f073a1d63d8f067d6e5b56dbb4513
+    [oauth_verifier] => a09808e7
+)
+
+2018-06-22 18:07:54 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1
+2018-06-22 18:07:55 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go
+decode get:Array
+(
+    [go] => go
+)
+
+2018-06-22 18:07:58 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go&oauth_token=4dd7bcc135926a93780773a630080c&oauth_verifier=d1de9d1c
+decode get:Array
+(
+    [go] => go
+    [oauth_token] => 4dd7bcc135926a93780773a630080c
+    [oauth_verifier] => d1de9d1c
+)
+
+2018-06-22 18:09:08 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1
+2018-06-22 18:09:11 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go
+decode get:Array
+(
+    [go] => go
+)
+
+2018-06-22 18:09:14 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1
+2018-06-22 18:11:37 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1
+2018-06-22 18:11:40 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go
+decode get:Array
+(
+    [go] => go
+)
+
+2018-06-22 18:11:45 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go&oauth_token=e07d860a8d3cf182a26ec52a558280&oauth_verifier=4bda00f2
+decode get:Array
+(
+    [go] => go
+    [oauth_token] => e07d860a8d3cf182a26ec52a558280
+    [oauth_verifier] => 4bda00f2
+)
+
+2018-06-22 18:12:04 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go
+decode get:Array
+(
+    [go] => go
+)
+
+2018-06-22 18:12:07 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.product.com/admin/auth/index/1?go=go&oauth_token=d95afe191cebb90f3d611692730120&oauth_verifier=cd27157d
+decode get:Array
+(
+    [go] => go
+    [oauth_token] => d95afe191cebb90f3d611692730120
+    [oauth_verifier] => cd27157d
+)
+

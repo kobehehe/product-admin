@@ -63,7 +63,7 @@ $route['admin/manufacturers/delete/(:any)'] = 'admin_manufacturers/delete/$1';
 $route['admin/manufacturers/(:any)'] = 'admin_manufacturers/index/$1'; //$1 = page number
 
 
-$route['admin/auth'] = 'admin_auth';
+$route['admin/auth/index/(:any)'] = 'admin_auth/index/$1';
 
 
 /* End of file routes.php */
