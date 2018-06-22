@@ -164,6 +164,8 @@ class Admin_manufacturers extends CI_Controller {
 
             //form validation
             $this->form_validation->set_rules('name', 'name', 'required');
+            $this->form_validation->set_rules('key', 'key', 'required');
+            $this->form_validation->set_rules('secret', 'secret', 'required');
             $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
             
 
@@ -172,6 +174,8 @@ class Admin_manufacturers extends CI_Controller {
             {
                 $data_to_store = array(
                     'name' => $this->input->post('name'),
+                    'secret' => $this->input->post('secret'),
+                    'key' => $this->input->post('key'),
                 );
                 //if the insert has returned true then we show the flash message
                 if($this->manufacturers_model->store_manufacture($data_to_store)){
