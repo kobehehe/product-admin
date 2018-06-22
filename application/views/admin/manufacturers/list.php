@@ -77,7 +77,7 @@
                 echo '<td>'.$row['shop_id'].'</td>';
                 echo '<td class="crud-actions">
                   <a href="'.site_url("admin").'/manufacturers/update/'.$row['id'].'" class="btn btn-info">view & edit</a>  
-                  <a href="'.site_url("admin").'/manufacturers/delete/'.$row['id'].'" class="btn btn-danger">授权</a>
+                  <a href="'.site_url("admin").'/auth" class="btn btn-danger">授权</a>
                 </td>';
                 echo '</tr>';
               }

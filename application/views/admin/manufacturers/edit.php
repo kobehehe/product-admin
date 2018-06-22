@@ -3,24 +3,24 @@
       <ul class="breadcrumb">
         <li>
           <a href="<?php echo site_url("admin"); ?>">
-            <?php echo ucfirst($this->uri->segment(1));?>
+            <?php echo '后台管理';?>
           </a> 
           <span class="divider">/</span>
         </li>
         <li>
           <a href="<?php echo site_url("admin").'/'.$this->uri->segment(2); ?>">
-            <?php echo ucfirst($this->uri->segment(2));?>
+            <?php echo '店铺管理';?>
           </a> 
           <span class="divider">/</span>
         </li>
         <li class="active">
-          <a href="#">Update</a>
+          <a href="#">修改店铺</a>
         </li>
       </ul>
       
       <div class="page-header">
         <h2>
-          Updating <?php echo ucfirst($this->uri->segment(2));?>
+          Updating shop
         </h2>
       </div>
 
@@ -54,14 +54,28 @@
       ?>
         <fieldset>
           <div class="control-group">
-            <label for="inputError" class="control-label">Description</label>
+            <label for="inputError" class="control-label">name</label>
             <div class="controls">
               <input type="text" id="" name="name" value="<?php echo $manufacture[0]['name']; ?>" >
               <!--<span class="help-inline">Woohoo!</span>-->
             </div>
           </div>
+            <div class="control-group">
+                <label for="inputError" class="control-label">key</label>
+                <div class="controls">
+                    <input type="text" id="" name="key" value="<?php echo $manufacture[0]['key']; ?>" >
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="inputError" class="control-label">secret</label>
+                <div class="controls">
+                    <input type="text" id="" name="key" value="<?php echo $manufacture[0]['secret']; ?>" >
+                </div>
+            </div>
+
           <div class="form-actions">
-            <button class="btn btn-primary" type="submit">Save changes</button>
+            <button class="btn btn-primary" type="submit">保存</button>
             <button class="btn" type="reset">Cancel</button>
           </div>
         </fieldset>

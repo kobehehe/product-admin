@@ -8,15 +8,15 @@
             <span class="divider">/</span>
         </li>
         <li class="active">
-            <?php echo '商品管理'; ?>
+            <?php echo '订单管理'; ?>
         </li>
     </ul>
 
     <div class="page-header users-header">
                 <h2>
-                  <?php echo ucfirst($this->uri->segment(2));?>
-                  <a  href="
-        <?php echo site_url("admin").'/'.$this->uri->segment(2); ?>/add" class="btn btn-success">Add a new</a>
+                  <?php echo 'orders';?>
+<!--                  <a  href="-->
+<!--        --><?php //echo site_url("admin").'/'.$this->uri->segment(2); ?><!--/add" class="btn btn-success">Add a new</a>-->
                 </h2>
     </div>
 
