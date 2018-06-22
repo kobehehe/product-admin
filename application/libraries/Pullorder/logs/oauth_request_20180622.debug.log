@@ -1,0 +1,347 @@
+2018-06-22 09:38:23
+request: POST https://openapi.etsy.com/v2/oauth/request_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_callback="http%3A%2F%2Fdev.demo.com%2Fphp%2Fuserlogin.php%3Fgo%3Dgo", oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="9Yn8uA2V1S9Khdbrmiodwanm8sPBP8fT", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529631501", oauth_version="1.0", oauth_signature="T9c3Aps8MLFw%2FC3%2FF9AQhJVbmzU%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'login_url=https%3A%2F%2Fwww.etsy.com%2Foauth%2Fsignin%3Foauth_consumer_key%3Dq7teqakic2d6sjpwr9c6dsar%26oauth_token%3D39032a82237a005d6e34236a6d5db6%26service%3Dv2_prod&oauth_token=39032a82237a005d6e34236a6d5db6&oauth_token_secret=e3c9d444c7&oauth_callback_confirmed=true&oauth_consumer_key=q7teqakic2d6sjpwr9c6dsar&oauth_callback=http%3A%2F%2Fdev.demo.com%2Fphp%2Fuserlogin.php%3Fgo%3Dgo'
+
+2018-06-22 09:38:42
+request: POST https://openapi.etsy.com/v2/oauth/access_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="gmlnigpo2u8gMR6B73LV6dLw1Qx3vu5V", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529631521", oauth_version="1.0", oauth_token="39032a82237a005d6e34236a6d5db6", oauth_signature="GDp%2Fet8EXtMTDH1Bla6eBhKdlgY%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+body: oauth_verifier=17cb9b82
+return: 'oauth_token=92242df3e6d301fca8f3b7978dd6b0&oauth_token_secret=de8e80e723'
+
+2018-06-22 09:38:42
+request: GET https://openapi.etsy.com/v2/private/users/__SELF__
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="yVPbf6FuxEAfftpxmw4yPVwsYyqqKHSC", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529631522", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="eV2eBhAajJxcq2SqpcRSpYXJrdY%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":1,"results":[{"user_id":63697032,"login_name":"MascotMaster","primary_email":"MascotMaster@yahoo.com","creation_tsz":1427202794,"user_pub_key":{"key":"-----BEGIN PUBLIC KEY-----\\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAw6x8GlLkmcSXeAzA4Dpv\\n+LEd+5q2weNP4nol+nAeB8Z6+e6wzBa37ttyvjZJcttKK3Q9vKu1zQhsBnTH4Xfy\\nnCRglhsJ1\\/22kqBV\\/wfVWhIi5v8gcRLBqA7hXwdgQVVY65T4s6bHQYaRiJtm3yYY\\n63qKCtwFwSk5YqvXeMTbpL2Su6w5GCnmko\\/zfqoi9tr86KZGkCHh16nxwE4787pF\\nNPEx9bEUsiAIw6cLGYelqukuNDWhxA71WR6s0YesBPb5s0VPI8QhHL15ps5rCNC2\\nU7GscYPwISoCf+YDQ5NSPKYP7PLStq9iu\\/bVuZZfdB+xT85gOdgkdyyxDM\\/wHZEC\\nHqokB6eoe8pq4ewygBCGfTV4DRLPnx91U3EdDfcIGCMKIurq5nPh1K9onUGgvJrP\\nsjFUNWlpHcmdP9UXy1hy9U\\/xw8ovOmzVUubnmqr8sI3O9XnJM9V86pVdjfh3GJR7\\n1ini6GBmkzdb1VrGa2JI0AWjxa6d8u9enlrqVFhVl4bnS75+hYf9EducEtyrtfiG\\n8qJFepdqEDD3FNozEKCTefVPrscN8qTWahkRvjO53EAuEUjJ\\/GtlsvI6YA+3r0F1\\nojF\\/qvgJNFVZyU98BL7Jv\\/hgPc8TDlO+ZNcf2PPdhbHlvm63aEbE5WJRE7a3JqgJ\\nerCiLpHsb4MfwyHV9+DmI5ECAwEAAQ==\\n-----END PUBLIC KEY-----\\n","key_id":22631526383},"referred_by_user_id":null,"feedback_info":{"count":0,"score":null},"awaiting_feedback_count":0,"use_new_inventory_endpoints":true}],"params":{"user_id":"__SELF__"},"type":"User","pagination":{}}'
+
+2018-06-22 09:38:43
+request: GET https://openapi.etsy.com/v2/oauth/scopes
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="RmQGaQz59MonSInPJabzz7xEUgIkgQzB", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529631523", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="Vb8AeqLcUm%2FPCc%2FtXNtz3LJrJV0%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":18,"results":["email_r","listings_r","listings_w","listings_d","transactions_r","transactions_w","billing_r","profile_r","profile_w","address_r","address_w","favorites_rw","shops_rw","cart_rw","recommend_rw","feedback_r","treasury_r","treasury_w"],"params":null,"type":"ArrayString","pagination":{}}'
+
+2018-06-22 09:38:55
+request: GET https://openapi.etsy.com/v2/users/63697032/shops
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="xRdGShddVM91UcvanOS7ao4Ib4tSNXhG", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529631534", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="a20iEHCFXalHP6HECmSPymVgvvo%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":1,"results":[{"shop_id":10900038,"shop_name":"LJWCraft","first_line":null,"second_line":null,"city":"","state":"","zip":null,"country_id":null,"user_id":63697032,"creation_tsz":1427204948,"title":null,"announcement":null,"currency_code":"USD","is_vacation":false,"vacation_message":null,"sale_message":null,"digital_sale_message":null,"last_updated_tsz":1528959360,"listing_active_count":6,"digital_listing_count":0,"login_name":"MascotMaster","lat":0,"lon":0,"accepts_custom_requests":false,"policy_welcome":null,"policy_payment":null,"policy_shipping":null,"policy_refunds":null,"policy_additional":null,"policy_seller_info":null,"policy_updated_tsz":0,"policy_has_private_receipt_info":false,"vacation_autoreply":null,"ga_code":"","name":null,"url":"https:\\/\\/www.etsy.com\\/shop\\/LJWCraft?utm_source=ljwcraftorder&utm_medium=api&utm_campaign=api","image_url_760x100":null,"num_favorers":12,"languages":["en-US"],"upcoming_local_event_id":null,"icon_url_fullxfull":null,"is_using_structured_policies":false,"has_onboarded_structured_policies":false,"has_unstructured_policies":false,"include_dispute_form_link":false,"use_new_inventory_endpoints":true,"is_direct_checkout_onboarded":false,"is_wholesale_only":false,"policy_privacy":null,"is_calculated_eligible":false}],"params":{"user_id":"63697032","limit":25,"offset":0,"page":null},"type":"Shop","pagination":{"effective_limit":25,"effective_offset":0,"next_offset":null,"effective_page":1,"next_page":null}}'
+
+2018-06-22 10:52:12
+request: GET https://openapi.etsy.com/v2/users/63697032/shops
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="raKqBiorplWKueoojiedQJOxtGz3IvdP", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529635931", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="5g3VSPIKWaF0H6EdHDFlHlV6oE8%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":1,"results":[{"shop_id":10900038,"shop_name":"LJWCraft","first_line":null,"second_line":null,"city":"","state":"","zip":null,"country_id":null,"user_id":63697032,"creation_tsz":1427204948,"title":null,"announcement":null,"currency_code":"USD","is_vacation":false,"vacation_message":null,"sale_message":null,"digital_sale_message":null,"last_updated_tsz":1528959360,"listing_active_count":6,"digital_listing_count":0,"login_name":"MascotMaster","lat":0,"lon":0,"accepts_custom_requests":false,"policy_welcome":null,"policy_payment":null,"policy_shipping":null,"policy_refunds":null,"policy_additional":null,"policy_seller_info":null,"policy_updated_tsz":0,"policy_has_private_receipt_info":false,"vacation_autoreply":null,"ga_code":"","name":null,"url":"https:\\/\\/www.etsy.com\\/shop\\/LJWCraft?utm_source=ljwcraftorder&utm_medium=api&utm_campaign=api","image_url_760x100":null,"num_favorers":12,"languages":["en-US"],"upcoming_local_event_id":null,"icon_url_fullxfull":null,"is_using_structured_policies":false,"has_onboarded_structured_policies":false,"has_unstructured_policies":false,"include_dispute_form_link":false,"use_new_inventory_endpoints":true,"is_direct_checkout_onboarded":false,"is_wholesale_only":false,"policy_privacy":null,"is_calculated_eligible":false}],"params":{"user_id":"63697032","limit":25,"offset":0,"page":null},"type":"Shop","pagination":{"effective_limit":25,"effective_offset":0,"next_offset":null,"effective_page":1,"next_page":null}}'
+
+2018-06-22 14:45:47
+request: POST https://openapi.etsy.com/v2/oauth/request_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_callback="http%3A%2F%2Fdev.demo.com%2Fphp%2Fuserlogin.php%3Fgo%3Dgo", oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="D38SFuCtyHB5e9trODtWnQFe8lpift8W", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529649946", oauth_version="1.0", oauth_signature="QBQa%2BWUrdUzSjeIdBfBDTYm2XAc%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'login_url=https%3A%2F%2Fwww.etsy.com%2Foauth%2Fsignin%3Foauth_consumer_key%3Dq7teqakic2d6sjpwr9c6dsar%26oauth_token%3D69f87a6ee6a01e6e66ef0895bba6b0%26service%3Dv2_prod&oauth_token=69f87a6ee6a01e6e66ef0895bba6b0&oauth_token_secret=bc60564aea&oauth_callback_confirmed=true&oauth_consumer_key=q7teqakic2d6sjpwr9c6dsar&oauth_callback=http%3A%2F%2Fdev.demo.com%2Fphp%2Fuserlogin.php%3Fgo%3Dgo'
+
+2018-06-22 15:55:23
+request: POST https://openapi.etsy.com/v2/oauth/request_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_callback="http%3A%2F%2Fdev.demo.com%2Fphp%2Fuserlogin.php%3Fgo%3Dgo", oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="5Vhq74v5VnsOEKhFDIb1cdW9Oq2koIeF", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529654122", oauth_version="1.0", oauth_signature="U1qzqorv90czc6k3u%2FbxVhf5M7k%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'login_url=https%3A%2F%2Fwww.etsy.com%2Foauth%2Fsignin%3Foauth_consumer_key%3Dq7teqakic2d6sjpwr9c6dsar%26oauth_token%3D8d054d00b3229fdf993a10f5ac3670%26service%3Dv2_prod&oauth_token=8d054d00b3229fdf993a10f5ac3670&oauth_token_secret=dc91d6d41b&oauth_callback_confirmed=true&oauth_consumer_key=q7teqakic2d6sjpwr9c6dsar&oauth_callback=http%3A%2F%2Fdev.demo.com%2Fphp%2Fuserlogin.php%3Fgo%3Dgo'
+
+2018-06-22 15:55:27
+request: POST https://openapi.etsy.com/v2/oauth/access_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="A99aRa6wZn81YPpG1mIGefuAjTXGgc36", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529654127", oauth_version="1.0", oauth_token="8d054d00b3229fdf993a10f5ac3670", oauth_signature="gRwpNMASwvH%2BMDfT%2Bt7rJOwxm4o%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+body: oauth_verifier=04fc04a6
+return: 'oauth_token=92242df3e6d301fca8f3b7978dd6b0&oauth_token_secret=de8e80e723'
+
+2018-06-22 15:55:28
+request: GET https://openapi.etsy.com/v2/private/users/__SELF__
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="Bp6CtNOotdVPeMXi2J53QLTn4Tzd1TQr", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529654127", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="fr2FNvFbf2D3ERZ3Pzf56mjgNvo%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":1,"results":[{"user_id":63697032,"login_name":"MascotMaster","primary_email":"MascotMaster@yahoo.com","creation_tsz":1427202794,"user_pub_key":{"key":"-----BEGIN PUBLIC KEY-----\\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAw6x8GlLkmcSXeAzA4Dpv\\n+LEd+5q2weNP4nol+nAeB8Z6+e6wzBa37ttyvjZJcttKK3Q9vKu1zQhsBnTH4Xfy\\nnCRglhsJ1\\/22kqBV\\/wfVWhIi5v8gcRLBqA7hXwdgQVVY65T4s6bHQYaRiJtm3yYY\\n63qKCtwFwSk5YqvXeMTbpL2Su6w5GCnmko\\/zfqoi9tr86KZGkCHh16nxwE4787pF\\nNPEx9bEUsiAIw6cLGYelqukuNDWhxA71WR6s0YesBPb5s0VPI8QhHL15ps5rCNC2\\nU7GscYPwISoCf+YDQ5NSPKYP7PLStq9iu\\/bVuZZfdB+xT85gOdgkdyyxDM\\/wHZEC\\nHqokB6eoe8pq4ewygBCGfTV4DRLPnx91U3EdDfcIGCMKIurq5nPh1K9onUGgvJrP\\nsjFUNWlpHcmdP9UXy1hy9U\\/xw8ovOmzVUubnmqr8sI3O9XnJM9V86pVdjfh3GJR7\\n1ini6GBmkzdb1VrGa2JI0AWjxa6d8u9enlrqVFhVl4bnS75+hYf9EducEtyrtfiG\\n8qJFepdqEDD3FNozEKCTefVPrscN8qTWahkRvjO53EAuEUjJ\\/GtlsvI6YA+3r0F1\\nojF\\/qvgJNFVZyU98BL7Jv\\/hgPc8TDlO+ZNcf2PPdhbHlvm63aEbE5WJRE7a3JqgJ\\nerCiLpHsb4MfwyHV9+DmI5ECAwEAAQ==\\n-----END PUBLIC KEY-----\\n","key_id":22631526383},"referred_by_user_id":null,"feedback_info":{"count":0,"score":null},"awaiting_feedback_count":0,"use_new_inventory_endpoints":true}],"params":{"user_id":"__SELF__"},"type":"User","pagination":{}}'
+
+2018-06-22 15:55:28
+request: GET https://openapi.etsy.com/v2/oauth/scopes
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="RNixUiXZGjTt4VdUMQmXznFe9mjLiTE2", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529654128", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="tcX8XTgC%2BxDydfeEKFKXElz%2FjxI%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":18,"results":["email_r","listings_r","listings_w","listings_d","transactions_r","transactions_w","billing_r","profile_r","profile_w","address_r","address_w","favorites_rw","shops_rw","cart_rw","recommend_rw","feedback_r","treasury_r","treasury_w"],"params":null,"type":"ArrayString","pagination":{}}'
+
+2018-06-22 15:55:31
+request: GET https://openapi.etsy.com/v2/users/63697032/shops
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="JmRXithow5Wpe8RFZNBD0aJCkeAt3PQU", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529654131", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="Frrdq3dDKR7D4wH%2FvU%2BTzvdgGLU%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":1,"results":[{"shop_id":10900038,"shop_name":"LJWCraft","first_line":null,"second_line":null,"city":"","state":"","zip":null,"country_id":null,"user_id":63697032,"creation_tsz":1427204948,"title":null,"announcement":null,"currency_code":"USD","is_vacation":false,"vacation_message":null,"sale_message":null,"digital_sale_message":null,"last_updated_tsz":1528959360,"listing_active_count":6,"digital_listing_count":0,"login_name":"MascotMaster","lat":0,"lon":0,"accepts_custom_requests":false,"policy_welcome":null,"policy_payment":null,"policy_shipping":null,"policy_refunds":null,"policy_additional":null,"policy_seller_info":null,"policy_updated_tsz":0,"policy_has_private_receipt_info":false,"vacation_autoreply":null,"ga_code":"","name":null,"url":"https:\\/\\/www.etsy.com\\/shop\\/LJWCraft?utm_source=ljwcraftorder&utm_medium=api&utm_campaign=api","image_url_760x100":null,"num_favorers":12,"languages":["en-US"],"upcoming_local_event_id":null,"icon_url_fullxfull":null,"is_using_structured_policies":false,"has_onboarded_structured_policies":false,"has_unstructured_policies":false,"include_dispute_form_link":false,"use_new_inventory_endpoints":true,"is_direct_checkout_onboarded":false,"is_wholesale_only":false,"policy_privacy":null,"is_calculated_eligible":false}],"params":{"user_id":"63697032","limit":25,"offset":0,"page":null},"type":"Shop","pagination":{"effective_limit":25,"effective_offset":0,"next_offset":null,"effective_page":1,"next_page":null}}'
+
+2018-06-22 15:59:20
+request: GET https://openapi.etsy.com/v2/users/63697032/shops
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="iaIbXJRwB1VqKL1y2FKwrNpQ4wEKhPfV", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529654359", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="enQorVqHG2hUvH2CaPeDgUytJtk%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":1,"results":[{"shop_id":10900038,"shop_name":"LJWCraft","first_line":null,"second_line":null,"city":"","state":"","zip":null,"country_id":null,"user_id":63697032,"creation_tsz":1427204948,"title":null,"announcement":null,"currency_code":"USD","is_vacation":false,"vacation_message":null,"sale_message":null,"digital_sale_message":null,"last_updated_tsz":1528959360,"listing_active_count":6,"digital_listing_count":0,"login_name":"MascotMaster","lat":0,"lon":0,"accepts_custom_requests":false,"policy_welcome":null,"policy_payment":null,"policy_shipping":null,"policy_refunds":null,"policy_additional":null,"policy_seller_info":null,"policy_updated_tsz":0,"policy_has_private_receipt_info":false,"vacation_autoreply":null,"ga_code":"","name":null,"url":"https:\\/\\/www.etsy.com\\/shop\\/LJWCraft?utm_source=ljwcraftorder&utm_medium=api&utm_campaign=api","image_url_760x100":null,"num_favorers":12,"languages":["en-US"],"upcoming_local_event_id":null,"icon_url_fullxfull":null,"is_using_structured_policies":false,"has_onboarded_structured_policies":false,"has_unstructured_policies":false,"include_dispute_form_link":false,"use_new_inventory_endpoints":true,"is_direct_checkout_onboarded":false,"is_wholesale_only":false,"policy_privacy":null,"is_calculated_eligible":false}],"params":{"user_id":"63697032","limit":25,"offset":0,"page":null},"type":"Shop","pagination":{"effective_limit":25,"effective_offset":0,"next_offset":null,"effective_page":1,"next_page":null}}'
+
+2018-06-22 16:00:52
+request: GET https://openapi.etsy.com/v2/shops/10900038/receipts
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="flMQjYf3aAyzGK9iVDCmsrrWneGgbA3H", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529654451", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="LCduTuDsgqRJuQREQn%2FHJ5OdBdQ%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":0,"results":[],"params":{"shop_id":"10900038","min_created":null,"max_created":null,"min_last_modified":null,"max_last_modified":null,"limit":25,"offset":0,"page":null,"was_paid":null,"was_shipped":null},"type":"Receipt","pagination":{"effective_limit":25,"effective_offset":0,"next_offset":null,"effective_page":1,"next_page":null}}'
+
+2018-06-22 16:54:29
+request: POST https://openapi.etsy.com/v2/oauth/request_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_callback="http%3A%2F%2Fdev.product.com%2Fadmin%2Fauth%3Fgo%3Dgo", oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="v6YLBB4JKrStc6ZT6WgAqXaFIBYPVu26", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657668", oauth_version="1.0", oauth_signature="m2HaGNpwMgEVJFbZtA1ha9QUKkU%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'login_url=https%3A%2F%2Fwww.etsy.com%2Foauth%2Fsignin%3Foauth_consumer_key%3Dq7teqakic2d6sjpwr9c6dsar%26oauth_token%3D00d54eb2b0f1f69096b61df1301bba%26service%3Dv2_prod&oauth_token=00d54eb2b0f1f69096b61df1301bba&oauth_token_secret=f4b1fa81ab&oauth_callback_confirmed=true&oauth_consumer_key=q7teqakic2d6sjpwr9c6dsar&oauth_callback=http%3A%2F%2Fdev.product.com%2Fadmin%2Fauth%3Fgo%3Dgo'
+
+2018-06-22 16:54:39
+request: POST https://openapi.etsy.com/v2/oauth/access_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="lPg9OUMmEqJEBkMH15ZX5CYgPVw6UtaS", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657679", oauth_version="1.0", oauth_token="00d54eb2b0f1f69096b61df1301bba", oauth_signature="Lwv5dRtg7NZegb4jI%2BVZJjBUASU%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+body: oauth_verifier=661afcaf
+return: 'oauth_token=92242df3e6d301fca8f3b7978dd6b0&oauth_token_secret=de8e80e723'
+
+2018-06-22 16:54:40
+request: GET https://openapi.etsy.com/v2/private/users/__SELF__
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="58OvAMM7rbu9rsbmepOmjxy7Rw2qQiB5", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657679", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="2oK7XbzJP53eAY5EhHIp53o9xl4%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":1,"results":[{"user_id":63697032,"login_name":"MascotMaster","primary_email":"MascotMaster@yahoo.com","creation_tsz":1427202794,"user_pub_key":{"key":"-----BEGIN PUBLIC KEY-----\\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAw6x8GlLkmcSXeAzA4Dpv\\n+LEd+5q2weNP4nol+nAeB8Z6+e6wzBa37ttyvjZJcttKK3Q9vKu1zQhsBnTH4Xfy\\nnCRglhsJ1\\/22kqBV\\/wfVWhIi5v8gcRLBqA7hXwdgQVVY65T4s6bHQYaRiJtm3yYY\\n63qKCtwFwSk5YqvXeMTbpL2Su6w5GCnmko\\/zfqoi9tr86KZGkCHh16nxwE4787pF\\nNPEx9bEUsiAIw6cLGYelqukuNDWhxA71WR6s0YesBPb5s0VPI8QhHL15ps5rCNC2\\nU7GscYPwISoCf+YDQ5NSPKYP7PLStq9iu\\/bVuZZfdB+xT85gOdgkdyyxDM\\/wHZEC\\nHqokB6eoe8pq4ewygBCGfTV4DRLPnx91U3EdDfcIGCMKIurq5nPh1K9onUGgvJrP\\nsjFUNWlpHcmdP9UXy1hy9U\\/xw8ovOmzVUubnmqr8sI3O9XnJM9V86pVdjfh3GJR7\\n1ini6GBmkzdb1VrGa2JI0AWjxa6d8u9enlrqVFhVl4bnS75+hYf9EducEtyrtfiG\\n8qJFepdqEDD3FNozEKCTefVPrscN8qTWahkRvjO53EAuEUjJ\\/GtlsvI6YA+3r0F1\\nojF\\/qvgJNFVZyU98BL7Jv\\/hgPc8TDlO+ZNcf2PPdhbHlvm63aEbE5WJRE7a3JqgJ\\nerCiLpHsb4MfwyHV9+DmI5ECAwEAAQ==\\n-----END PUBLIC KEY-----\\n","key_id":22631526383},"referred_by_user_id":null,"feedback_info":{"count":0,"score":null},"awaiting_feedback_count":0,"use_new_inventory_endpoints":true}],"params":{"user_id":"__SELF__"},"type":"User","pagination":{}}'
+
+2018-06-22 16:54:40
+request: GET https://openapi.etsy.com/v2/oauth/scopes
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="SlbGotyLJAG5yIbZaTnPk76u6Rm0VKON", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657680", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="3RLs0PinY9iggEqgsIbFtaoMXHg%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":18,"results":["email_r","listings_r","listings_w","listings_d","transactions_r","transactions_w","billing_r","profile_r","profile_w","address_r","address_w","favorites_rw","shops_rw","cart_rw","recommend_rw","feedback_r","treasury_r","treasury_w"],"params":null,"type":"ArrayString","pagination":{}}'
+
+2018-06-22 16:55:25
+request: POST https://openapi.etsy.com/v2/oauth/access_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="gh57AA0onprjiAvfse6fiQLNiIZeRV3y", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657724", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="UxylI8Ob4cfmyJJKToVIUuh3ol8%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+body: oauth_verifier=661afcaf
+return: 'oauth_problem=token_rejected'
+
+2018-06-22 16:55:25
+request: GET https://openapi.etsy.com/v2/private/users/__SELF__
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="WdG2t26axUJt8NSOh1nySPgdsqbevHK9", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657725", oauth_version="1.0", oauth_token="", oauth_signature="mEITdQVq82AGLx%2BY%2BOonN42GZRA%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'oauth_problem=token_rejected'
+
+2018-06-22 16:55:26
+request: GET https://openapi.etsy.com/v2/oauth/scopes
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="Ie2RjErHmCYdUU80Pxt9nEnrgXxOhwXc", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657725", oauth_version="1.0", oauth_token="", oauth_signature="vbhtB0z1E5fTuWF89dt2u%2Bc5uvU%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'oauth_problem=token_rejected'
+
+2018-06-22 16:55:50
+request: POST https://openapi.etsy.com/v2/oauth/request_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_callback="http%3A%2F%2Fdev.product.com%2Fadmin%2Fauth%3Fgo%3Dgo", oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="VEKwDvcJjOIPxfiVgtJPM3T8HPpn7jcs", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657749", oauth_version="1.0", oauth_signature="cqjot5ifnAA341nnPTmwJG%2F92dM%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'login_url=https%3A%2F%2Fwww.etsy.com%2Foauth%2Fsignin%3Foauth_consumer_key%3Dq7teqakic2d6sjpwr9c6dsar%26oauth_token%3Dbc0d6d498929fbd8683944da2b92f9%26service%3Dv2_prod&oauth_token=bc0d6d498929fbd8683944da2b92f9&oauth_token_secret=dd02c827d0&oauth_callback_confirmed=true&oauth_consumer_key=q7teqakic2d6sjpwr9c6dsar&oauth_callback=http%3A%2F%2Fdev.product.com%2Fadmin%2Fauth%3Fgo%3Dgo'
+
+2018-06-22 16:55:53
+request: POST https://openapi.etsy.com/v2/oauth/access_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="gjsgmnaBl7ZS9hGUsFfeE0gbXxMi3zlv", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657752", oauth_version="1.0", oauth_token="bc0d6d498929fbd8683944da2b92f9", oauth_signature="pugrwglzUeWiZ2f6fJNPLNPujsA%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+body: oauth_verifier=16919538
+return: 'oauth_token=92242df3e6d301fca8f3b7978dd6b0&oauth_token_secret=de8e80e723'
+
+2018-06-22 16:55:53
+request: GET https://openapi.etsy.com/v2/private/users/__SELF__
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="5i7Paswgm0VAZc4rNG3LoV4WwBOoKVmg", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657753", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="XZ6k%2FYi58%2FkVmAMcTX%2FpzXeauL4%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":1,"results":[{"user_id":63697032,"login_name":"MascotMaster","primary_email":"MascotMaster@yahoo.com","creation_tsz":1427202794,"user_pub_key":{"key":"-----BEGIN PUBLIC KEY-----\\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAw6x8GlLkmcSXeAzA4Dpv\\n+LEd+5q2weNP4nol+nAeB8Z6+e6wzBa37ttyvjZJcttKK3Q9vKu1zQhsBnTH4Xfy\\nnCRglhsJ1\\/22kqBV\\/wfVWhIi5v8gcRLBqA7hXwdgQVVY65T4s6bHQYaRiJtm3yYY\\n63qKCtwFwSk5YqvXeMTbpL2Su6w5GCnmko\\/zfqoi9tr86KZGkCHh16nxwE4787pF\\nNPEx9bEUsiAIw6cLGYelqukuNDWhxA71WR6s0YesBPb5s0VPI8QhHL15ps5rCNC2\\nU7GscYPwISoCf+YDQ5NSPKYP7PLStq9iu\\/bVuZZfdB+xT85gOdgkdyyxDM\\/wHZEC\\nHqokB6eoe8pq4ewygBCGfTV4DRLPnx91U3EdDfcIGCMKIurq5nPh1K9onUGgvJrP\\nsjFUNWlpHcmdP9UXy1hy9U\\/xw8ovOmzVUubnmqr8sI3O9XnJM9V86pVdjfh3GJR7\\n1ini6GBmkzdb1VrGa2JI0AWjxa6d8u9enlrqVFhVl4bnS75+hYf9EducEtyrtfiG\\n8qJFepdqEDD3FNozEKCTefVPrscN8qTWahkRvjO53EAuEUjJ\\/GtlsvI6YA+3r0F1\\nojF\\/qvgJNFVZyU98BL7Jv\\/hgPc8TDlO+ZNcf2PPdhbHlvm63aEbE5WJRE7a3JqgJ\\nerCiLpHsb4MfwyHV9+DmI5ECAwEAAQ==\\n-----END PUBLIC KEY-----\\n","key_id":22631526383},"referred_by_user_id":null,"feedback_info":{"count":0,"score":null},"awaiting_feedback_count":0,"use_new_inventory_endpoints":true}],"params":{"user_id":"__SELF__"},"type":"User","pagination":{}}'
+
+2018-06-22 16:55:54
+request: GET https://openapi.etsy.com/v2/oauth/scopes
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="9PkZ80W8Js9mYQYeu2DkDkuhQO5PkVLU", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657753", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="Wakwd0edBLALmaPp2FKXEB3LL58%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":18,"results":["email_r","listings_r","listings_w","listings_d","transactions_r","transactions_w","billing_r","profile_r","profile_w","address_r","address_w","favorites_rw","shops_rw","cart_rw","recommend_rw","feedback_r","treasury_r","treasury_w"],"params":null,"type":"ArrayString","pagination":{}}'
+
+2018-06-22 16:57:13
+request: POST https://openapi.etsy.com/v2/oauth/access_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="k91OVfYgSjpEK3MqhDocecxbFiC41uUD", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657832", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="ZRsPT2UDHhFPoEdY9aUL7ydrZd0%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+body: oauth_verifier=16919538
+return: 'oauth_problem=token_rejected'
+
+2018-06-22 16:57:13
+request: GET https://openapi.etsy.com/v2/private/users/__SELF__
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="uHAe3SFDygv1fvxpgM1hgt5GWphzo9KH", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657833", oauth_version="1.0", oauth_token="", oauth_signature="7wYIc3lIEqsML%2FQjphyfZYSIBJ4%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'oauth_problem=token_rejected'
+
+2018-06-22 16:57:14
+request: GET https://openapi.etsy.com/v2/oauth/scopes
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="gk4MyY6uTZVpsi207XHsThirHtRZ6UXd", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529657833", oauth_version="1.0", oauth_token="", oauth_signature="qwl60xm8jnRHI%2FqEcQcV87U2NvY%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'oauth_problem=token_rejected'
+
+2018-06-22 17:03:44
+request: POST https://openapi.etsy.com/v2/oauth/access_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="wbhgk9kBDvEgXNgbfyLidBoiIXMRI7K3", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529658223", oauth_version="1.0", oauth_token="", oauth_signature="uWoRa7sJTuiq2MBmZMUmHQSOjPY%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+body: oauth_verifier=16919538
+return: 'oauth_problem=token_rejected'
+
+2018-06-22 17:03:44
+request: GET https://openapi.etsy.com/v2/private/users/__SELF__
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="TlWNlMyFuBUlKpicQbCuxurluHQj8MOo", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529658224", oauth_version="1.0", oauth_token="", oauth_signature="BdFtCQzWYT64hX0yZqa1fetog6k%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'oauth_problem=token_rejected'
+
+2018-06-22 17:03:45
+request: GET https://openapi.etsy.com/v2/oauth/scopes
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="fpnx9Xwl25NawtE69JPfbqkKmIuKkBK6", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529658224", oauth_version="1.0", oauth_token="", oauth_signature="1AjAi6oiyyMK50NQwmT%2F3zKmI50%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'oauth_problem=token_rejected'
+
+2018-06-22 17:03:52
+request: POST https://openapi.etsy.com/v2/oauth/request_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_callback="http%3A%2F%2Fdev.product.com%2Fadmin%2Fauth%3Fgo%3Dgo", oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="CDsItcPmiXPEG8CRE8IVMGZcpkddRwQp", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529658231", oauth_version="1.0", oauth_signature="%2BO0fm%2BKYgFZwMLRWBB4SAWsD3aQ%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'login_url=https%3A%2F%2Fwww.etsy.com%2Foauth%2Fsignin%3Foauth_consumer_key%3Dq7teqakic2d6sjpwr9c6dsar%26oauth_token%3Dcbc552f75a3dc4f49f15e2fb09b298%26service%3Dv2_prod&oauth_token=cbc552f75a3dc4f49f15e2fb09b298&oauth_token_secret=626563c597&oauth_callback_confirmed=true&oauth_consumer_key=q7teqakic2d6sjpwr9c6dsar&oauth_callback=http%3A%2F%2Fdev.product.com%2Fadmin%2Fauth%3Fgo%3Dgo'
+
+2018-06-22 17:03:55
+request: POST https://openapi.etsy.com/v2/oauth/access_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="4H4w4GpRJQACN1MHsmynEeRJWhkllrLG", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529658235", oauth_version="1.0", oauth_token="cbc552f75a3dc4f49f15e2fb09b298", oauth_signature="jkE6A8rSlzOr52dnxMMnxvqDL1A%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+body: oauth_verifier=08b18770
+return: 'oauth_token=92242df3e6d301fca8f3b7978dd6b0&oauth_token_secret=de8e80e723'
+
+2018-06-22 17:03:56
+request: GET https://openapi.etsy.com/v2/private/users/__SELF__
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="wV4I1wGgirZBW8e3m3TCn7VXiJDiuKOz", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529658235", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="2jsdjKrBqVsqlfWDHM%2BT4jUszl0%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":1,"results":[{"user_id":63697032,"login_name":"MascotMaster","primary_email":"MascotMaster@yahoo.com","creation_tsz":1427202794,"user_pub_key":{"key":"-----BEGIN PUBLIC KEY-----\\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAw6x8GlLkmcSXeAzA4Dpv\\n+LEd+5q2weNP4nol+nAeB8Z6+e6wzBa37ttyvjZJcttKK3Q9vKu1zQhsBnTH4Xfy\\nnCRglhsJ1\\/22kqBV\\/wfVWhIi5v8gcRLBqA7hXwdgQVVY65T4s6bHQYaRiJtm3yYY\\n63qKCtwFwSk5YqvXeMTbpL2Su6w5GCnmko\\/zfqoi9tr86KZGkCHh16nxwE4787pF\\nNPEx9bEUsiAIw6cLGYelqukuNDWhxA71WR6s0YesBPb5s0VPI8QhHL15ps5rCNC2\\nU7GscYPwISoCf+YDQ5NSPKYP7PLStq9iu\\/bVuZZfdB+xT85gOdgkdyyxDM\\/wHZEC\\nHqokB6eoe8pq4ewygBCGfTV4DRLPnx91U3EdDfcIGCMKIurq5nPh1K9onUGgvJrP\\nsjFUNWlpHcmdP9UXy1hy9U\\/xw8ovOmzVUubnmqr8sI3O9XnJM9V86pVdjfh3GJR7\\n1ini6GBmkzdb1VrGa2JI0AWjxa6d8u9enlrqVFhVl4bnS75+hYf9EducEtyrtfiG\\n8qJFepdqEDD3FNozEKCTefVPrscN8qTWahkRvjO53EAuEUjJ\\/GtlsvI6YA+3r0F1\\nojF\\/qvgJNFVZyU98BL7Jv\\/hgPc8TDlO+ZNcf2PPdhbHlvm63aEbE5WJRE7a3JqgJ\\nerCiLpHsb4MfwyHV9+DmI5ECAwEAAQ==\\n-----END PUBLIC KEY-----\\n","key_id":22631526383},"referred_by_user_id":null,"feedback_info":{"count":0,"score":null},"awaiting_feedback_count":0,"use_new_inventory_endpoints":true}],"params":{"user_id":"__SELF__"},"type":"User","pagination":{}}'
+
+2018-06-22 17:03:56
+request: GET https://openapi.etsy.com/v2/oauth/scopes
+array (
+  'Authorization' => 'Authorization: OAuth oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="yRO3spcKe8zICWt6LgyUTKc3QmTJdk9s", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529658236", oauth_version="1.0", oauth_token="92242df3e6d301fca8f3b7978dd6b0", oauth_signature="lvgsQWsOtcQ7sA%2BnzKhkjJzIgxg%3D"',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: '{"count":18,"results":["email_r","listings_r","listings_w","listings_d","transactions_r","transactions_w","billing_r","profile_r","profile_w","address_r","address_w","favorites_rw","shops_rw","cart_rw","recommend_rw","feedback_r","treasury_r","treasury_w"],"params":null,"type":"ArrayString","pagination":{}}'
+
+2018-06-22 17:06:09
+request: POST https://openapi.etsy.com/v2/oauth/request_token
+array (
+  'Authorization' => 'Authorization: OAuth oauth_callback="http%3A%2F%2Fdev.product.com%2Fadmin%2Fauth%3Fgo%3Dgo", oauth_consumer_key="q7teqakic2d6sjpwr9c6dsar", oauth_nonce="hyz2BUCW9ZL1toFkv5L6EyNGqGCNscGL", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1529658368", oauth_version="1.0", oauth_signature="MFbuU1zrMQtQMbdL5USCrs9oGlU%3D"',
+  'Content-Type' => 'Content-Type: application/x-www-form-urlencoded',
+  'Host' => 'Host: openapi.etsy.com',
+  'Connection' => 'Connection: close',
+)
+return: 'login_url=https%3A%2F%2Fwww.etsy.com%2Foauth%2Fsignin%3Foauth_consumer_key%3Dq7teqakic2d6sjpwr9c6dsar%26oauth_token%3Dd9a6cc81705a6968786585331bdb55%26service%3Dv2_prod&oauth_token=d9a6cc81705a6968786585331bdb55&oauth_token_secret=ca7b49a140&oauth_callback_confirmed=true&oauth_consumer_key=q7teqakic2d6sjpwr9c6dsar&oauth_callback=http%3A%2F%2Fdev.product.com%2Fadmin%2Fauth%3Fgo%3Dgo'
+

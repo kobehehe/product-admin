@@ -1,0 +1,77 @@
+2018-06-07 17:54:47 192.168.3.113 Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET gongfuyu.picp.net:19284/orderorange/www/php/getshop.php?user_id=120925109
+decode get:Array
+(
+    [user_id] => 120925109
+)
+
+2018-06-07 17:55:57 192.168.3.113 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36
+GET gongfuyu.picp.net:19284/orderorange/www/php/getshop.php?user_id=120925109
+decode get:Array
+(
+    [user_id] => 120925109
+)
+
+2018-06-08 11:42:43 192.168.3.113 Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 UBrowser/6.2.3964.2 Safari/537.36
+GET gongfuyu.picp.net:19284/orderorange/www/php/getshop.php?user_id=120925109
+decode get:Array
+(
+    [user_id] => 120925109
+)
+
+2018-06-08 11:43:02 192.168.3.113 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36
+GET gongfuyu.picp.net:19284/orderorange/www/php/getshop.php?user_id=120925109
+decode get:Array
+(
+    [user_id] => 120925109
+)
+
+2018-06-08 11:47:53 192.168.3.113 Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 UBrowser/6.2.3964.2 Safari/537.36
+GET gongfuyu.picp.net:19284/orderorange/www/php/getshop.php?user_id=120925109
+decode get:Array
+(
+    [user_id] => 120925109
+)
+
+2018-06-08 11:49:04 192.168.3.113 Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 UBrowser/6.2.3964.2 Safari/537.36
+GET gongfuyu.picp.net:19284/orderorange/www/php/getshop.php?user_id=120925109
+decode get:Array
+(
+    [user_id] => 120925109
+)
+
+2018-06-21 15:34:40 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.demo.com/php/getshop.php?user_id=63697032
+decode get:Array
+(
+    [user_id] => 63697032
+)
+
+2018-06-22 09:38:54 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.demo.com/php/getshop.php?user_id=63697032
+decode get:Array
+(
+    [user_id] => 63697032
+)
+
+2018-06-22 10:52:11 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.demo.com/php/getshop.php?user_id=63697032
+decode get:Array
+(
+    [user_id] => 63697032
+)
+
+2018-06-22 15:55:31 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.demo.com/php/getshop.php?user_id=63697032
+decode get:Array
+(
+    [user_id] => 63697032
+)
+
+2018-06-22 15:59:19 127.0.0.1 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+GET dev.demo.com/php/getshop.php?user_id=63697032
+decode get:Array
+(
+    [user_id] => 63697032
+)
+
