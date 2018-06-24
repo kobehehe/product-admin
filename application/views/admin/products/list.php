@@ -30,7 +30,7 @@
 
                 $options_manufacture = array(0 => "all");
                 foreach ($manufactures as $row) {
-                    $options_manufacture[$row['id']] = $row['name'];
+                    $options_manufacture[$row['shop_id']] = $row['name'];
                 }
                 //save the columns names in a array that we will use as filter
                 $options_products = array();
@@ -83,14 +83,23 @@ height: 26px;"');
                 <?php
                 foreach ($products as $row) {
                     echo '<tr>';
-                    echo '<td>' . $row['id'] . '</td>';
-                    echo '<td>' . $row['description'] . '</td>';
-                    echo '<td>' . $row['stock'] . '</td>';
-                    echo '<td>' . $row['cost_price'] . '</td>';
-                    echo '<td>' . $row['sell_price'] . '</td>';
-                    echo '<td>' . $row['manufacture_name'] . '</td>';
-                    echo '<td>' . $row['manufacture_name'] . '</td>';
-                    echo '<td>' . $row['manufacture_name'] . '</td>';
+                    echo '<td>' . $row['order_id'] . '</td>';
+                    echo '<td>' . $row['seller_user_id'] . '</td>';
+                    echo '<td>' . $row['listings_sku'] . '</td>';
+                    echo '<td>' . $row['listings_title'] . '</td>';
+                    echo '<td>' . $row['number'] . '</td>';
+                    echo '<td>' .
+                        '<a>name:</a>'.$row['name'].
+                        '<br><a>first_line:</a>'.$row['first_line'].
+                        '<br><a>second_line:</a>'.$row['second_line'].
+                        '<br><a>city:</a>'.$row['city'].
+                        '<br><a>state:</a>'.$row['state'].
+                        '<br><a>zip:</a>'.$row['zip'].
+                        '<br><a>country:</a>'.$row['country'].
+                        '<br><a>电话/手机:</a>'.$row['phone']
+                        .'</td>';
+                    echo '<td>' . $row['message_from_buyer'] . '</td>';
+                    echo '<td>' . $row['message_from_seller'] . '</td>';
                     echo '<td class="crud-actions">
                   <a href="' . site_url("admin") . '/products/update/' . $row['id'] . '" class="btn btn-info">view & edit</a>  
                   <a href="' . site_url("admin") . '/products/delete/' . $row['id'] . '" class="btn btn-danger">delete</a>

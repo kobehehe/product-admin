@@ -24,13 +24,13 @@ class Admin_products extends CI_Controller {
     {
 
         //all the posts sent by the view
-        $manufacture_id = $this->input->post('manufacture_id');        
-        $search_string = $this->input->post('search_string');        
-        $order = $this->input->post('order'); 
-        $order_type = $this->input->post('order_type'); 
+        $manufacture_id = $this->input->post('manufacture_id');
+        $search_string = $this->input->post('search_string');
+        $order = $this->input->post('order');
+        $order_type = $this->input->post('order_type');
 
         //pagination settings
-        $config['per_page'] = 5;
+        $config['per_page'] = 10;
         $config['base_url'] = base_url().'admin/products';
         $config['use_page_numbers'] = TRUE;
         $config['num_links'] = 20;
@@ -48,39 +48,39 @@ class Admin_products extends CI_Controller {
         $limit_end = ($page * $config['per_page']) - $config['per_page'];
         if ($limit_end < 0){
             $limit_end = 0;
-        } 
-
-        //if order type was changed
+        }
+//
+//        //if order type was changed
         if($order_type){
             $filter_session_data['order_type'] = $order_type;
         }
         else{
-            //we have something stored in the session? 
+            //we have something stored in the session?
             if($this->session->userdata('order_type')){
-                $order_type = $this->session->userdata('order_type');    
+                $order_type = $this->session->userdata('order_type');
             }else{
                 //if we have nothing inside session, so it's the default "Asc"
-                $order_type = 'Asc';    
+                $order_type = 'Asc';
             }
         }
-        //make the data type var avaible to our view
-        $data['order_type_selected'] = $order_type;        
-
-
+//        //make the data type var avaible to our view
+        $data['order_type_selected'] = $order_type;
+//
+//
         //we must avoid a page reload with the previous session data
         //if any filter post was sent, then it's the first time we load the content
         //in this case we clean the session filter data
         //if any filter post was sent but we are in some page, we must load the session data
 
         //filtered && || paginated
-        if($manufacture_id !== false && $search_string !== false && $order !== false || $this->uri->segment(3) == true){ 
-           
+        if($manufacture_id !== false && $search_string !== false && $order !== false || $this->uri->segment(3) == true){
+
             /*
             The comments here are the same for line 79 until 99
 
             if post is not null, we store it in session data array
             if is null, we use the session data already stored
-            we save order into the the var to load the view with the param already selected       
+            we save order into the the var to load the view with the param already selected
             */
 
             if($manufacture_id !== 0){
@@ -113,19 +113,18 @@ class Admin_products extends CI_Controller {
 
             $data['count_products']= $this->products_model->count_products($manufacture_id, $search_string, $order);
             $config['total_rows'] = $data['count_products'];
-
             //fetch sql data into arrays
             if($search_string){
                 if($order){
-                    $data['products'] = $this->products_model->get_products($manufacture_id, $search_string, $order, $order_type, $config['per_page'],$limit_end);        
+                    $data['products'] = $this->products_model->get_products($manufacture_id, $search_string, $order, $order_type, $config['per_page'],$limit_end);
                 }else{
-                    $data['products'] = $this->products_model->get_products($manufacture_id, $search_string, '', $order_type, $config['per_page'],$limit_end);           
+                    $data['products'] = $this->products_model->get_products($manufacture_id, $search_string, '', $order_type, $config['per_page'],$limit_end);
                 }
             }else{
                 if($order){
-                    $data['products'] = $this->products_model->get_products($manufacture_id, '', $order, $order_type, $config['per_page'],$limit_end);        
+                    $data['products'] = $this->products_model->get_products($manufacture_id, '', $order, $order_type, $config['per_page'],$limit_end);
                 }else{
-                    $data['products'] = $this->products_model->get_products($manufacture_id, '', '', $order_type, $config['per_page'],$limit_end);        
+                    $data['products'] = $this->products_model->get_products($manufacture_id, '', '', $order_type, $config['per_page'],$limit_end);
                 }
             }
 
@@ -146,13 +145,14 @@ class Admin_products extends CI_Controller {
             //fetch sql data into arrays
             $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
             $data['count_products']= $this->products_model->count_products();
-            $data['products'] = $this->products_model->get_products('', '', '', $order_type, $config['per_page'],$limit_end);        
+            //var_dump($data['count_products']);die;
+            $data['products'] = $this->products_model->get_products('', '', '', $order_type, $config['per_page'],$limit_end);
             $config['total_rows'] = $data['count_products'];
 
         }//!isset($manufacture_id) && !isset($search_string) && !isset($order)
 
-        //initializate the panination helper 
-        $this->pagination->initialize($config);   
+        //initializate the panination helper
+        $this->pagination->initialize($config);
 
         //load the view
         $data['main_content'] = 'admin/products/list';

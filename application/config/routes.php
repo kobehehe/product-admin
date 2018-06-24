@@ -65,6 +65,8 @@ $route['admin/manufacturers/(:any)'] = 'admin_manufacturers/index/$1'; //$1 = pa
 
 $route['admin/auth/index/(:any)'] = 'admin_auth/index/$1';
 
+$route['admin/auth/pullorder'] = 'admin_auth/pullorder';
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
