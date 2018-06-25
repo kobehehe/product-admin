@@ -38,7 +38,7 @@ class Products_model extends CI_Model {
     public function get_products($manufacture_id=null, $search_string=null, $order=null, $order_type='Asc', $limit_start, $limit_end)
     {
 
-//		$this->db->select('products.id');
+		$this->db->select('*');
 //		$this->db->select('products.description');
 //		$this->db->select('products.stock');
 //		$this->db->select('products.cost_price');
@@ -50,14 +50,10 @@ class Products_model extends CI_Model {
 			$this->db->where('products.shop_id', $manufacture_id);
 		}
 		if($search_string){
-			$this->db->like('description', $search_string);
+			$this->db->where('order_id', $search_string);
 		}
-
-		$this->db->join('manufacturers', 'products.shop_id = manufacturers.id', 'left');
-
-		$this->db->group_by('products.id');
-
-
+		//$this->db->join('manufacturers', 'products.shop_id = manufacturers.shop_id', 'left');
+		//$this->db->group_by('products.shop_id');
 //		if($order){
 //			$this->db->order_by($order, $order_type);
 //		}else{
@@ -87,7 +83,7 @@ class Products_model extends CI_Model {
 			$this->db->where('shop_id', $manufacture_id);
 		}
 		if($search_string){
-			$this->db->like('description', $search_string);
+			$this->db->where('order_id', $search_string);
 		}
 		if($order){
 			$this->db->order_by($order, 'Asc');

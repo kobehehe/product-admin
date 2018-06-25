@@ -127,6 +127,7 @@ class Admin_products extends CI_Controller {
                     $data['products'] = $this->products_model->get_products($manufacture_id, '', '', $order_type, $config['per_page'],$limit_end);
                 }
             }
+            //print_r($data);die;
 
         }else{
 
@@ -145,9 +146,10 @@ class Admin_products extends CI_Controller {
             //fetch sql data into arrays
             $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
             $data['count_products']= $this->products_model->count_products();
-            //var_dump($data['count_products']);die;
+
             $data['products'] = $this->products_model->get_products('', '', '', $order_type, $config['per_page'],$limit_end);
             $config['total_rows'] = $data['count_products'];
+            //print_r($data['products']);die;
 
         }//!isset($manufacture_id) && !isset($search_string) && !isset($order)
 
@@ -214,22 +216,28 @@ class Admin_products extends CI_Controller {
         if ($this->input->server('REQUEST_METHOD') === 'POST')
         {
             //form validation
-            $this->form_validation->set_rules('description', 'description', 'required');
-            $this->form_validation->set_rules('stock', 'stock', 'required|numeric');
-            $this->form_validation->set_rules('cost_price', 'cost_price', 'required|numeric');
-            $this->form_validation->set_rules('sell_price', 'sell_price', 'required|numeric');
-            $this->form_validation->set_rules('manufacture_id', 'manufacture_id', 'required');
+            $this->form_validation->set_rules('name', 'name', 'required');
+            $this->form_validation->set_rules('first_line', 'first_line', 'required');
+            $this->form_validation->set_rules('city', 'city', 'required|string');
+            $this->form_validation->set_rules('state', 'state', 'required|string');
+            $this->form_validation->set_rules('zip', 'zip', 'required|numeric');
+            $this->form_validation->set_rules('phone', 'phone', 'required|numeric');
             $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
             //if the form has passed through the validation
             if ($this->form_validation->run())
             {
     
                 $data_to_store = array(
-                    'description' => $this->input->post('description'),
-                    'stock' => $this->input->post('stock'),
-                    'cost_price' => $this->input->post('cost_price'),
-                    'sell_price' => $this->input->post('sell_price'),          
-                    'manufacture_id' => $this->input->post('manufacture_id')
+                    'name' => $this->input->post('name'),
+                    'first_line' => $this->input->post('first_line'),
+                    'second_line' => $this->input->post('second_line'),
+                    'city' => $this->input->post('city'),
+                    'state' => $this->input->post('state'),
+                    'zip' => $this->input->post('zip'),
+                    'country' => $this->input->post('country'),
+                    'phone' => $this->input->post('phone'),
+                    'message_from_buyer' => $this->input->post('message_from_buyer'),
+                    'message_from_seller' => $this->input->post('message_from_seller'),
                 );
                 //if the insert has returned true then we show the flash message
                 if($this->products_model->update_product($id, $data_to_store) == TRUE){
