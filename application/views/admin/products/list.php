@@ -102,7 +102,7 @@ height: 26px;"');
                     echo '<td>' . $row['message_from_seller'] . '</td>';
                     echo '<td class="crud-actions">
                   <a href="' . site_url("admin") . '/products/update/' . $row['id'] . '" class="btn btn-info">edit</a>  
-                  <a href="' . site_url("admin") . '/products/update/' . $row['id'] . '" class="btn btn-danger">view</a>
+
                 </td>';
                     echo '</tr>';
                 }

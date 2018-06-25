@@ -110,30 +110,43 @@ class Admin_auth extends CI_Controller {
             $insert_data=[];
             foreach ($result['results'] as &$value){
                 $listingArr = json_decode($etsyService->request('/receipts/'.$value['receipt_id'].'/listings'), true);
-                $insert_data[]=[
-                    'order_id' =>$value['order_id'],
-                    'seller_user_id' => $value['seller_user_id'],
-                    'listings_sku' => '',
-                    'listings_title' => $listingArr['results'][0]['title'],
-                    'number'=>0,
-                    'is_gift'=> $value['is_gift'],
-                    'subtotal' => $value['subtotal'],
-                    'buyer_email' => $value['buyer_email'],
-                    'name' => $value['name'],
-                    'first_line' => $value['first_line'],
-                    'second_line' => $value['second_line'],
-                    'city' => $value['city'],
-                    'state' => $value['state'],
-                    'zip' => $value['zip'],
-                    'country' => $value['country_id'],
-                    'phone' => '',
-                    'message_from_buyer'=>$value['message_from_buyer'],
-                    'message_from_seller'=>$value['message_from_seller'],
-                    'tracking_code' => $value['shipping_tracking_code'],
-                    'carrier_name' =>'',
-                    'was_submited' =>0,
-                    'shop_id'=> $val['shop_id']
-                ];
+                ///listings/:listing_id/transactions
+                $transitionArr = json_decode($etsyService->request('/listings/'.$listingArr['results'][0]['listing_id'].'/transactions'), true);
+                //var_dump($transition);die;
+
+                foreach ($transitionArr['results'] as $order){
+
+                    //获得图片
+                    ///listings/:listing_id/images/:listing_image_id
+                    $listingArr = json_decode($etsyService->request('/listings/'.$listingArr['results'][0]['listing_id'].'/images/'.$order['image_listing_id']), true);
+                    print_r($listingArr);die;
+                    $insert_data[]=[
+                        'order_id' =>$value['order_id'],
+                        'seller_user_id' => $value['seller_user_id'],
+                        'listings_sku' => $order['product_data']['sku'],
+                        'listings_title' => $listingArr['results'][0]['title'],
+                        'number'=>$order['quantity'],
+                        'is_gift'=> $value['is_gift'],
+                        'subtotal' => $value['subtotal'],
+                        'buyer_email' => $value['buyer_email'],
+                        'name' => $value['name'],
+                        'first_line' => $value['first_line'],
+                        'second_line' => $value['second_line'],
+                        'city' => $value['city'],
+                        'state' => $value['state'],
+                        'zip' => $value['zip'],
+                        'country' => $value['country_id'],
+                        'phone' => '',
+                        'message_from_buyer'=>$value['message_from_buyer'],
+                        'message_from_seller'=>$value['message_from_seller'],
+                        'tracking_code' => $value['shipping_tracking_code'],
+                        'carrier_name' =>'',
+                        'was_submited' =>0,
+                        'shop_id'=> $val['shop_id']
+                    ];
+                }
+
+
             }
             $res = $this->db->insert_batch('products',$insert_data);
             unset($insert_data,$result);
