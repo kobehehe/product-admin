@@ -95,6 +95,8 @@ class Admin_auth extends CI_Controller {
 
     //拉取订单
     public function pullorder(){
+        ini_set('memory_limit','1024M');
+        ini_set('max_execution_time', '0');
         $shoplist = $this->db->get('manufacturers')->result_array();
         $result=[];
         foreach ($shoplist as $val){
@@ -108,23 +110,20 @@ class Admin_auth extends CI_Controller {
             $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
             $result = json_decode($etsyService->request('/shops/'.$val['shop_id'].'/receipts?limit=100&was_shipped=false&was_paid=true'), true);
             $insert_data=[];
-            foreach ($result['results'] as &$value){
+            foreach ($result['results'] as $value){
                 $listingArr = json_decode($etsyService->request('/receipts/'.$value['receipt_id'].'/listings'), true);
-                ///listings/:listing_id/transactions
-                $transitionArr = json_decode($etsyService->request('/listings/'.$listingArr['results'][0]['listing_id'].'/transactions'), true);
+                $transitionArr = json_decode($etsyService->request('/receipts/'.$value['receipt_id'].'/transactions'), true);
                 //var_dump($transition);die;
-
+                //print_r($transitionArr);die;
                 foreach ($transitionArr['results'] as $order){
 
                     //获得图片
-                    ///listings/:listing_id/images/:listing_image_id
-                    $listingArr = json_decode($etsyService->request('/listings/'.$listingArr['results'][0]['listing_id'].'/images/'.$order['image_listing_id']), true);
-                    print_r($listingArr);die;
+                    $imgArr = json_decode($etsyService->request('/listings/'.$listingArr['results'][0]['listing_id'].'/images/'.$order['image_listing_id']), true);
                     $insert_data[]=[
                         'order_id' =>$value['order_id'],
                         'seller_user_id' => $value['seller_user_id'],
                         'listings_sku' => $order['product_data']['sku'],
-                        'listings_title' => $listingArr['results'][0]['title'],
+                        //'listings_title' => $listingArr['results'][0]['title'],
                         'number'=>$order['quantity'],
                         'is_gift'=> $value['is_gift'],
                         'subtotal' => $value['subtotal'],
@@ -142,12 +141,12 @@ class Admin_auth extends CI_Controller {
                         'tracking_code' => $value['shipping_tracking_code'],
                         'carrier_name' =>'',
                         'was_submited' =>0,
-                        'shop_id'=> $val['shop_id']
+                        'shop_id'=> $val['shop_id'],
+                        'product_img' => $imgArr['results'][0]['url_170x135']
                     ];
                 }
-
-
             }
+            print_r($insert_data);die;
             $res = $this->db->insert_batch('products',$insert_data);
             unset($insert_data,$result);
         }
