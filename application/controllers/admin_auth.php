@@ -108,22 +108,17 @@ class Admin_auth extends CI_Controller {
             );
             $serviceFactory = new ServiceFactory();
             $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
-            $result = json_decode($etsyService->request('/shops/'.$val['shop_id'].'/receipts?limit=100&was_shipped=false&was_paid=true'), true);
-            $insert_data=[];
-            foreach ($result['results'] as $value){
-                $listingArr = json_decode($etsyService->request('/receipts/'.$value['receipt_id'].'/listings'), true);
-                $transitionArr = json_decode($etsyService->request('/receipts/'.$value['receipt_id'].'/transactions'), true);
-                //var_dump($transition);die;
-                //print_r($transitionArr);die;
-                foreach ($transitionArr['results'] as $order){
 
-                    //获得图片
-                    $imgArr = json_decode($etsyService->request('/listings/'.$listingArr['results'][0]['listing_id'].'/images/'.$order['image_listing_id']), true);
-                    $insert_data[]=[
+            $shopArr = json_decode($etsyService->request('/shops/'.$val['shop_id'].'/receipts?includes=Transactions,Listings,Country,Listings:1:0/Images:1:0&limit=100&was_shipped=false&was_paid=true'), true);
+            $insert_data=[];
+            foreach ($shopArr['results'] as $value){
+                foreach ($value['Transactions'] as $key=>$order){
+                    $insert_data=[
                         'order_id' =>$value['order_id'],
+                        'transaction_id'  => $order['transaction_id'],
                         'seller_user_id' => $value['seller_user_id'],
                         'listings_sku' => $order['product_data']['sku'],
-                        //'listings_title' => $listingArr['results'][0]['title'],
+                        'listings_title' => $value['Listings'][$key]['title'],
                         'number'=>$order['quantity'],
                         'is_gift'=> $value['is_gift'],
                         'subtotal' => $value['subtotal'],
@@ -134,7 +129,7 @@ class Admin_auth extends CI_Controller {
                         'city' => $value['city'],
                         'state' => $value['state'],
                         'zip' => $value['zip'],
-                        'country' => $value['country_id'],
+                        'country' => $value['Country']['name'],
                         'phone' => '',
                         'message_from_buyer'=>$value['message_from_buyer'],
                         'message_from_seller'=>$value['message_from_seller'],
@@ -142,16 +137,22 @@ class Admin_auth extends CI_Controller {
                         'carrier_name' =>'',
                         'was_submited' =>0,
                         'shop_id'=> $val['shop_id'],
-                        'product_img' => $imgArr['results'][0]['url_170x135']
+                        'product_img' => isset($value['Listings'][$key]['Images'][$key]['url_170x135']) ? $value['Listings'][$key]['Images'][$key]['url_170x135'] : ''
                     ];
+                    $res = $this->db->where('transaction_id',$order['transaction_id'])->get('products')->row_array();
+                    if(!isset($res['id'])){
+                        //入库
+                        $this->db->insert('products',$insert_data);
+                    }
                 }
             }
-            print_r($insert_data);die;
-            $res = $this->db->insert_batch('products',$insert_data);
+            //$res = $this->db->insert_batch('products',$insert_data);
             unset($insert_data,$result);
         }
-        $data['main_content'] = 'admin/products/list';
-        $this->load->view('includes/template', $data);
+//        $data['main_content'] = 'admin/products/list';
+//        $this->load->view('includes/template', $data);
+        echo '执行成功';
+        exit();
     }
 }
 

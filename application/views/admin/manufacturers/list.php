@@ -16,15 +16,9 @@
         <h2>
           <?php echo  'shops';?>
           <a  href="<?php echo site_url("admin").'/'.$this->uri->segment(2); ?>/add" class="btn btn-success">增加店铺</a>
+            <a  href="<?php echo site_url("admin").'/auth/pullorder';?>" class="btn btn-failed">拉取订单</a>
         </h2>
       </div>
-
-        <div class="page-header users-header">
-            <h2>
-                <?php echo  'shops';?>
-                <a  href="<?php echo site_url("admin").'/auth/pullorder';?>" class="btn btn-failed">拉取订单</a>
-            </h2>
-        </div>
       
       <div class="row">
         <div class="span12 columns">
