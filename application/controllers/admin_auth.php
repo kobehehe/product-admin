@@ -137,6 +137,9 @@ class Admin_auth extends CI_Controller {
                         'carrier_name' =>'',
                         'was_submited' =>0,
                         'shop_id'=> $val['shop_id'],
+                        'status' => 1,
+                        'country_code' => $value['Country']['iso_country_code'],
+                        'price' => $order['price'],
                         'product_img' => isset($value['Listings'][$key]['Images'][$key]['url_170x135']) ? $value['Listings'][$key]['Images'][$key]['url_170x135'] : ''
                     ];
                     $res = $this->db->where('transaction_id',$order['transaction_id'])->get('products')->row_array();

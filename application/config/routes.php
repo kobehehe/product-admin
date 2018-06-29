@@ -54,6 +54,7 @@ $route['admin/products/update'] = 'admin_products/update';
 $route['admin/products/update/(:any)'] = 'admin_products/update/$1';
 $route['admin/products/delete/(:any)'] = 'admin_products/delete/$1';
 $route['admin/products/(:any)'] = 'admin_products/index/$1'; //$1 = page number
+$route['admin/products/exportorder'] = 'admin_products/exportorder';
 
 $route['admin/manufacturers'] = 'admin_manufacturers/index';
 $route['admin/manufacturers/add'] = 'admin_manufacturers/add';

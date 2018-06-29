@@ -1,6 +1,6 @@
 <?php
 class Admin_products extends CI_Controller {
- 
+
     /**
     * Responsable for auto load the model
     * @return void
@@ -10,12 +10,13 @@ class Admin_products extends CI_Controller {
         parent::__construct();
         $this->load->model('products_model');
         $this->load->model('manufacturers_model');
+        $this->load->library('phpexcel');
 
         if(!$this->session->userdata('is_logged_in')){
             redirect('admin/login');
         }
     }
- 
+
     /**
     * Load the main view with all the current model model's data.
     * @return void
@@ -158,7 +159,7 @@ class Admin_products extends CI_Controller {
 
         //load the view
         $data['main_content'] = 'admin/products/list';
-        $this->load->view('includes/template', $data);  
+        $this->load->view('includes/template', $data);
 
     }//index
 
@@ -183,14 +184,14 @@ class Admin_products extends CI_Controller {
                     'description' => $this->input->post('description'),
                     'stock' => $this->input->post('stock'),
                     'cost_price' => $this->input->post('cost_price'),
-                    'sell_price' => $this->input->post('sell_price'),          
+                    'sell_price' => $this->input->post('sell_price'),
                     'manufacture_id' => $this->input->post('manufacture_id')
                 );
                 //if the insert has returned true then we show the flash message
                 if($this->products_model->store_product($data_to_store)){
-                    $data['flash_message'] = TRUE; 
+                    $data['flash_message'] = TRUE;
                 }else{
-                    $data['flash_message'] = FALSE; 
+                    $data['flash_message'] = FALSE;
                 }
 
             }
@@ -200,8 +201,8 @@ class Admin_products extends CI_Controller {
         $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
         //load the view
         $data['main_content'] = 'admin/products/add';
-        $this->load->view('includes/template', $data);  
-    }       
+        $this->load->view('includes/template', $data);
+    }
 
     /**
     * Update item by his id
@@ -209,9 +210,9 @@ class Admin_products extends CI_Controller {
     */
     public function update()
     {
-        //product id 
+        //product id
         $id = $this->uri->segment(4);
-  
+
         //if save button was clicked, get the data sent via post
         if ($this->input->server('REQUEST_METHOD') === 'POST')
         {
@@ -226,7 +227,7 @@ class Admin_products extends CI_Controller {
             //if the form has passed through the validation
             if ($this->form_validation->run())
             {
-    
+
                 $data_to_store = array(
                     'name' => $this->input->post('name'),
                     'first_line' => $this->input->post('first_line'),
@@ -254,13 +255,13 @@ class Admin_products extends CI_Controller {
         //if we are updating, and the data did not pass trough the validation
         //the code below wel reload the current data
 
-        //product data 
+        //product data
         $data['product'] = $this->products_model->get_product_by_id($id);
         //fetch manufactures data to populate the select field
         $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
         //load the view
         $data['main_content'] = 'admin/products/edit';
-        $this->load->view('includes/template', $data);            
+        $this->load->view('includes/template', $data);
 
     }//update
 
@@ -270,10 +271,101 @@ class Admin_products extends CI_Controller {
     */
     public function delete()
     {
-        //product id 
+        //product id
         $id = $this->uri->segment(4);
         $this->products_model->delete_product($id);
         redirect('admin/products');
     }//edit
+
+    public function exportorder(){
+        $objPHPExcel = $this->phpexcel;
+        // Set document properties
+
+        $objPHPExcel->getProperties()->setCreator("ctos")
+            ->setLastModifiedBy("ctos")
+            ->setTitle("Office 2007 XLSX Test Document")
+            ->setSubject("Office 2007 XLSX Test Document")
+            ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+            ->setKeywords("office 2007 openxml php")
+            ->setCategory("Test result file");
+
+
+
+//set font size bold
+        $objPHPExcel->getActiveSheet()->getDefaultStyle()->getFont()->setSize(10);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getFont()->setBold(true);
+
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+
+//设置水平居中
+//        $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+//        $objPHPExcel->getActiveSheet()->getStyle('A')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//        $objPHPExcel->getActiveSheet()->getStyle('B')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//        $objPHPExcel->getActiveSheet()->getStyle('D')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//        $objPHPExcel->getActiveSheet()->getStyle('F')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//        $objPHPExcel->getActiveSheet()->getStyle('G')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//        $objPHPExcel->getActiveSheet()->getStyle('H')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//        $objPHPExcel->getActiveSheet()->getStyle('I')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+
+
+// set table header content
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1', '*订单号')
+            ->setCellValue('B1', '*sku')
+            ->setCellValue('C1', '*数量(大于0的整数)')
+            ->setCellValue('D1', '单价（USD）')
+            ->setCellValue('E1', '*买家姓名')
+            ->setCellValue('F1', '*地址1')
+            ->setCellValue('G1', '地址2')
+            ->setCellValue('H1', '*城市')
+            ->setCellValue('I1', '*省/州')
+            ->setCellValue('J1', '*国家二字码')
+            ->setCellValue('K1', '*邮编')
+            ->setCellValue('L1', '电话')
+            ->setCellValue('M1', '手机')
+            ->setCellValue('N1', '订单备注')
+            ->setCellValue('O1', '图片网址')
+            ->setCellValue('P1', '售出链接')
+            ->setCellValue('Q1', '中文报关名')
+            ->setCellValue('R1', '英文报关名')
+            ->setCellValue('S1', '申报金额(USD)')
+            ->setCellValue('T1', '申报重量(USD)')
+            ->setCellValue('U1', '海关编码(USD)');
+        $orderinfo = $this->db->where('status',1)->get('products')->result_array();
+        foreach ($orderinfo as $key=>$val){
+            $objPHPExcel->getActiveSheet(0)->setCellValue('A' . ($key + 2), $val['order_id']);
+            $objPHPExcel->getActiveSheet(0)->setCellValue('B' . ($key + 2), $val['listings_sku']);
+            $objPHPExcel->getActiveSheet(0)->setCellValue('C' . ($key + 2), $val['number']);
+            $objPHPExcel->getActiveSheet(0)->setCellValue('D' . ($key + 2), $val['price']);
+            $objPHPExcel->getActiveSheet(0)->setCellValue('E' . ($key + 2), $val['name']);
+            $objPHPExcel->getActiveSheet(0)->setCellValue('F' . ($key + 2), $val['first_line']);
+            $objPHPExcel->getActiveSheet(0)->setCellValue('H' . ($key + 2), $val['city']);
+            $objPHPExcel->getActiveSheet(0)->setCellValue('I' . ($key + 2), $val['state']);
+            $objPHPExcel->getActiveSheet(0)->setCellValue('J' . ($key + 2), $val['country_code']);
+            $objPHPExcel->getActiveSheet(0)->setCellValue('K' . ($key + 2), $val['zip']);
+        }
+
+
+
+        // Rename sheet
+        $objPHPExcel->getActiveSheet()->setTitle('订单汇总表');
+
+
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $objPHPExcel->setActiveSheetIndex(0);
+
+
+        // Redirect output to a client’s web browser (Excel5)
+        ob_end_clean();//清除缓冲区,避免乱码
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="订单汇总表(' . date('Ymd') . ').xls"');
+        header('Cache-Control: max-age=0');
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save('php://output');
+
+    }
 
 }

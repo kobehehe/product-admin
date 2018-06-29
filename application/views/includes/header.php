@@ -4,6 +4,7 @@
   <title>商品管理平台</title>
   <meta charset="utf-8">
   <link href="<?php echo base_url(); ?>assets/css/admin/global.css" rel="stylesheet" type="text/css">
+    <script src="<?php echo base_url(); ?>assets/js/jquery-1.7.1.min.js" rel="stylesheet" type="text/javascript"></script>
 </head>
 <body>
 	<div class="navbar navbar-fixed-top">

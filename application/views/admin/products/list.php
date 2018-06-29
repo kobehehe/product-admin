@@ -60,10 +60,21 @@ height: 26px;"');
 
                 echo form_submit($data_submit);
 
+                $data_button = array('name' => 'mysubmit', 'class' => 'btn btn-primary', 'value' => '导出文档');
+
+                echo '<input type="button" class="btn-success" id="exportOrder" value="导出订单">';
+
+
+
                 echo form_close();
                 ?>
-
+                <input type="hidden" id="exporturl" value=" <?php echo site_url('admin') .'/products/exportorder/' ?> ">
             </div>
+<!--            <div class="well">-->
+<!--                --><?php
+//
+//                ?>
+<!--            </div>-->
 
             <table class="table table-striped table-bordered table-condensed">
                 <thead>
@@ -114,3 +125,17 @@ height: 26px;"');
 
         </div>
     </div>
+    <script>
+        $(function(){
+            $("#exportOrder").click(function () {
+                var flag = confirm('确认导出订单？');
+                if(flag){
+                    var id =1;
+                    var url = $("#exporturl").val();
+                    window.location.href = url;
+                }else{
+                    return false;
+                }
+            })
+        });
+    </script>
