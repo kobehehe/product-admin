@@ -1,3 +1,34 @@
+<style>
+
+    .file {
+        position: relative;
+        background: #5bb75b;
+        border: 1px solid #fff;
+        border-radius: 4px;
+        padding: 7px 12px;
+        overflow: hidden;
+        color: #fff;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+        margin-top: 4px;
+        margin-left: 5px;
+    }
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        width:150px;
+    }
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+</style>
 <div class="container top">
 
     <ul class="breadcrumb">
@@ -50,25 +81,29 @@ height: 26px;"');
                 echo form_label('选择店铺:', 'manufacture_id');
                 echo form_dropdown('manufacture_id', $options_manufacture, $manufacture_selected, 'class="span2"');
 
-                echo form_label('排序:', 'order');
-                echo form_dropdown('order', $options_products, $order, 'class="span2"');
+//                echo form_label('排序:', 'order');
+//                echo form_dropdown('order', $options_products, $order, 'class="span2"');
 
                 $data_submit = array('name' => 'mysubmit', 'class' => 'btn btn-primary', 'value' => '搜索');
 
-                $options_order_type = array('Asc' => '顺序', 'Desc' => '倒序');
-                echo form_dropdown('order_type', $options_order_type, $order_type_selected, 'class="span1"');
+//                $options_order_type = array('Asc' => '顺序', 'Desc' => '倒序');
+//                echo form_dropdown('order_type', $options_order_type, $order_type_selected, 'class="span1"');
 
                 echo form_submit($data_submit);
 
                 $data_button = array('name' => 'mysubmit', 'class' => 'btn btn-primary', 'value' => '导出文档');
+                echo '<input type="button" style="margin-left:5px;" class=" btn-success" id="exportOrder" value="下载excel表">';
 
-                echo '<input type="button" class="btn-success" id="exportOrder" value="导出订单">';
-
+                //echo form_label('上传excel表更新物流:', 'order');
+                echo '<a href="javascript:;" class="file">上传excel表更新物流
+                            <input type="file" name="" id="uploadOrder" onchange="fileuploaduserpic();">
+                       </a>';
 
 
                 echo form_close();
                 ?>
                 <input type="hidden" id="exporturl" value=" <?php echo site_url('admin') .'/products/exportorder/' ?> ">
+                <input type="hidden" id="uploadurl" value=" <?php echo site_url('admin') .'/products/uploadorder/' ?> ">
             </div>
 <!--            <div class="well">-->
 <!--                --><?php
@@ -137,5 +172,51 @@ height: 26px;"');
                     return false;
                 }
             })
+
+//            $("#uploadOrder").click(function () {
+//                var flag = confirm('确认更新物流？');
+//                if(flag){
+//                    var filefullpath = $("#uploadOrder").val();
+//                    if(filefullpath == ''){return}
+//
+//                    console.log(filefullpath);
+//                }else{
+//                    return false;
+//                }
+//            })
         });
+
+        function fileuploaduserpic(){
+            var filefullpath = $('#uploadOrder').val();
+            if(filefullpath == ''){return;}
+            var filetype=filefullpath.substring(filefullpath.lastIndexOf(".")+1,filefullpath.length);
+            var validfiletype = 'xls,xlsx';
+            var validfiletypearr = validfiletype.split(',');
+            filetype = filetype.toLowerCase();
+            if($.inArray(filetype,validfiletypearr) == -1 ){alert('文件类型不支持');return;}
+            var formData = new FormData();
+            formData.append("file",$("#uploadOrder")[0].files[0]);
+
+            var url = $("#uploadurl").val();
+            console.log($("#uploadOrder")[0].files[0],formData);
+            $.ajax({
+                url : url,
+                type : 'POST',
+                data : formData,
+                dataType: 'json',
+                processData : false, // 告诉jQuery不要去处理发送的数据
+                contentType : false,// 告诉jQuery不要去设置Content-Type请求头
+                beforeSend:function(){
+                    console.log("正在进行，请稍候");
+                },
+                success : function(responseStr) {
+
+                },
+                error : function(responseStr) {
+                    alert('上传失败');
+                    return false
+                }
+            });
+        }
+
     </script>

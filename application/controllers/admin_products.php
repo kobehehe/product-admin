@@ -298,18 +298,6 @@ class Admin_products extends CI_Controller {
         $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
         $objPHPExcel->getActiveSheet()->getStyle('A1:U1')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
 
-//设置水平居中
-//        $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-//        $objPHPExcel->getActiveSheet()->getStyle('A')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-//        $objPHPExcel->getActiveSheet()->getStyle('B')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-//        $objPHPExcel->getActiveSheet()->getStyle('D')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-//        $objPHPExcel->getActiveSheet()->getStyle('F')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-//        $objPHPExcel->getActiveSheet()->getStyle('G')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-//        $objPHPExcel->getActiveSheet()->getStyle('H')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-//        $objPHPExcel->getActiveSheet()->getStyle('I')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-
-
-
 // set table header content
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1', '*订单号')
@@ -347,8 +335,6 @@ class Admin_products extends CI_Controller {
             $objPHPExcel->getActiveSheet(0)->setCellValue('K' . ($key + 2), $val['zip']);
         }
 
-
-
         // Rename sheet
         $objPHPExcel->getActiveSheet()->setTitle('订单汇总表');
 
@@ -365,6 +351,18 @@ class Admin_products extends CI_Controller {
 
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
         $objWriter->save('php://output');
+
+    }
+
+    public function uploadorder(){
+        $reader = PHPExcel_IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
+        $PHPExcel = $reader->load($_FILES["file"]["tmp_name"]); // 载入excel文件
+        //var_dump($PHPExcel);die;
+        $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
+        $highestRow = $sheet->getHighestRow(); // 取得总行数
+        $highestColumm = $sheet->getHighestColumn(); // 取得总列数
+
+        var_dump($highestRow,$highestColumm);die;
 
     }
 
