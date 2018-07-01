@@ -184,12 +184,7 @@ class Admin_auth extends CI_Controller
             $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
 
             foreach ($val as $value) {
-                //var_dump($value['Logistics_number'],$transferArr[trim($value['Logistics_mode'])]);die;
-                //$shopArr = json_decode($etsyService->request('/shops/' . $shop_id . '/receipts/' . $value['order_id'] . '/tracking', 'post', ['tracking_code' => $value['Logistics_number'], 'carrier_name' => $transferArr[trim($value['Logistics_mode'])]]), true);
-
-                $shopArr = json_decode($etsyService->request('/shops/15774639/receipts/1333892909/tracking','post',['tracking_code'=>'0B0480284000701032955','carrier_name'=>'usps']), true);
-
-                var_dump($shopArr);die;
+                $shopArr = json_decode($etsyService->request('/shops/'.$shop_id.'/receipts/' .(int)$value['order_id'].'/tracking', 'post',['tracking_code' => $value['Logistics_number'], 'carrier_name' => $transferArr[trim($value['Logistics_mode'])]]), true);
                 if ($shopArr['count'] == 1) {
                     $updatedata[] = [
                         'order_id' => $value['order_id'],
@@ -198,17 +193,18 @@ class Admin_auth extends CI_Controller
                 }
 
             }
-            print_r($updatedata);die;
             //记录成功
-            $this->db->update_batch('products', $updatedata, 'order_id');
-            $res = $this->db->affected_rows();
+            if(!empty($updatedata)){
+                $this->db->update_batch('products', $updatedata, 'order_id');
+                $res = $this->db->affected_rows();
+            }
+
             unset($updatedata);
         }
-
         if($res !== null){
-            echo json_encode(['code'=>0,'msg'=>'success']);
+            echo '执行成功';
         }else{
-            echo json_encode(['code'=>-1,'msg'=>'fileds']);
+            echo '执行失败';
         }
 
     }

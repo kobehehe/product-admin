@@ -182,23 +182,25 @@ height: 26px;"');
 
             $("#delivery").click(function () {
                 var flag = confirm('确认发货吗？');
-                var url = $("#delivery_url").val();
+
                 if(flag){
-                    $.ajax({
-                        url : url,
-                        type : 'POST',
-                        data : {id:1},
-                        dataType: 'json',
-                        success : function(responseStr) {
-                            if(responseStr.code ==0){
-                                alert('更新成功');
-                                return;
-                            }else{
-                                alert('更新失败');
-                                return;
-                            }
-                        }
-                    });
+                    var url = $("#delivery_url").val();
+                    window.location.href = url;
+//                    $.ajax({
+//                        url : url,
+//                        type : 'POST',
+//                        data : {id:1},
+//                        dataType: 'json',
+//                        success : function(responseStr) {
+//                            if(responseStr.code ==0){
+//                                alert('更新成功');
+//                                return;
+//                            }else{
+//                                alert('更新失败');
+//                                return;
+//                            }
+//                        }
+//                    });
 
 
                 }else{
