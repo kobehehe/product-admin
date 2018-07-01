@@ -1,6 +1,6 @@
 <?php
 
-require_once APPPATH.'/libraries/Pullorder/lib/global.php';//"lib/global.php";
+require_once APPPATH . '/libraries/Pullorder/lib/global.php';//"lib/global.php";
 
 debug_request_log();
 
@@ -13,12 +13,14 @@ use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Storage\TokenStorage;
 
-class Admin_auth extends CI_Controller {
-        //ETSY_KEY,ETSY_SECRET
-    public function index(){
+class Admin_auth extends CI_Controller
+{
+    //ETSY_KEY,ETSY_SECRET
+    public function index()
+    {
         $id = $this->uri->segment(4);
-        $shopinfo = $this->db->where('id',$id)->get('manufacturers')->row_array();
-       //var_dump($shopinfo);die;
+        $shopinfo = $this->db->where('id', $id)->get('manufacturers')->row_array();
+        //var_dump($shopinfo);die;
         $session = new Session();
         $credentials = new Credentials($shopinfo['key'],//$shopinfo['key']
             $shopinfo['secret'],//$shopinfo['secret']
@@ -44,31 +46,29 @@ class Admin_auth extends CI_Controller {
 
             //获取当前登录用户的信息
             $result = json_decode($etsyService->request('/private/users/__SELF__'), true);
-            $user_id=$result['results'][0]['user_id'];
+            $user_id = $result['results'][0]['user_id'];
 
 
             //吧token 序列化保存起来
             $storage = new TokenStorage($user_id);
-            $storage->storeAccessToken('Etsy',$token);
-
+            $storage->storeAccessToken('Etsy', $token);
 
 
             //保存user_id 和 shopid到数据库
 
-            $result = json_decode($etsyService->request('/users/'.$user_id.'/shops'), true);
-            $shop_id =$result['results'][0]['shop_id'];
+            $result = json_decode($etsyService->request('/users/' . $user_id . '/shops'), true);
+            $shop_id = $result['results'][0]['shop_id'];
 
             $data = array(
                 'user_id' => $user_id,
                 'shop_id' => $shop_id,
             );
 
-            $this->db->where('id',$id);
+            $this->db->where('id', $id);
             $this->db->update('manufacturers', $data);
 
 
-
-            echo  "<a target='getshop' href='getshop.php?user_id=$user_id'>查看用戶ID: $user_id 的 shop </a><br />";
+            echo "<a target='getshop' href='getshop.php?user_id=$user_id'>查看用戶ID: $user_id 的 shop </a><br />";
             echo '申请结果: 授权成功<pre>' . print_r($result, true) . '</pre>';
 
             echo "<hr />\r\n";
@@ -76,8 +76,6 @@ class Admin_auth extends CI_Controller {
 
 //            $result = json_decode($etsyService->request('/oauth/scopes'), true);
 //            echo '验证授权结果: <pre>' . print_r($result, true) . '</pre>';
-
-
 
 
         } elseif (!empty($_GET['go']) && $_GET['go'] === 'go') { //引导浏览器跳转到 Etsy输入用户名和密码
@@ -94,12 +92,13 @@ class Admin_auth extends CI_Controller {
     }
 
     //拉取订单
-    public function pullorder(){
-        ini_set('memory_limit','1024M');
+    public function pullorder()
+    {
+        ini_set('memory_limit', '1024M');
         ini_set('max_execution_time', '0');
         $shoplist = $this->db->get('manufacturers')->result_array();
-        $result=[];
-        foreach ($shoplist as $val){
+        $result = [];
+        foreach ($shoplist as $val) {
             $storage = new TokenStorage($val['user_id']);
             $credentials = new Credentials(
                 $val['key'],
@@ -109,18 +108,18 @@ class Admin_auth extends CI_Controller {
             $serviceFactory = new ServiceFactory();
             $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
 
-            $shopArr = json_decode($etsyService->request('/shops/'.$val['shop_id'].'/receipts?includes=Transactions,Listings,Country,Listings:1:0/Images:1:0&limit=100&was_shipped=false&was_paid=true'), true);
-            $insert_data=[];
-            foreach ($shopArr['results'] as $value){
-                foreach ($value['Transactions'] as $key=>$order){
-                    $insert_data=[
-                        'order_id' =>$value['order_id'],
-                        'transaction_id'  => $order['transaction_id'],
+            $shopArr = json_decode($etsyService->request('/shops/' . $val['shop_id'] . '/receipts?includes=Transactions,Listings,Country,Listings:1:0/Images:1:0&limit=100&was_shipped=false&was_paid=true'), true);
+            $insert_data = [];
+            foreach ($shopArr['results'] as $value) {
+                foreach ($value['Transactions'] as $key => $order) {
+                    $insert_data = [
+                        'order_id' => $value['receipt_id'],
+                        'transaction_id' => $order['transaction_id'],
                         'seller_user_id' => $value['seller_user_id'],
                         'listings_sku' => $order['product_data']['sku'],
                         'listings_title' => $value['Listings'][$key]['title'],
-                        'number'=>$order['quantity'],
-                        'is_gift'=> $value['is_gift'],
+                        'number' => $order['quantity'],
+                        'is_gift' => $value['is_gift'],
                         'subtotal' => $value['subtotal'],
                         'buyer_email' => $value['buyer_email'],
                         'name' => $value['name'],
@@ -131,32 +130,90 @@ class Admin_auth extends CI_Controller {
                         'zip' => $value['zip'],
                         'country' => $value['Country']['name'],
                         'phone' => '',
-                        'message_from_buyer'=>$value['message_from_buyer'],
-                        'message_from_seller'=>$value['message_from_seller'],
+                        'message_from_buyer' => $value['message_from_buyer'],
+                        'message_from_seller' => $value['message_from_seller'],
                         'tracking_code' => $value['shipping_tracking_code'],
-                        'carrier_name' =>'',
-                        'was_submited' =>0,
-                        'shop_id'=> $val['shop_id'],
+                        'carrier_name' => '',
+                        'was_submited' => 0,
+                        'shop_id' => $val['shop_id'],
                         'status' => 1,
                         'country_code' => $value['Country']['iso_country_code'],
                         'price' => $order['price'],
                         'product_img' => isset($value['Listings'][$key]['Images'][$key]['url_170x135']) ? $value['Listings'][$key]['Images'][$key]['url_170x135'] : ''
                     ];
-                    $res = $this->db->where('transaction_id',$order['transaction_id'])->get('products')->row_array();
-                    if(!isset($res['id'])){
+                    $res = $this->db->where('transaction_id', $order['transaction_id'])->get('products')->row_array();
+                    if (!isset($res['id'])) {
                         //入库
-                        $this->db->insert('products',$insert_data);
+                        $this->db->insert('products', $insert_data);
                     }
                 }
             }
             //$res = $this->db->insert_batch('products',$insert_data);
-            unset($insert_data,$result);
+            unset($insert_data, $result);
         }
 //        $data['main_content'] = 'admin/products/list';
 //        $this->load->view('includes/template', $data);
         echo '执行成功';
         exit();
     }
+
+
+    //发货
+    public function delivery()
+    {
+
+        $transferArr = ['wish邮-英伦速邮' => 'usps', 'wish邮-DLE' => 'dhl'];
+
+        $orders = $this->db->where('import', 2)->get('products')->result_array();
+
+        //组建店铺和订单的关系
+        $shop2order = [];
+        foreach ($orders as $val) {
+            $shop2order[$val['shop_id']][] = $val;
+        }
+        $updatedata = [];
+        foreach ($shop2order as $shop_id => $val) {
+            $shopinfo = $this->db->where('shop_id', $shop_id)->get('manufacturers')->row_array();
+            $storage = new TokenStorage($shopinfo['user_id']);
+            $credentials = new Credentials(
+                $shopinfo['key'],
+                $shopinfo['secret'],
+                getAbsoluteUri()
+            );
+            $serviceFactory = new ServiceFactory();
+            $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
+
+            foreach ($val as $value) {
+                //var_dump($value['Logistics_number'],$transferArr[trim($value['Logistics_mode'])]);die;
+                //$shopArr = json_decode($etsyService->request('/shops/' . $shop_id . '/receipts/' . $value['order_id'] . '/tracking', 'post', ['tracking_code' => $value['Logistics_number'], 'carrier_name' => $transferArr[trim($value['Logistics_mode'])]]), true);
+
+                $shopArr = json_decode($etsyService->request('/shops/15774639/receipts/1333892909/tracking','post',['tracking_code'=>'0B0480284000701032955','carrier_name'=>'usps']), true);
+
+                var_dump($shopArr);die;
+                if ($shopArr['count'] == 1) {
+                    $updatedata[] = [
+                        'order_id' => $value['order_id'],
+                        'import' => 3
+                    ];
+                }
+
+            }
+            print_r($updatedata);die;
+            //记录成功
+            $this->db->update_batch('products', $updatedata, 'order_id');
+            $res = $this->db->affected_rows();
+            unset($updatedata);
+        }
+
+        if($res !== null){
+            echo json_encode(['code'=>0,'msg'=>'success']);
+        }else{
+            echo json_encode(['code'=>-1,'msg'=>'fileds']);
+        }
+
+    }
+
+
 }
 
 

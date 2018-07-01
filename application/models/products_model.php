@@ -35,7 +35,7 @@ class Products_model extends CI_Model {
     * @param int $limit_end
     * @return array
     */
-    public function get_products($manufacture_id=null, $search_string=null, $order=null, $order_type='Asc', $limit_start, $limit_end)
+    public function get_products($manufacture_id=null, $search_string=null, $order=null, $order_type='Asc', $limit_start, $limit_end,$logistics_id='')
     {
 
 		$this->db->select('*');
@@ -51,6 +51,9 @@ class Products_model extends CI_Model {
 		}
 		if($search_string){
 			$this->db->where('order_id', $search_string);
+		}
+		if($logistics_id){
+            $this->db->where('import', $logistics_id);
 		}
 		//$this->db->join('manufacturers', 'products.shop_id = manufacturers.shop_id', 'left');
 		//$this->db->group_by('products.shop_id');
@@ -75,7 +78,7 @@ class Products_model extends CI_Model {
     * @param int $order
     * @return int
     */
-    function count_products($manufacture_id=null, $search_string=null, $order=null)
+    function count_products($manufacture_id=null, $search_string=null, $order=null,$logistics_id=null)
     {
 		$this->db->select('*');
 		$this->db->from('products');
@@ -85,12 +88,16 @@ class Products_model extends CI_Model {
 		if($search_string){
 			$this->db->where('order_id', $search_string);
 		}
+        if($logistics_id){
+            $this->db->where_in('import', $logistics_id);
+        }
 		if($order){
 			$this->db->order_by($order, 'Asc');
 		}else{
 		    $this->db->order_by('id', 'Asc');
 		}
 		$query = $this->db->get();
+		//var_dump($query->num_rows());die;
 		return $query->num_rows();        
     }
 

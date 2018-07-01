@@ -10,9 +10,13 @@
         color: #fff;
         text-decoration: none;
         text-indent: 0;
-        line-height: 20px;
-        margin-top: 4px;
+        line-height: 15px;
+        margin-top: 5px;
         margin-left: 5px;
+        display: block;
+        width: 130px;
+        float: left;
+        height: 15px;
     }
     .file input {
         position: absolute;
@@ -80,14 +84,15 @@ height: 26px;"');
 
                 echo form_label('选择店铺:', 'manufacture_id');
                 echo form_dropdown('manufacture_id', $options_manufacture, $manufacture_selected, 'class="span2"');
+                $logistics = [0=>'all',1=>'未导入',2=>'已导入未发货',3=>'已导入已发货'];
+                echo form_label('物流状态:');
+                echo form_dropdown('logistics_id', $logistics, $logistics_selected, 'class="span2"');
 
-//                echo form_label('排序:', 'order');
-//                echo form_dropdown('order', $options_products, $order, 'class="span2"');
+
 
                 $data_submit = array('name' => 'mysubmit', 'class' => 'btn btn-primary', 'value' => '搜索');
 
-//                $options_order_type = array('Asc' => '顺序', 'Desc' => '倒序');
-//                echo form_dropdown('order_type', $options_order_type, $order_type_selected, 'class="span1"');
+
 
                 echo form_submit($data_submit);
 
@@ -99,11 +104,13 @@ height: 26px;"');
                             <input type="file" name="" id="uploadOrder" onchange="fileuploaduserpic();">
                        </a>';
 
+                echo '<input type="button" style="margin-left:5px; margin-top: 5px;" class=" btn-success" id="delivery" value="发货并更新物流">';
 
                 echo form_close();
                 ?>
                 <input type="hidden" id="exporturl" value=" <?php echo site_url('admin') .'/products/exportorder/' ?> ">
                 <input type="hidden" id="uploadurl" value=" <?php echo site_url('admin') .'/products/uploadorder/' ?> ">
+                <input type="hidden" id="delivery_url" value=" <?php echo site_url('admin') .'/auth/delivery/' ?> ">
             </div>
 <!--            <div class="well">-->
 <!--                --><?php
@@ -173,17 +180,31 @@ height: 26px;"');
                 }
             })
 
-//            $("#uploadOrder").click(function () {
-//                var flag = confirm('确认更新物流？');
-//                if(flag){
-//                    var filefullpath = $("#uploadOrder").val();
-//                    if(filefullpath == ''){return}
-//
-//                    console.log(filefullpath);
-//                }else{
-//                    return false;
-//                }
-//            })
+            $("#delivery").click(function () {
+                var flag = confirm('确认发货吗？');
+                var url = $("#delivery_url").val();
+                if(flag){
+                    $.ajax({
+                        url : url,
+                        type : 'POST',
+                        data : {id:1},
+                        dataType: 'json',
+                        success : function(responseStr) {
+                            if(responseStr.code ==0){
+                                alert('更新成功');
+                                return;
+                            }else{
+                                alert('更新失败');
+                                return;
+                            }
+                        }
+                    });
+
+
+                }else{
+                    return false;
+                }
+            })
         });
 
         function fileuploaduserpic(){
@@ -198,7 +219,6 @@ height: 26px;"');
             formData.append("file",$("#uploadOrder")[0].files[0]);
 
             var url = $("#uploadurl").val();
-            console.log($("#uploadOrder")[0].files[0],formData);
             $.ajax({
                 url : url,
                 type : 'POST',
@@ -210,11 +230,13 @@ height: 26px;"');
                     console.log("正在进行，请稍候");
                 },
                 success : function(responseStr) {
-
-                },
-                error : function(responseStr) {
-                    alert('上传失败');
-                    return false
+                    if(responseStr.code ==0){
+                        alert('更新成功');
+                        return;
+                    }else{
+                        alert('更新失败');
+                        return;
+                    }
                 }
             });
         }

@@ -1,10 +1,12 @@
 <?php
-class Admin_products extends CI_Controller {
+
+class Admin_products extends CI_Controller
+{
 
     /**
-    * Responsable for auto load the model
-    * @return void
-    */
+     * Responsable for auto load the model
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct();
@@ -12,27 +14,27 @@ class Admin_products extends CI_Controller {
         $this->load->model('manufacturers_model');
         $this->load->library('phpexcel');
 
-        if(!$this->session->userdata('is_logged_in')){
+        if (!$this->session->userdata('is_logged_in')) {
             redirect('admin/login');
         }
     }
 
     /**
-    * Load the main view with all the current model model's data.
-    * @return void
-    */
+     * Load the main view with all the current model model's data.
+     * @return void
+     */
     public function index()
     {
 
         //all the posts sent by the view
         $manufacture_id = $this->input->post('manufacture_id');
+        $logistics_id = $this->input->post('logistics_id');
         $search_string = $this->input->post('search_string');
         $order = $this->input->post('order');
         $order_type = $this->input->post('order_type');
-
         //pagination settings
         $config['per_page'] = 10;
-        $config['base_url'] = base_url().'admin/products';
+        $config['base_url'] = base_url() . 'admin/products';
         $config['use_page_numbers'] = TRUE;
         $config['num_links'] = 20;
         $config['full_tag_open'] = '<ul>';
@@ -47,19 +49,18 @@ class Admin_products extends CI_Controller {
 
         //math to get the initial record to be select in the database
         $limit_end = ($page * $config['per_page']) - $config['per_page'];
-        if ($limit_end < 0){
+        if ($limit_end < 0) {
             $limit_end = 0;
         }
 //
 //        //if order type was changed
-        if($order_type){
+        if ($order_type) {
             $filter_session_data['order_type'] = $order_type;
-        }
-        else{
+        } else {
             //we have something stored in the session?
-            if($this->session->userdata('order_type')){
+            if ($this->session->userdata('order_type')) {
                 $order_type = $this->session->userdata('order_type');
-            }else{
+            } else {
                 //if we have nothing inside session, so it's the default "Asc"
                 $order_type = 'Asc';
             }
@@ -74,7 +75,7 @@ class Admin_products extends CI_Controller {
         //if any filter post was sent but we are in some page, we must load the session data
 
         //filtered && || paginated
-        if($manufacture_id !== false && $search_string !== false && $order !== false || $this->uri->segment(3) == true){
+        if ($manufacture_id !== false && $search_string !== false && $logistics_id !== false || $this->uri->segment(3) == true) {
 
             /*
             The comments here are the same for line 79 until 99
@@ -84,24 +85,24 @@ class Admin_products extends CI_Controller {
             we save order into the the var to load the view with the param already selected
             */
 
-            if($manufacture_id !== 0){
+            if ($manufacture_id !== 0) {
                 $filter_session_data['manufacture_selected'] = $manufacture_id;
-            }else{
+            } else {
                 $manufacture_id = $this->session->userdata('manufacture_selected');
             }
             $data['manufacture_selected'] = $manufacture_id;
+            $data ['logistics_selected'] = $logistics_id;
 
-            if($search_string){
+            if ($search_string) {
                 $filter_session_data['search_string_selected'] = $search_string;
-            }else{
+            } else {
                 $search_string = $this->session->userdata('search_string_selected');
             }
             $data['search_string_selected'] = $search_string;
 
-            if($order){
+            if ($order) {
                 $filter_session_data['order'] = $order;
-            }
-            else{
+            } else {
                 $order = $this->session->userdata('order');
             }
             $data['order'] = $order;
@@ -112,25 +113,25 @@ class Admin_products extends CI_Controller {
             //fetch manufacturers data into arrays
             $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
 
-            $data['count_products']= $this->products_model->count_products($manufacture_id, $search_string, $order);
+            $data['count_products'] = $this->products_model->count_products($manufacture_id, $search_string, $order,$logistics_id);
             $config['total_rows'] = $data['count_products'];
             //fetch sql data into arrays
-            if($search_string){
-                if($order){
-                    $data['products'] = $this->products_model->get_products($manufacture_id, $search_string, $order, $order_type, $config['per_page'],$limit_end);
-                }else{
-                    $data['products'] = $this->products_model->get_products($manufacture_id, $search_string, '', $order_type, $config['per_page'],$limit_end);
+            if ($search_string) {
+                if ($order) {
+                    $data['products'] = $this->products_model->get_products($manufacture_id, $search_string, $order, $order_type, $config['per_page'], $limit_end);
+                } else {
+                    $data['products'] = $this->products_model->get_products($manufacture_id, $search_string, '', $order_type, $config['per_page'], $limit_end);
                 }
-            }else{
-                if($order){
-                    $data['products'] = $this->products_model->get_products($manufacture_id, '', $order, $order_type, $config['per_page'],$limit_end);
-                }else{
-                    $data['products'] = $this->products_model->get_products($manufacture_id, '', '', $order_type, $config['per_page'],$limit_end);
+            } else {
+                if ($order) {
+                    $data['products'] = $this->products_model->get_products($manufacture_id, '', $order, $order_type, $config['per_page'], $limit_end);
+                } else {
+                    $data['products'] = $this->products_model->get_products($manufacture_id, '', '', $order_type, $config['per_page'], $limit_end,$logistics_id);
                 }
             }
             //print_r($data);die;
 
-        }else{
+        } else {
 
             //clean filter data inside section
             $filter_session_data['manufacture_selected'] = null;
@@ -146,9 +147,9 @@ class Admin_products extends CI_Controller {
 
             //fetch sql data into arrays
             $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
-            $data['count_products']= $this->products_model->count_products();
+            $data['count_products'] = $this->products_model->count_products();
 
-            $data['products'] = $this->products_model->get_products('', '', '', $order_type, $config['per_page'],$limit_end);
+            $data['products'] = $this->products_model->get_products('', '', '', $order_type, $config['per_page'], $limit_end);
             $config['total_rows'] = $data['count_products'];
             //print_r($data['products']);die;
 
@@ -166,8 +167,7 @@ class Admin_products extends CI_Controller {
     public function add()
     {
         //if save button was clicked, get the data sent via post
-        if ($this->input->server('REQUEST_METHOD') === 'POST')
-        {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
 
             //form validation
             $this->form_validation->set_rules('description', 'description', 'required');
@@ -178,8 +178,7 @@ class Admin_products extends CI_Controller {
             $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
 
             //if the form has passed through the validation
-            if ($this->form_validation->run())
-            {
+            if ($this->form_validation->run()) {
                 $data_to_store = array(
                     'description' => $this->input->post('description'),
                     'stock' => $this->input->post('stock'),
@@ -188,9 +187,9 @@ class Admin_products extends CI_Controller {
                     'manufacture_id' => $this->input->post('manufacture_id')
                 );
                 //if the insert has returned true then we show the flash message
-                if($this->products_model->store_product($data_to_store)){
+                if ($this->products_model->store_product($data_to_store)) {
                     $data['flash_message'] = TRUE;
-                }else{
+                } else {
                     $data['flash_message'] = FALSE;
                 }
 
@@ -205,17 +204,16 @@ class Admin_products extends CI_Controller {
     }
 
     /**
-    * Update item by his id
-    * @return void
-    */
+     * Update item by his id
+     * @return void
+     */
     public function update()
     {
         //product id
         $id = $this->uri->segment(4);
 
         //if save button was clicked, get the data sent via post
-        if ($this->input->server('REQUEST_METHOD') === 'POST')
-        {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
             //form validation
             $this->form_validation->set_rules('name', 'name', 'required');
             $this->form_validation->set_rules('first_line', 'first_line', 'required');
@@ -225,8 +223,7 @@ class Admin_products extends CI_Controller {
             $this->form_validation->set_rules('phone', 'phone', 'required|numeric');
             $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
             //if the form has passed through the validation
-            if ($this->form_validation->run())
-            {
+            if ($this->form_validation->run()) {
 
                 $data_to_store = array(
                     'name' => $this->input->post('name'),
@@ -241,12 +238,12 @@ class Admin_products extends CI_Controller {
                     'message_from_seller' => $this->input->post('message_from_seller'),
                 );
                 //if the insert has returned true then we show the flash message
-                if($this->products_model->update_product($id, $data_to_store) == TRUE){
+                if ($this->products_model->update_product($id, $data_to_store) == TRUE) {
                     $this->session->set_flashdata('flash_message', 'updated');
-                }else{
+                } else {
                     $this->session->set_flashdata('flash_message', 'not_updated');
                 }
-                redirect('admin/products/update/'.$id.'');
+                redirect('admin/products/update/' . $id . '');
 
             }//validation run
 
@@ -266,9 +263,9 @@ class Admin_products extends CI_Controller {
     }//update
 
     /**
-    * Delete product by his id
-    * @return void
-    */
+     * Delete product by his id
+     * @return void
+     */
     public function delete()
     {
         //product id
@@ -277,7 +274,8 @@ class Admin_products extends CI_Controller {
         redirect('admin/products');
     }//edit
 
-    public function exportorder(){
+    public function exportorder()
+    {
         $objPHPExcel = $this->phpexcel;
         // Set document properties
 
@@ -288,7 +286,6 @@ class Admin_products extends CI_Controller {
             ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
             ->setKeywords("office 2007 openxml php")
             ->setCategory("Test result file");
-
 
 
 //set font size bold
@@ -321,8 +318,8 @@ class Admin_products extends CI_Controller {
             ->setCellValue('S1', '申报金额(USD)')
             ->setCellValue('T1', '申报重量(USD)')
             ->setCellValue('U1', '海关编码(USD)');
-        $orderinfo = $this->db->where('status',1)->get('products')->result_array();
-        foreach ($orderinfo as $key=>$val){
+        $orderinfo = $this->db->where('status', 1)->get('products')->result_array();
+        foreach ($orderinfo as $key => $val) {
             $objPHPExcel->getActiveSheet(0)->setCellValue('A' . ($key + 2), $val['order_id']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('B' . ($key + 2), $val['listings_sku']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('C' . ($key + 2), $val['number']);
@@ -354,7 +351,9 @@ class Admin_products extends CI_Controller {
 
     }
 
-    public function uploadorder(){
+    //更新物流
+    public function uploadorder()
+    {
         $reader = PHPExcel_IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
         $PHPExcel = $reader->load($_FILES["file"]["tmp_name"]); // 载入excel文件
         //var_dump($PHPExcel);die;
@@ -362,8 +361,39 @@ class Admin_products extends CI_Controller {
         $highestRow = $sheet->getHighestRow(); // 取得总行数
         $highestColumm = $sheet->getHighestColumn(); // 取得总列数
 
-        var_dump($highestRow,$highestColumm);die;
 
+        $data = []; //下面是读取想要获取的列的内容
+        //var_dump($highestColumm);die;
+        for ($rowIndex = 2; $rowIndex <= $highestRow; $rowIndex++) {
+            $data[] = [
+                'order_id' => $cell = $sheet->getCell('A' . $rowIndex)->getValue(),
+                'Logistics_mode' => $cell = $sheet->getCell('B' . $rowIndex)->getValue(),
+                'Logistics_number' => $cell = $sheet->getCell('C' . $rowIndex)->getValue(),
+                'import' =>1,
+            ];
+        }
+
+        $this->db->update_batch('products', $data, 'order_id');
+        $res = $this->db->affected_rows();
+
+        if($res !== null){
+            echo json_encode(['code'=>0,'msg'=>'success']);
+        }else{
+            echo json_encode(['code'=>-1,'msg'=>'fileds']);
+        }
+
+    }
+
+    //发货
+    public function delivery(){
+        $orders = $this->db->where('import',2)->get('products')->result_array();
+        $orderdata=[];
+        foreach ($orders as $val){
+            ///shops/:shop_id/receipts/:receipt_id/tracking
+
+            $shopArr = json_decode($etsyService->request('/shops/15774639/receipts/1333892909/tracking','post',['tracking_code'=>'0B0480284000701032955','carrier_name'=>'usps']), true);
+        }
+        print_r($orders);die;
     }
 
 }
