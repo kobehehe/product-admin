@@ -122,11 +122,13 @@ height: 26px;"');
                 <thead>
                 <tr>
                     <th class="header">order_id</th>
+                    <th class="red header" style="width: 1000px">缩略图</th>
                     <th class="yellow header headerSortDown">seller_user_id</th>
                     <th class="green header">listings.sku</th>
                     <th class="red header">listings.title</th>
                     <th class="red header">数量</th>
                     <th class="red header">地址信息</th>
+                    <th class="red header">选项</th>
                     <th class="red header">message_from_buyer</th>
                     <th class="red header">message_from_seller</th>
                     <th class="red header">操作</th>
@@ -137,6 +139,7 @@ height: 26px;"');
                 foreach ($products as $row) {
                     echo '<tr>';
                     echo '<td>' . $row['order_id'] . '</td>';
+                    echo '<td><div style="width: 170px">' . '<img  src="'.$row['product_img'].'">'. '</div></td>';
                     echo '<td>' . $row['seller_user_id'] . '</td>';
                     echo '<td>' . $row['listings_sku'] . '</td>';
                     echo '<td>' . $row['listings_title'] . '</td>';
@@ -151,6 +154,7 @@ height: 26px;"');
                         '<br><a>country:</a>'.$row['country'].
                         '<br><a>电话/手机:</a>'.$row['phone']
                         .'</td>';
+                    echo '<td>' . $row['variations_a'].'<br>'.  $row['variations_b']. '</td>';
                     echo '<td>' . $row['message_from_buyer'] . '</td>';
                     echo '<td>' . $row['message_from_seller'] . '</td>';
                     echo '<td class="crud-actions">

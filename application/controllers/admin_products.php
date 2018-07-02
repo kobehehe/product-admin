@@ -219,8 +219,8 @@ class Admin_products extends CI_Controller
             $this->form_validation->set_rules('first_line', 'first_line', 'required');
             $this->form_validation->set_rules('city', 'city', 'required|string');
             $this->form_validation->set_rules('state', 'state', 'required|string');
-            $this->form_validation->set_rules('zip', 'zip', 'required|numeric');
-            $this->form_validation->set_rules('phone', 'phone', 'required|numeric');
+            $this->form_validation->set_rules('zip', 'zip', 'required');
+            //$this->form_validation->set_rules('phone', 'phone', 'required|numeric');
             $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
             //if the form has passed through the validation
             if ($this->form_validation->run()) {
@@ -385,15 +385,15 @@ class Admin_products extends CI_Controller
     }
 
     //发货
-    public function delivery(){
-        $orders = $this->db->where('import',2)->get('products')->result_array();
-        $orderdata=[];
-        foreach ($orders as $val){
-            ///shops/:shop_id/receipts/:receipt_id/tracking
-
-            $shopArr = json_decode($etsyService->request('/shops/15774639/receipts/1333892909/tracking','post',['tracking_code'=>'0B0480284000701032955','carrier_name'=>'usps']), true);
-        }
-        print_r($orders);die;
-    }
+//    public function delivery(){
+//        $orders = $this->db->where('import',2)->get('products')->result_array();
+//        $orderdata=[];
+//        foreach ($orders as $val){
+//            ///shops/:shop_id/receipts/:receipt_id/tracking
+//
+//            $shopArr = json_decode($etsyService->request('/shops/15774639/receipts/1333892909/tracking','post',['tracking_code'=>'0B0480284000701032955','carrier_name'=>'usps']), true);
+//        }
+//        print_r($orders);die;
+//    }
 
 }

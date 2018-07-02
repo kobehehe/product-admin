@@ -118,14 +118,18 @@
             <div class="control-group">
                 <label for="inputError" class="control-label">message_from_buyer</label>
                 <div class="controls">
-                    <input type="text" name="message_from_buyer" value="<?php echo $product[0]['message_from_buyer']; ?>">
+                    <textarea name="message_from_buyer" rows="5"><?php echo $product[0]['message_from_buyer']; ?></textarea>
+<!--                    <input type="text" name="message_from_buyer" value="--><?php //echo $product[0]['message_from_buyer']; ?><!--">-->
                     <!--<span class="help-inline">OOps</span>-->
                 </div>
             </div>
             <div class="control-group">
                 <label for="inputError" class="control-label">message_from_seller</label>
                 <div class="controls">
-                    <input type="text" name="message_from_seller" value="<?php echo $product[0]['message_from_seller']; ?>">
+                    <textarea name="message_from_seller" rows="5" cols="20">
+                        <?php echo $product[0]['message_from_seller']; ?>
+                    </textarea>
+
                     <!--<span class="help-inline">OOps</span>-->
                 </div>
             </div>

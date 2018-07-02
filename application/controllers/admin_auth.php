@@ -139,6 +139,8 @@ class Admin_auth extends CI_Controller
                         'status' => 1,
                         'country_code' => $value['Country']['iso_country_code'],
                         'price' => $order['price'],
+                        'variations_a' => isset($order['variations'][0]) ? $order['variations'][0]['formatted_name'].':'.$order['variations'][0]['formatted_value'] : '',
+                        'variations_b' => isset($order['variations'][1]) ? $order['variations'][1]['formatted_name'].':'.$order['variations'][1]['formatted_value'] : '',
                         'product_img' => isset($value['Listings'][$key]['Images'][$key]['url_170x135']) ? $value['Listings'][$key]['Images'][$key]['url_170x135'] : ''
                     ];
                     $res = $this->db->where('transaction_id', $order['transaction_id'])->get('products')->row_array();
