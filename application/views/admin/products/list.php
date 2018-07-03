@@ -50,13 +50,12 @@
     <div class="page-header users-header">
                 <h2>
                   <?php echo 'orders';?>
-<!--                  <a  href="-->
-<!--        --><?php //echo site_url("admin").'/'.$this->uri->segment(2); ?><!--/add" class="btn btn-success">Add a new</a>-->
+                    <a  href="<?php echo site_url("admin").'/auth/pullorder';?>" class="btn btn-failed">拉取订单</a>
                 </h2>
     </div>
 
     <div class="row">
-        <div class="span12 columns">
+        <div class="span14 columns">
             <div class="well">
 
                 <?php
@@ -123,7 +122,7 @@ height: 26px;"');
                 <tr>
                     <th class="header">order_id</th>
                     <th class="red header" style="width: 1000px">缩略图</th>
-                    <th class="yellow header headerSortDown">seller_user_id</th>
+                    <th class="yellow header headerSortDown">店铺名字</th>
                     <th class="green header">listings.sku</th>
                     <th class="red header">listings.title</th>
                     <th class="red header">数量</th>
@@ -131,6 +130,9 @@ height: 26px;"');
                     <th class="red header">选项</th>
                     <th class="red header">message_from_buyer</th>
                     <th class="red header">message_from_seller</th>
+                    <th class="red header">logistics_mode</th>
+                    <th class="red header">logistics_number</th>
+
                     <th class="red header">操作</th>
                 </tr>
                 </thead>
@@ -140,7 +142,7 @@ height: 26px;"');
                     echo '<tr>';
                     echo '<td>' . $row['order_id'] . '</td>';
                     echo '<td><div style="width: 170px">' . '<img  src="'.$row['product_img'].'">'. '</div></td>';
-                    echo '<td>' . $row['seller_user_id'] . '</td>';
+                    echo '<td>' .$shopid2name[$row['shop_id']] . '</td>';
                     echo '<td>' . $row['listings_sku'] . '</td>';
                     echo '<td>' . $row['listings_title'] . '</td>';
                     echo '<td>' . $row['number'] . '</td>';
@@ -157,6 +159,8 @@ height: 26px;"');
                     echo '<td>' . $row['variations_a'].'<br>'.  $row['variations_b']. '</td>';
                     echo '<td>' . $row['message_from_buyer'] . '</td>';
                     echo '<td>' . $row['message_from_seller'] . '</td>';
+                    echo '<td>' . $row['Logistics_mode'] . '</td>';
+                    echo '<td>' . $row['Logistics_number'] . '</td>';
                     echo '<td class="crud-actions">
                   <a href="' . site_url("admin") . '/products/update/' . $row['id'] . '" class="btn btn-info">edit</a>  
 

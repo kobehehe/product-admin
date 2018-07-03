@@ -112,7 +112,11 @@ class Admin_products extends CI_Controller
 
             //fetch manufacturers data into arrays
             $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
-
+            $shopid2name=[];
+            foreach ($data['manufactures'] as $val){
+                $shopid2name[$val['shop_id']] = $val['name'];
+            }
+            $data['shopid2name'] =$shopid2name;
             $data['count_products'] = $this->products_model->count_products($manufacture_id, $search_string, $order,$logistics_id);
             $config['total_rows'] = $data['count_products'];
             //fetch sql data into arrays
@@ -147,6 +151,11 @@ class Admin_products extends CI_Controller
 
             //fetch sql data into arrays
             $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
+            $shopid2name=[];
+            foreach ($data['manufactures'] as $val){
+                $shopid2name[$val['shop_id']] = $val['name'];
+            }
+            $data['shopid2name'] =$shopid2name;
             $data['count_products'] = $this->products_model->count_products();
 
             $data['products'] = $this->products_model->get_products('', '', '', $order_type, $config['per_page'], $limit_end);
