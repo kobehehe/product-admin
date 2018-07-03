@@ -354,24 +354,30 @@ class Admin_products extends CI_Controller
     //更新物流
     public function uploadorder()
     {
-        $reader = PHPExcel_IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
+        $reader = PHPExcel_IOFactory::createReader('Excel2007'); //设置以Excel5格式(Excel97-2003工作簿)
+        if (!$reader->canRead($_FILES["file"]["tmp_name"])) {
+            $reader = PHPExcel_IOFactory::createReader('Excel5');
+            if (!$reader->canRead($_FILES["file"]["tmp_name"])) {
+                echo 'no Excel';
+                exit();
+            }
+        }
         $PHPExcel = $reader->load($_FILES["file"]["tmp_name"]); // 载入excel文件
-        //var_dump($PHPExcel);die;
         $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
         $highestRow = $sheet->getHighestRow(); // 取得总行数
         $highestColumm = $sheet->getHighestColumn(); // 取得总列数
 
 
         $data = []; //下面是读取想要获取的列的内容
-        //var_dump($highestColumm);die;
         for ($rowIndex = 2; $rowIndex <= $highestRow; $rowIndex++) {
             $data[] = [
                 'order_id' => $cell = $sheet->getCell('A' . $rowIndex)->getValue(),
                 'Logistics_mode' => $cell = $sheet->getCell('B' . $rowIndex)->getValue(),
                 'Logistics_number' => $cell = $sheet->getCell('C' . $rowIndex)->getValue(),
-                'import' =>1,
+                'import' =>2,
             ];
         }
+
 
         $this->db->update_batch('products', $data, 'order_id');
         $res = $this->db->affected_rows();

@@ -141,7 +141,7 @@ class Admin_auth extends CI_Controller
                         'price' => $order['price'],
                         'variations_a' => isset($order['variations'][0]) ? $order['variations'][0]['formatted_name'].':'.$order['variations'][0]['formatted_value'] : '',
                         'variations_b' => isset($order['variations'][1]) ? $order['variations'][1]['formatted_name'].':'.$order['variations'][1]['formatted_value'] : '',
-                        'product_img' => isset($value['Listings'][$key]['Images'][$key]['url_170x135']) ? $value['Listings'][$key]['Images'][$key]['url_170x135'] : ''
+                        'product_img' => isset($value['Listings'][$key]['Images'][0]['url_170x135']) ? $value['Listings'][$key]['Images'][0]['url_170x135'] : ''
                     ];
                     $res = $this->db->where('transaction_id', $order['transaction_id'])->get('products')->row_array();
                     if (!isset($res['id'])) {
@@ -164,7 +164,7 @@ class Admin_auth extends CI_Controller
     public function delivery()
     {
 
-        $transferArr = ['wish邮-英伦速邮' => 'usps', 'wish邮-DLE' => 'dhl'];
+        $transferArr = ['wish邮-英伦速邮' => 'usps', '云途-DHL快递(香港)' => 'dhl'];
 
         $orders = $this->db->where('import', 2)->get('products')->result_array();
 
@@ -186,7 +186,8 @@ class Admin_auth extends CI_Controller
             $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
 
             foreach ($val as $value) {
-                $shopArr = json_decode($etsyService->request('/shops/'.$shop_id.'/receipts/' .(int)$value['order_id'].'/tracking', 'post',['tracking_code' => $value['Logistics_number'], 'carrier_name' => $transferArr[trim($value['Logistics_mode'])]]), true);
+                $post = isset($transferArr[trim($value['Logistics_mode'])]) ? $transferArr[trim($value['Logistics_mode'])] : 'usps';
+                $shopArr = json_decode($etsyService->request('/shops/'.$shop_id.'/receipts/' .(int)$value['order_id'].'/tracking', 'post',['tracking_code' => $value['Logistics_number'], 'carrier_name' => $post]), true);
                 if ($shopArr['count'] == 1) {
                     $updatedata[] = [
                         'order_id' => $value['order_id'],
