@@ -96,9 +96,11 @@ class Admin_products extends CI_Controller
             if ($search_string) {
                 $filter_session_data['search_string_selected'] = $search_string;
             } else {
-                $search_string = $this->session->userdata('search_string_selected');
+                //$search_string = $this->session->userdata('search_string_selected');
             }
             $data['search_string_selected'] = $search_string;
+
+            //var_dump($search_string);die;
 
             if ($order) {
                 $filter_session_data['order'] = $order;

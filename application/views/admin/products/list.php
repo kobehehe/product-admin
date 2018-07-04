@@ -83,7 +83,7 @@ height: 26px;"');
 
                 echo form_label('选择店铺:', 'manufacture_id');
                 echo form_dropdown('manufacture_id', $options_manufacture, $manufacture_selected, 'class="span2"');
-                $logistics = [0=>'all',1=>'未导入',2=>'已导入未发货',3=>'已导入已发货'];
+                $logistics = [1=>'未导入',2=>'已导入未发货',3=>'已导入已发货'];
                 echo form_label('物流状态:');
                 echo form_dropdown('logistics_id', $logistics, $logistics_selected, 'class="span2"');
 
