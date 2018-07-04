@@ -10,7 +10,7 @@ class User extends CI_Controller {
 	function index()
 	{
 		if($this->session->userdata('is_logged_in')){
-			redirect('admin/products');
+			redirect('admin/orders');
         }else{
         	$this->load->view('admin/login');	
         }
@@ -45,7 +45,7 @@ class User extends CI_Controller {
 				'is_logged_in' => true
 			);
 			$this->session->set_userdata($data);
-			redirect('admin/products');
+			redirect('admin/orders');
 		}
 		else // incorrect username or password
 		{

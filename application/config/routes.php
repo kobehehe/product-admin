@@ -48,14 +48,14 @@ $route['admin/login'] = 'user/index';
 $route['admin/logout'] = 'user/logout';
 $route['admin/login/validate_credentials'] = 'user/validate_credentials';
 
-$route['admin/products'] = 'admin_products/index';
-$route['admin/products/add'] = 'admin_products/add';
-$route['admin/products/update'] = 'admin_products/update';
-$route['admin/products/update/(:any)'] = 'admin_products/update/$1';
-$route['admin/products/delete/(:any)'] = 'admin_products/delete/$1';
-$route['admin/products/(:any)'] = 'admin_products/index/$1'; //$1 = page number
-$route['admin/products/exportorder'] = 'admin_products/exportorder';
-$route['admin/products/uploadorder'] = 'admin_products/uploadorder';
+$route['admin/orders'] = 'admin_orders/index';
+$route['admin/orders/add'] = 'admin_orders/add';
+$route['admin/orders/update'] = 'admin_orders/update';
+$route['admin/orders/update/(:any)'] = 'admin_orders/update/$1';
+$route['admin/orders/delete/(:any)'] = 'admin_orders/delete/$1';
+$route['admin/orders/(:any)'] = 'admin_orders/index/$1'; //$1 = page number
+$route['admin/orders/exportorder'] = 'admin_orders/exportorder';
+$route['admin/orders/uploadorder'] = 'admin_orders/uploadorder';
 $route['admin/auth/delivery'] = 'admin_auth/delivery';
 $route['admin/auth/deliveryone'] = 'admin_auth/deliveryone';
 
