@@ -130,7 +130,7 @@ height: 26px;"');
                     <th class="red header">地址信息</th>
 
                     <th class="red header">message_from_buyer</th>
-                    <th class="red header">message_from_seller</th>
+                    <th class="red header">备注</th>
                     <th class="red header">logistics_mode</th>
                     <th class="red header">logistics_number</th>
 

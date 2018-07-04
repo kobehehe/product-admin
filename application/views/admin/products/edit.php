@@ -124,7 +124,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="inputError" class="control-label">message_from_seller</label>
+                <label for="inputError" class="control-label">备注</label>
                 <div class="controls">
                     <textarea name="message_from_seller" rows="5" cols="20">
                         <?php echo $product[0]['message_from_seller']; ?>
