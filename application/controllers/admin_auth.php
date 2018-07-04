@@ -215,6 +215,40 @@ class Admin_auth extends CI_Controller
 
     }
 
+    //发货一个
+    public function deliveryone(){
+        $transferArr = ['wish邮-英伦速邮' => 'usps', '云途-DHL快递(香港)' => 'dhl'];
+        $orderid = $_POST['oid'];
+
+        $orderinfo = $this->db->where('order_id',$orderid)->get('products')->row_array();
+        $shop_id = $orderinfo['shop_id'];
+        $shopinfo = $this->db->where('shop_id', $shop_id)->get('manufacturers')->row_array();
+        $storage = new TokenStorage($shopinfo['user_id']);
+        $credentials = new Credentials(
+            $shopinfo['key'],
+            $shopinfo['secret'],
+            getAbsoluteUri()
+        );
+        $serviceFactory = new ServiceFactory();
+        $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
+        $post = isset($transferArr[trim($orderinfo['Logistics_mode'])]) ? $transferArr[trim($orderinfo['Logistics_mode'])] : 'usps';
+        $shopArr = json_decode($etsyService->request('/shops/'.$shop_id.'/receipts/' .$orderid.'/tracking', 'post',['tracking_code' => $orderinfo['Logistics_number'], 'carrier_name' => $post]), true);
+        $res=false;
+        if ($shopArr['count'] == 1) {
+            $updatedata = [
+                'order_id' =>$orderid,
+                'import' => 3
+            ];
+            $res = $this->db->update('products', $updatedata, ['order_id'=>$orderid]);
+        }
+        if($res){
+            echo json_encode(['code'=>0]);
+        }else{
+            echo json_encode(['code'=>-1]);
+        }
+
+    }
+
 
 }
 

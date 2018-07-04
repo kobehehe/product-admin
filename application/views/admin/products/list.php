@@ -110,6 +110,7 @@ height: 26px;"');
                 <input type="hidden" id="exporturl" value=" <?php echo site_url('admin') .'/products/exportorder/' ?> ">
                 <input type="hidden" id="uploadurl" value=" <?php echo site_url('admin') .'/products/uploadorder/' ?> ">
                 <input type="hidden" id="delivery_url" value=" <?php echo site_url('admin') .'/auth/delivery/' ?> ">
+                <input type="hidden" id="deliveryone_url" value=" <?php echo site_url('admin') .'/auth/deliveryone/' ?> ">
             </div>
 <!--            <div class="well">-->
 <!--                --><?php
@@ -182,7 +183,7 @@ height: 26px;"');
                         echo '<td>' . $value['Logistics_number'] . '</td>';
                         echo '<td class="crud-actions">
                   <a href="' . site_url("admin") . '/products/update/' . $value['id'] . '" class="btn btn-info">edit</a>
-                    <a href="' . site_url("admin") . '/products/update/' . $value['id'] . '" class="btn btn-info">发货</a> 
+                    <a href="#" name="'.$value['order_id'] .'" class="btn btn-danger">发货</a> 
 
                 </td>';
                         echo '</tr>';
@@ -211,7 +212,32 @@ height: 26px;"');
                 }else{
                     return false;
                 }
-            })
+            });
+
+
+            $(".btn-danger").click(function () {
+                var flag = confirm('确认发货吗？');
+                if(flag){
+                    var oid = $(this).attr('name');
+                    var urlone = $("#deliveryone_url").val();
+                    $.ajax({
+                        url : urlone,
+                        type : 'POST',
+                        data : {oid:oid},
+                        dataType: 'json',
+                        success : function(responseStr) {
+                            if(responseStr.code ==0){
+                                alert('发货成功');
+                                return;
+                            }else{
+                                alert('发货失败');
+                                return;
+                            }
+                        }
+                    });
+                }
+
+            });
 
             $("#delivery").click(function () {
                 var flag = confirm('确认发货吗？');

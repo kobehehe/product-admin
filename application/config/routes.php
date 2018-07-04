@@ -57,6 +57,7 @@ $route['admin/products/(:any)'] = 'admin_products/index/$1'; //$1 = page number
 $route['admin/products/exportorder'] = 'admin_products/exportorder';
 $route['admin/products/uploadorder'] = 'admin_products/uploadorder';
 $route['admin/auth/delivery'] = 'admin_auth/delivery';
+$route['admin/auth/deliveryone'] = 'admin_auth/deliveryone';
 
 $route['admin/manufacturers'] = 'admin_manufacturers/index';
 $route['admin/manufacturers/add'] = 'admin_manufacturers/add';
