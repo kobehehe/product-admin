@@ -121,13 +121,14 @@ height: 26px;"');
                 <thead>
                 <tr>
                     <th class="header">order_id</th>
+                    <th class="red header">选项</th>
                     <th class="red header" style="width: 1000px">缩略图</th>
                     <th class="yellow header headerSortDown">店铺名字</th>
                     <th class="green header">listings.sku</th>
                     <th class="red header">listings.title</th>
                     <th class="red header">数量</th>
                     <th class="red header">地址信息</th>
-                    <th class="red header">选项</th>
+
                     <th class="red header">message_from_buyer</th>
                     <th class="red header">message_from_seller</th>
                     <th class="red header">logistics_mode</th>
@@ -138,34 +139,57 @@ height: 26px;"');
                 </thead>
                 <tbody>
                 <?php
-                foreach ($products as $row) {
-                    echo '<tr>';
-                    echo '<td>' . $row['order_id'] . '</td>';
-                    echo '<td><div style="width: 170px">' . '<img  src="'.$row['product_img'].'">'. '</div></td>';
-                    echo '<td>' .$shopid2name[$row['shop_id']] . '</td>';
-                    echo '<td>' . $row['listings_sku'] . '</td>';
-                    echo '<td>' . $row['listings_title'] . '</td>';
-                    echo '<td>' . $row['number'] . '</td>';
-                    echo '<td>' .
-                        '<a>name:</a>'.$row['name'].
-                        '<br><a>first_line:</a>'.$row['first_line'].
-                        '<br><a>second_line:</a>'.$row['second_line'].
-                        '<br><a>city:</a>'.$row['city'].
-                        '<br><a>state:</a>'.$row['state'].
-                        '<br><a>zip:</a>'.$row['zip'].
-                        '<br><a>country:</a>'.$row['country'].
-                        '<br><a>电话/手机:</a>'.$row['phone']
-                        .'</td>';
-                    echo '<td>' . $row['variations_a'].'<br>'.  $row['variations_b']. '</td>';
-                    echo '<td>' . $row['message_from_buyer'] . '</td>';
-                    echo '<td>' . $row['message_from_seller'] . '</td>';
-                    echo '<td>' . $row['Logistics_mode'] . '</td>';
-                    echo '<td>' . $row['Logistics_number'] . '</td>';
-                    echo '<td class="crud-actions">
-                  <a href="' . site_url("admin") . '/products/update/' . $row['id'] . '" class="btn btn-info">edit</a>  
+                foreach ($products as $row){
+
+                    foreach ($row as $key=>$value) {
+                        if(count($row)>1){
+                            echo '<tr style="color:red"><td>';
+                        }else{
+                            echo '<tr><td>';
+                        }
+
+                        if($key==0){
+                            echo  $value['order_id'];
+                        }
+
+                        echo '</td><td>' . $value['variations_a'] . '<br>' . $value['variations_b'] . '</td>';
+                        echo '<td><div style="width: 170px">' . '<img  src="' . $value['product_img'] . '">' . '</div></td><td>';
+                        if($key==0){
+                            echo  $shopid2name[$value['shop_id']];
+                        }
+                        echo '</td><td>' . $value['listings_sku'] . '</td>';
+                        echo '<td>' . $value['listings_title'] . '</td>';
+                        echo '<td>' . $value['number'] . '</td><td>';
+                        //echo '<td>' .
+                            if($key==0){
+                                echo
+                                '<a>name:</a>' . $value['name'] .
+                                '<br><a>first_line:</a>' . $value['first_line'] .
+                                '<br><a>second_line:</a>' . $value['second_line'] .
+                                '<br><a>city:</a>' . $value['city'] .
+                                '<br><a>state:</a>' . $value['state'] .
+                                '<br><a>zip:</a>' . $value['zip'] .
+                                '<br><a>country:</a>' . $value['country'] .
+                                '<br><a>电话/手机:</a>' . $value['phone'];
+                            }
+                        echo '</td><td>';
+                            if($key==0){
+                                echo $value['message_from_buyer'];
+                            }
+                        echo   '</td>';
+                        echo '<td>' . $value['message_from_seller'] . '</td>';
+                        echo '<td>' . $value['Logistics_mode'] . '</td>';
+                        echo '<td>' . $value['Logistics_number'] . '</td>';
+                        echo '<td class="crud-actions">
+                  <a href="' . site_url("admin") . '/products/update/' . $value['id'] . '" class="btn btn-info">edit</a>  
 
                 </td>';
-                    echo '</tr>';
+                        echo '</tr>';
+
+                    }
+                    if(count($row)>1){
+                        echo "</div>";
+                    }
                 }
                 ?>
                 </tbody>

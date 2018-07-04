@@ -167,6 +167,13 @@ class Admin_products extends CI_Controller
         //initializate the panination helper
         $this->pagination->initialize($config);
 
+        //整理数据
+        $handledata=[];
+        foreach ($data['products'] as $val){
+            $handledata[$val['order_id']][] = $val;
+        }
+        $data['products']=$handledata;
+       // print_r($data['products']);die;
         //load the view
         $data['main_content'] = 'admin/products/list';
         $this->load->view('includes/template', $data);

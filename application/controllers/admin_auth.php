@@ -94,6 +94,8 @@ class Admin_auth extends CI_Controller
     //拉取订单
     public function pullorder()
     {
+
+
         ini_set('memory_limit', '1024M');
         ini_set('max_execution_time', '0');
         $shoplist = $this->db->get('manufacturers')->result_array();
@@ -156,6 +158,7 @@ class Admin_auth extends CI_Controller
 //        $data['main_content'] = 'admin/products/list';
 //        $this->load->view('includes/template', $data);
         echo '执行成功';
+        redirect('admin/products');
         exit();
     }
 
