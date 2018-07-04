@@ -55,7 +55,7 @@
     </div>
 
     <div class="row">
-        <div class="span14 columns">
+        <div class="span12 columns">
             <div class="well">
 
                 <?php
@@ -131,8 +131,8 @@ height: 26px;"');
 
                     <th class="red header">message_from_buyer</th>
                     <th class="red header">备注</th>
-                    <th class="red header">logistics_mode</th>
-                    <th class="red header">logistics_number</th>
+                    <th class="red header">物流方式</th>
+                    <th class="red header">物流编码</th>
 
                     <th class="red header">操作</th>
                 </tr>
@@ -181,7 +181,8 @@ height: 26px;"');
                         echo '<td>' . $value['Logistics_mode'] . '</td>';
                         echo '<td>' . $value['Logistics_number'] . '</td>';
                         echo '<td class="crud-actions">
-                  <a href="' . site_url("admin") . '/products/update/' . $value['id'] . '" class="btn btn-info">edit</a>  
+                  <a href="' . site_url("admin") . '/products/update/' . $value['id'] . '" class="btn btn-info">edit</a>
+                    <a href="' . site_url("admin") . '/products/update/' . $value['id'] . '" class="btn btn-info">发货</a> 
 
                 </td>';
                         echo '</tr>';

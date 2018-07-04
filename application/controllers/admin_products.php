@@ -84,23 +84,20 @@ class Admin_products extends CI_Controller
             if is null, we use the session data already stored
             we save order into the the var to load the view with the param already selected
             */
-
-            if ($manufacture_id !== 0) {
+            if ($manufacture_id) {
                 $filter_session_data['manufacture_selected'] = $manufacture_id;
             } else {
                 $manufacture_id = $this->session->userdata('manufacture_selected');
             }
+            //var_dump($manufacture_id);die;
             $data['manufacture_selected'] = $manufacture_id;
             $data ['logistics_selected'] = $logistics_id;
-
             if ($search_string) {
                 $filter_session_data['search_string_selected'] = $search_string;
             } else {
                 //$search_string = $this->session->userdata('search_string_selected');
             }
             $data['search_string_selected'] = $search_string;
-
-            //var_dump($search_string);die;
 
             if ($order) {
                 $filter_session_data['order'] = $order;
@@ -164,7 +161,7 @@ class Admin_products extends CI_Controller
             $config['total_rows'] = $data['count_products'];
             //print_r($data['products']);die;
 
-        }//!isset($manufacture_id) && !isset($search_string) && !isset($order)
+        }//
 
         //initializate the panination helper
         $this->pagination->initialize($config);
@@ -175,7 +172,6 @@ class Admin_products extends CI_Controller
             $handledata[$val['order_id']][] = $val;
         }
         $data['products']=$handledata;
-       // print_r($data['products']);die;
         //load the view
         $data['main_content'] = 'admin/products/list';
         $this->load->view('includes/template', $data);
