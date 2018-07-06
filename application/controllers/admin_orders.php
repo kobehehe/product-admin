@@ -84,12 +84,19 @@ class Admin_orders extends CI_Controller
             if is null, we use the session data already stored
             we save order into the the var to load the view with the param already selected
             */
-            if ($manufacture_id) {
-                $filter_session_data['manufacture_selected'] = $manufacture_id;
-            } else {
-                $manufacture_id = $this->session->userdata('manufacture_selected');
-            }
             //var_dump($manufacture_id);die;
+                if ($manufacture_id || $manufacture_id!==false) {
+                    $filter_session_data['manufacture_selected'] = $manufacture_id;
+                } else {
+                    $manufacture_id = $this->session->userdata('manufacture_selected');
+                }
+                //var_dump($manufacture_id);die;
+
+                if ($logistics_id  || $logistics_id!==false) {
+                    $filter_session_data['logistics_selected'] = $logistics_id;
+                } else {
+                    $logistics_id = $this->session->userdata('logistics_selected');
+                }
             $data['manufacture_selected'] = $manufacture_id;
             $data ['logistics_selected'] = $logistics_id;
             if ($search_string) {
@@ -147,7 +154,7 @@ class Admin_orders extends CI_Controller
             $data['search_string_selected'] = '';
             $data['manufacture_selected'] = 0;
             $data['order'] = 'id';
-
+            $data['logistics_selected']=1;
             //fetch sql data into arrays
             $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
             $shopid2name=[];
@@ -157,7 +164,7 @@ class Admin_orders extends CI_Controller
             $data['shopid2name'] =$shopid2name;
             $data['count_orders'] = $this->orders_model->count_orders();
 
-            $data['orders'] = $this->orders_model->get_orders('', '', '', $order_type, $config['per_page'], $limit_end);
+            $data['orders'] = $this->orders_model->get_orders('', '', '', $order_type, $config['per_page'], $limit_end,$data['logistics_selected']);
             $config['total_rows'] = $data['count_orders'];
             //print_r($data['orders']);die;
 

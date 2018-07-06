@@ -155,8 +155,6 @@ class Admin_auth extends CI_Controller
             //$res = $this->db->insert_batch('orders',$insert_data);
             unset($insert_data, $result);
         }
-//        $data['main_content'] = 'admin/orders/list';
-//        $this->load->view('includes/template', $data);
         echo '执行成功';
         redirect('admin/orders');
         exit();
@@ -174,8 +172,10 @@ class Admin_auth extends CI_Controller
         //组建店铺和订单的关系
         $shop2order = [];
         foreach ($orders as $val) {
-            $shop2order[$val['shop_id']][] = $val;
+            $shop2order[$val['shop_id']][$val['order_id']][] = $val;
         }
+
+        //print_r($shop2order);die;
         $updatedata = [];
         foreach ($shop2order as $shop_id => $val) {
             $shopinfo = $this->db->where('shop_id', $shop_id)->get('manufacturers')->row_array();
@@ -187,17 +187,17 @@ class Admin_auth extends CI_Controller
             );
             $serviceFactory = new ServiceFactory();
             $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
-
-            foreach ($val as $value) {
-                $post = isset($transferArr[trim($value['Logistics_mode'])]) ? $transferArr[trim($value['Logistics_mode'])] : 'usps';
-                $shopArr = json_decode($etsyService->request('/shops/'.$shop_id.'/receipts/' .(int)$value['order_id'].'/tracking', 'post',['tracking_code' => $value['Logistics_number'], 'carrier_name' => $post]), true);
-                if ($shopArr['count'] == 1) {
+            foreach ($val as $key=>$value) {
+                $post = isset($transferArr[trim($value[0]['Logistics_mode'])]) ? $transferArr[trim($value[0]['Logistics_mode'])] : 'usps';
+                $shopArr = json_decode($etsyService->request('/shops/'.$shop_id.'/receipts/' .(int)$value[0]['order_id'].'/tracking', 'post',['tracking_code' => $value[0]['Logistics_number'], 'carrier_name' => $post]), true);
+                if (isset($shopArr['count'])) {
                     $updatedata[] = [
-                        'order_id' => $value['order_id'],
+                        'order_id' => $value[0]['order_id'],
                         'import' => 3
                     ];
+                }else{
+                    echo '发货失败'.$shopArr;
                 }
-
             }
             //记录成功
             if(!empty($updatedata)){
