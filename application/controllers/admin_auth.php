@@ -145,20 +145,20 @@ class Admin_auth extends CI_Controller
                         'variations_b' => isset($order['variations'][1]) ? $order['variations'][1]['formatted_name'].':'.$order['variations'][1]['formatted_value'] : '',
                         'product_img' => isset($value['Listings'][$key]['Images'][0]['url_170x135']) ? $value['Listings'][$key]['Images'][0]['url_170x135'] : ''
                     ];
-                    $res = $this->db->where('transaction_id', $order['transaction_id'])->get('products')->row_array();
+                    $res = $this->db->where('transaction_id', $order['transaction_id'])->get('orders')->row_array();
                     if (!isset($res['id'])) {
                         //入库
-                        $this->db->insert('products', $insert_data);
+                        $this->db->insert('orders', $insert_data);
                     }
                 }
             }
-            //$res = $this->db->insert_batch('products',$insert_data);
+            //$res = $this->db->insert_batch('orders',$insert_data);
             unset($insert_data, $result);
         }
-//        $data['main_content'] = 'admin/products/list';
+//        $data['main_content'] = 'admin/orders/list';
 //        $this->load->view('includes/template', $data);
         echo '执行成功';
-        redirect('admin/products');
+        redirect('admin/orders');
         exit();
     }
 
@@ -169,7 +169,7 @@ class Admin_auth extends CI_Controller
 
         $transferArr = ['wish邮-英伦速邮' => 'usps', '云途-DHL快递(香港)' => 'dhl'];
 
-        $orders = $this->db->where('import', 2)->get('products')->result_array();
+        $orders = $this->db->where('import', 2)->get('orders')->result_array();
 
         //组建店铺和订单的关系
         $shop2order = [];
@@ -201,7 +201,7 @@ class Admin_auth extends CI_Controller
             }
             //记录成功
             if(!empty($updatedata)){
-                $this->db->update_batch('products', $updatedata, 'order_id');
+                $this->db->update_batch('orders', $updatedata, 'order_id');
                 $res = $this->db->affected_rows();
             }
 
@@ -220,7 +220,7 @@ class Admin_auth extends CI_Controller
         $transferArr = ['wish邮-英伦速邮' => 'usps', '云途-DHL快递(香港)' => 'dhl'];
         $orderid = $_POST['oid'];
 
-        $orderinfo = $this->db->where('order_id',$orderid)->get('products')->row_array();
+        $orderinfo = $this->db->where('order_id',$orderid)->get('orders')->row_array();
         $shop_id = $orderinfo['shop_id'];
         $shopinfo = $this->db->where('shop_id', $shop_id)->get('manufacturers')->row_array();
         $storage = new TokenStorage($shopinfo['user_id']);
@@ -239,7 +239,7 @@ class Admin_auth extends CI_Controller
                 'order_id' =>$orderid,
                 'import' => 3
             ];
-            $res = $this->db->update('products', $updatedata, ['order_id'=>$orderid]);
+            $res = $this->db->update('orders', $updatedata, ['order_id'=>$orderid]);
         }
         if($res){
             echo json_encode(['code'=>0]);
