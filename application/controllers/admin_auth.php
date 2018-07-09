@@ -231,16 +231,30 @@ class Admin_auth extends CI_Controller
         );
         $serviceFactory = new ServiceFactory();
         $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
-        $post = isset($transferArr[trim($orderinfo['Logistics_mode'])]) ? $transferArr[trim($orderinfo['Logistics_mode'])] : 'usps';
-        $shopArr = json_decode($etsyService->request('/shops/'.$shop_id.'/receipts/' .$orderid.'/tracking', 'post',['tracking_code' => $orderinfo['Logistics_number'], 'carrier_name' => $post]), true);
-        $res=false;
-        if ($shopArr['count'] == 1) {
+        //判断是否发货
+        $shopArr = json_decode($etsyService->request('/receipts/'.$orderid), true);
+        //print_r($shopArr);die;
+        if($shopArr['results'][0]['was_shipped'] == 1){
+            //已发货
             $updatedata = [
                 'order_id' =>$orderid,
                 'import' => 3
             ];
             $res = $this->db->update('orders', $updatedata, ['order_id'=>$orderid]);
+
+        }else{
+            $post = isset($transferArr[trim($orderinfo['Logistics_mode'])]) ? $transferArr[trim($orderinfo['Logistics_mode'])] : 'usps';
+            $shopArr = json_decode($etsyService->request('/shops/'.$shop_id.'/receipts/' .$orderid.'/tracking', 'post',['tracking_code' => $orderinfo['Logistics_number'], 'carrier_name' => $post]), true);
+            $res=false;
+            if ($shopArr['count'] == 1) {
+                $updatedata = [
+                    'order_id' =>$orderid,
+                    'import' => 3
+                ];
+                $res = $this->db->update('orders', $updatedata, ['order_id'=>$orderid]);
+            }
         }
+
         if($res){
             echo json_encode(['code'=>0]);
         }else{
