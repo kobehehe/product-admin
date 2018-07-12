@@ -109,8 +109,13 @@ class Admin_auth extends CI_Controller
             );
             $serviceFactory = new ServiceFactory();
             $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
+            try{
+                $shopArr = json_decode($etsyService->request('/shops/' . $val['shop_id'] . '/receipts?includes=Transactions,Listings,Country,Listings:1:0/Images:1:0&limit=100&was_shipped=false&was_paid=true'), true);
+            }catch(Exception $e){
+                print $e->getMessage();
+                exit();
+            };
 
-            $shopArr = json_decode($etsyService->request('/shops/' . $val['shop_id'] . '/receipts?includes=Transactions,Listings,Country,Listings:1:0/Images:1:0&limit=100&was_shipped=false&was_paid=true'), true);
             $insert_data = [];
             foreach ($shopArr['results'] as $value) {
                 foreach ($value['Transactions'] as $key => $order) {
