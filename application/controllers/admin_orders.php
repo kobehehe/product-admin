@@ -33,7 +33,7 @@ class Admin_orders extends CI_Controller
         $order = $this->input->post('order');
         $order_type = $this->input->post('order_type');
         //pagination settings
-        $config['per_page'] = 10;
+        $config['per_page'] = 100;
         $config['base_url'] = base_url() . 'admin/orders';
         $config['use_page_numbers'] = TRUE;
         $config['num_links'] = 20;
@@ -85,6 +85,8 @@ class Admin_orders extends CI_Controller
             we save order into the the var to load the view with the param already selected
             */
             //var_dump($manufacture_id);die;
+
+
                 if ($manufacture_id || $manufacture_id!==false) {
                     $filter_session_data['manufacture_selected'] = $manufacture_id;
                 } else {
@@ -97,6 +99,7 @@ class Admin_orders extends CI_Controller
                 } else {
                     $logistics_id = $this->session->userdata('logistics_selected');
                 }
+
             $data['manufacture_selected'] = $manufacture_id;
             $data ['logistics_selected'] = $logistics_id;
             if ($search_string) {
@@ -339,7 +342,22 @@ class Admin_orders extends CI_Controller
             ->setCellValue('S1', '申报金额(USD)')
             ->setCellValue('T1', '申报重量(USD)')
             ->setCellValue('U1', '海关编码(USD)');
-        $orderinfo = $this->db->where('status', 1)->get('orders')->result_array();
+
+        $orderid = isset($_GET['orderid']) ?  $_GET['orderid'] :0;
+        $shopid = isset($_GET['shopid']) ?  $_GET['shopid'] : 0;
+        $lostype = isset($_GET['logstype']) ? $_GET['logstype'] : 0;
+
+        $this->db->where('status', 1);
+        if(!empty($orderid)){
+            $this->db->where('order_id', $orderid);
+        }
+        if(!empty($shopid)){
+            $this->db->where('shop_id', $shopid);
+        }
+        if(!empty($lostype)){
+            $this->db->where('import', $lostype);
+        }
+        $orderinfo = $this->db->get('orders')->result_array();
         foreach ($orderinfo as $key => $val) {
             $objPHPExcel->getActiveSheet(0)->setCellValue('A' . ($key + 2), $val['order_id']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('B' . ($key + 2), $val['listings_sku']);
@@ -347,6 +365,7 @@ class Admin_orders extends CI_Controller
             $objPHPExcel->getActiveSheet(0)->setCellValue('D' . ($key + 2), $val['price']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('E' . ($key + 2), $val['name']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('F' . ($key + 2), $val['first_line']);
+			$objPHPExcel->getActiveSheet(0)->setCellValue('G' . ($key + 2), $val['second_line']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('H' . ($key + 2), $val['city']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('I' . ($key + 2), $val['state']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('J' . ($key + 2), $val['country_code']);

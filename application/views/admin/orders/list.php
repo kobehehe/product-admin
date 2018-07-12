@@ -32,6 +32,32 @@
         color: #004974;
         text-decoration: none;
     }
+	.no_break {
+		white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+	}
+	.important {
+	    color:red;
+		font-weight:bold;
+	}
+	.important1 {
+	    color:red;
+		font-weight:bold;
+		font-size:18px;
+	}
+	.header {
+		height:20px;
+		text-align:center;
+		white-space:nowrap; text-overflow:ellipsis;
+		padding:8px;
+	}
+</style>
+<!--商品列表可以显示商品缩略图功能-->
+<style type="text/css">
+.pic {display: block; position: relative;}
+.pic a {position:relative; display:block; background:transparent;}
+.pic a .img1 {max-width:90px; max-height:90px; border:0;}
+.pic a .img2 {max-width:380px;max-height:380px; border:0; position:absolute;left:90px; top:-80px; display:none; z-index:99999}
+.pic a:hover .img2{display:block}
 </style>
 <div class="container top">
 
@@ -107,7 +133,7 @@ height: 26px;"');
 
                 echo form_close();
                 ?>
-                <input type="hidden" id="exporturl" value=" <?php echo site_url('admin') .'/orders/exportorder/' ?> ">
+                <input type="hidden" id="exporturl" value=" <?php echo site_url('admin') .'/orders/exportorder';?> ">
                 <input type="hidden" id="uploadurl" value=" <?php echo site_url('admin') .'/orders/uploadorder/' ?> ">
                 <input type="hidden" id="delivery_url" value=" <?php echo site_url('admin') .'/auth/delivery/' ?> ">
                 <input type="hidden" id="deliveryone_url" value=" <?php echo site_url('admin') .'/auth/deliveryone/' ?> ">
@@ -120,22 +146,13 @@ height: 26px;"');
 
             <table class="table table-striped table-bordered table-condensed">
                 <thead>
-                <tr>
-                    <th class="header">order_id</th>
-                    <th class="red header">选项</th>
-                    <th class="red header" style="width: 1000px">缩略图</th>
-                    <th class="yellow header headerSortDown">店铺名字</th>
-                    <th class="green header">listings.sku</th>
-                    <th class="red header">listings.title</th>
-                    <th class="red header">数量</th>
-                    <th class="red header">地址信息</th>
-
-                    <th class="red header">message_from_buyer</th>
-                    <th class="red header">备注</th>
-                    <th class="red header">物流方式</th>
-                    <th class="red header">物流编码</th>
-
-                    <th class="red header">操作</th>
+                <tr>                   
+                    <th class="header" style="min-width:80px">缩略图</th>
+					<th class="header" style="min-width:200px">产品标题和选项</th>
+                    <th class="header" style="min-width:80px">地址信息</th>
+                    <th class="header" style="min-width:80px">客户留言和备注</th>
+                    <th class="header" style="min-width:80px">物流</th>
+                    <th class="header" style="min-width:60px">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -143,55 +160,66 @@ height: 26px;"');
                 foreach ($orders as $row){
 
                     foreach ($row as $key=>$value) {
-                        if(count($row)>1){
-                            echo '<tr style="color:red"><td>';
-                        }else{
-                            echo '<tr><td>';
-                        }
-
                         if($key==0){
-                            echo  $value['order_id'];
+							echo '<tr><td colspan="6" height="30px" style="padding:15px 0px 0px 10px;">';
+                            echo  $value['order_id'].' <a>'.$shopid2name[$value['shop_id']].'</a>';
+							echo '</td></tr>';
                         }
+						else{
+							echo '<tr>';
+						}  
 
-                        echo '</td><td>' . $value['variations_a'] . '<br>' . $value['variations_b'] . '</td>';
-                        echo '<td><div style="width: 170px">' . '<img  src="' . $value['product_img'] . '">' . '</div></td><td>';
-                        if($key==0){
-                            echo  $shopid2name[$value['shop_id']];
-                        }
-                        echo '</td><td>' . $value['listings_sku'] . '</td>';
-                        echo '<td>' . $value['listings_title'] . '</td>';
-                        echo '<td>' . $value['number'] . '</td><td>';
+                        echo '<td><div class="pic"><a>';
+						echo '<img class="img1" src="' . str_replace("_170x135.","_300x300.",$value['product_img']) . '" title="'.$value['listings_title'].'">' ;
+						echo '<img class="img2" src="' . str_replace("_170x135.","_300x300.",$value['product_img']) . '">' ;
+						echo '</a></div></td>';
+						echo '<td>' ;
+						echo  $value['formatted_name_a'] . '： <span class="important">' . $value['formatted_value_a'] .'</span>';
+						echo '</br>' . $value['formatted_name_b'] . '： <span class="important">' .  $value['formatted_value_b'] .'</span>';
+						echo '</br></br>' . $value['listings_sku'] .' X ';
+						if($value['number']==1){
+							echo '<span>' . $value['number'] . '</span>';
+						}
+                        else {
+						    echo '<span class="important1">' . $value['number'] . '</span>';
+						}
+						echo '</td>';						
+						
+						echo '<td class="no_break">';
                         //echo '<td>' .
-                            if($key==0){
-                                echo
-                                '<a>name:</a>' . $value['name'] .
-                                '<br><a>first_line:</a>' . $value['first_line'] .
-                                '<br><a>second_line:</a>' . $value['second_line'] .
-                                '<br><a>city:</a>' . $value['city'] .
-                                '<br><a>state:</a>' . $value['state'] .
-                                '<br><a>zip:</a>' . $value['zip'] .
-                                '<br><a>country:</a>' . $value['country'] .
-                                '<br><a>电话/手机:</a>' . $value['phone'];
-                            }
+						if($key==0){
+							echo
+							'<a>姓名:</a>' . $value['name'] .
+							'<br><a>地址1:</a>' . $value['first_line'] .
+							'<br><a>地址2:</a>' . $value['second_line'] .
+							'<br><a>城市:</a>' . $value['city'] .
+							'<br><a>省/州:</a>' . $value['state'] .
+							'<div style="display:none"> <a>zip:</a>' . $value['zip'] .
+							'<br><a>国家:</a>' . $value['country'] .
+							'<br><a>电话:</a>' . $value['phone'];
+						}
+                        echo   '</div></td><td>';
+						if($key==0){
+							echo $value['message_from_buyer'];
+							if ($value['is_gift']) echo "</br><span class='no_break important'>礼品包装</span>";
+							echo '</br><span class="important">'.$value['message_from_seller'].'</span>';
+						}
+                        
                         echo '</td><td>';
-                            if($key==0){
-                                echo $value['message_from_buyer'];
-                            }
-                        echo   '</td>';
-                        echo '<td>' . $value['message_from_seller'] . '</td>';
-                        echo '<td>' . $value['Logistics_mode'] . '</td>';
-                        echo '<td>' . $value['Logistics_number'] . '</td>';
-                        echo '<td class="crud-actions">
-                  <a href="' . site_url("admin") . '/orders/update/' . $value['id'] . '" class="btn btn-info">edit</a>
-                    <a href="#" name="'.$value['order_id'] .'" class="btn btn-danger">发货</a> 
-
-                </td>';
-                        echo '</tr>';
+						if($key==0){
+							
+							echo $value['Logistics_mode'] . '</br>'. $value['Logistics_number'];
+						}							
+						echo '</td>';
+                        echo '<td>';
+						if($key==0){
+							echo '<a href="' . site_url("admin") . '/orders/update/' . $value['id'] . '" class="btn">编辑</a>';
+							echo '</br><a href="#" name="'.$value['order_id'] .'" class="btn" id="btn-ship">发货</a> ';
+						}
+                        echo '</td></tr>';
 
                     }
-                    if(count($row)>1){
-                        echo "</div>";
-                    }
+
                 }
                 ?>
                 </tbody>
@@ -207,35 +235,37 @@ height: 26px;"');
                 var flag = confirm('确认导出订单？');
                 if(flag){
                     var id =1;
-                    var url = $("#exporturl").val();
-                    window.location.href = url;
+                    var orderid = $("input[name='search_string']").val();
+                    var shopid =  $("select[name='manufacture_id']").val();
+                    var logstype =  $("select[name='logistics_id']").val();
+                    var url = $.trim($("#exporturl").val());
+
+                    window.location.href = url+'?shopid='+shopid+'&logstype='+logstype+'&orderid='+orderid;
                 }else{
                     return false;
                 }
             });
 
 
-            $(".btn-danger").click(function () {
-                var flag = confirm('确认发货吗？');
-                if(flag){
-                    var oid = $(this).attr('name');
-                    var urlone = $("#deliveryone_url").val();
-                    $.ajax({
-                        url : urlone,
-                        type : 'POST',
-                        data : {oid:oid},
-                        dataType: 'json',
-                        success : function(responseStr) {
-                            if(responseStr.code ==0){
-                                alert('发货成功');
-                                return;
-                            }else{
-                                alert('发货失败');
-                                return;
-                            }
-                        }
-                    });
-                }
+            $("#btn-ship").click(function () {
+                
+				var oid = $(this).attr('name');
+				var urlone = $("#deliveryone_url").val();
+				$.ajax({
+					url : urlone,
+					type : 'POST',
+					data : {oid:oid},
+					dataType: 'json',
+					success : function(responseStr) {
+						if(responseStr.code ==0){
+							alert('发货成功');
+							return;
+						}else{
+							alert('发货失败');
+							return;
+						}
+					}
+				});
 
             });
 
@@ -272,7 +302,7 @@ height: 26px;"');
             var filefullpath = $('#uploadOrder').val();
             if(filefullpath == ''){return;}
             var filetype=filefullpath.substring(filefullpath.lastIndexOf(".")+1,filefullpath.length);
-            var validfiletype = 'xls,xlsx';
+            var validfiletype = 'csv,xls,xlsx';
             var validfiletypearr = validfiletype.split(',');
             filetype = filetype.toLowerCase();
             if($.inArray(filetype,validfiletypearr) == -1 ){alert('文件类型不支持');return;}

@@ -121,7 +121,7 @@ class Admin_auth extends CI_Controller
                         'listings_sku' => $order['product_data']['sku'],
                         'listings_title' => $value['Listings'][$key]['title'],
                         'number' => $order['quantity'],
-                        'is_gift' => $value['is_gift'],
+                        'is_gift' => ($value['is_gift']==1)? 1 : $value['needs_gift_wrap'],
                         'subtotal' => $value['subtotal'],
                         'buyer_email' => $value['buyer_email'],
                         'name' => $value['name'],
@@ -133,7 +133,7 @@ class Admin_auth extends CI_Controller
                         'country' => $value['Country']['name'],
                         'phone' => '',
                         'message_from_buyer' => $value['message_from_buyer'],
-                        'message_from_seller' => $value['message_from_seller'],
+                        //'message_from_seller' => $value['message_from_seller'],
                         'tracking_code' => $value['shipping_tracking_code'],
                         'carrier_name' => '',
                         'was_submited' => 0,
@@ -141,8 +141,10 @@ class Admin_auth extends CI_Controller
                         'status' => 1,
                         'country_code' => $value['Country']['iso_country_code'],
                         'price' => $order['price'],
-                        'variations_a' => isset($order['variations'][0]) ? $order['variations'][0]['formatted_name'].':'.$order['variations'][0]['formatted_value'] : '',
-                        'variations_b' => isset($order['variations'][1]) ? $order['variations'][1]['formatted_name'].':'.$order['variations'][1]['formatted_value'] : '',
+						'formatted_name_a' => isset($order['variations'][0]) ? $order['variations'][0]['formatted_name'] : '',
+						'formatted_value_a' => isset($order['variations'][0]) ? $order['variations'][0]['formatted_value'] : '',
+						'formatted_name_b' => isset($order['variations'][1]) ? $order['variations'][1]['formatted_name'] : '',
+						'formatted_value_b' => isset($order['variations'][1]) ? $order['variations'][1]['formatted_value'] : '',
                         'product_img' => isset($value['Listings'][$key]['Images'][0]['url_170x135']) ? $value['Listings'][$key]['Images'][0]['url_170x135'] : ''
                     ];
                     $res = $this->db->where('transaction_id', $order['transaction_id'])->get('orders')->row_array();
@@ -195,15 +197,18 @@ class Admin_auth extends CI_Controller
                         'order_id' => $value[0]['order_id'],
                         'import' => 3
                     ];
-                }else{
-                    echo '发货失败'.$shopArr;
                 }
+                //break;
             }
             //记录成功
             if(!empty($updatedata)){
                 $this->db->update_batch('orders', $updatedata, 'order_id');
                 $res = $this->db->affected_rows();
+				echo '订单号：'.$value[0]['order_id'].'快递号：'.$value[0]['Logistics_number'].'快递公司：'.$post.'发货成功</br>';
             }
+			else{
+			    echo '订单号：'.$value[0]['order_id'].'快递号：'.$value[0]['Logistics_number'].'快递公司：'.$post.'发货失败！！！！！</br>';
+			}
 
             unset($updatedata);
         }
@@ -217,51 +222,51 @@ class Admin_auth extends CI_Controller
 
     //发货一个
     public function deliveryone(){
-        $transferArr = ['wish邮-英伦速邮' => 'usps', '云途-DHL快递(香港)' => 'dhl'];
-        $orderid = $_POST['oid'];
+		$transferArr = ['wish邮-英伦速邮' => 'usps', '云途-DHL快递(香港)' => 'dhl'];
+		$orderid = $_POST['oid'];
 
-        $orderinfo = $this->db->where('order_id',$orderid)->get('orders')->row_array();
-        $shop_id = $orderinfo['shop_id'];
-        $shopinfo = $this->db->where('shop_id', $shop_id)->get('manufacturers')->row_array();
-        $storage = new TokenStorage($shopinfo['user_id']);
-        $credentials = new Credentials(
-            $shopinfo['key'],
-            $shopinfo['secret'],
-            getAbsoluteUri()
-        );
-        $serviceFactory = new ServiceFactory();
-        $etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
-        //判断是否发货
-        $shopArr = json_decode($etsyService->request('/receipts/'.$orderid), true);
-        //print_r($shopArr);die;
-        if($shopArr['results'][0]['was_shipped'] == 1){
-            //已发货
-            $updatedata = [
-                'order_id' =>$orderid,
-                'import' => 3
-            ];
-            $res = $this->db->update('orders', $updatedata, ['order_id'=>$orderid]);
+		$orderinfo = $this->db->where('order_id',$orderid)->get('orders')->row_array();
+		$shop_id = $orderinfo['shop_id'];
+		$shopinfo = $this->db->where('shop_id', $shop_id)->get('manufacturers')->row_array();
+		$storage = new TokenStorage($shopinfo['user_id']);
+		$credentials = new Credentials(
+			$shopinfo['key'],
+			$shopinfo['secret'],
+			getAbsoluteUri()
+		);
+		$serviceFactory = new ServiceFactory();
+		$etsyService = $serviceFactory->createService('Etsy', $credentials, $storage);
+		//判断是否发货
+		$shopArr = json_decode($etsyService->request('/receipts/'.$orderid), true);
+		//print_r($shopArr);die;
+		if($shopArr['results'][0]['was_shipped'] == 1){
+			//已发货
+			$updatedata = [
+				'order_id' =>$orderid,
+				'import' => 3
+			];
+			$res = $this->db->update('orders', $updatedata, ['order_id'=>$orderid]);
 
-        }else{
-            $post = isset($transferArr[trim($orderinfo['Logistics_mode'])]) ? $transferArr[trim($orderinfo['Logistics_mode'])] : 'usps';
-            $shopArr = json_decode($etsyService->request('/shops/'.$shop_id.'/receipts/' .$orderid.'/tracking', 'post',['tracking_code' => $orderinfo['Logistics_number'], 'carrier_name' => $post]), true);
-            $res=false;
-            if ($shopArr['count'] == 1) {
-                $updatedata = [
-                    'order_id' =>$orderid,
-                    'import' => 3
-                ];
-                $res = $this->db->update('orders', $updatedata, ['order_id'=>$orderid]);
-            }
-        }
+		}else{
+			$post = isset($transferArr[trim($orderinfo['Logistics_mode'])]) ? $transferArr[trim($orderinfo['Logistics_mode'])] : 'usps';
+			$shopArr = json_decode($etsyService->request('/shops/'.$shop_id.'/receipts/' .$orderid.'/tracking', 'post',['tracking_code' => $orderinfo['Logistics_number'], 'carrier_name' => $post]), true);
+			$res=false;
+			if ($shopArr['count'] == 1) {
+				$updatedata = [
+					'order_id' =>$orderid,
+					'import' => 3
+				];
+				$res = $this->db->update('orders', $updatedata, ['order_id'=>$orderid]);
+			}
+		}
 
-        if($res){
-            echo json_encode(['code'=>0]);
-        }else{
-            echo json_encode(['code'=>-1]);
-        }
+		if($res){
+			echo json_encode(['code'=>0]);
+		}else{
+			echo json_encode(['code'=>-1]);
+		}
 
-    }
+	}
 
 
 }

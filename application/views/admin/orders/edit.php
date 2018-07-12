@@ -59,35 +59,35 @@
       ?>
         <fieldset>
           <div class="control-group">
-            <label for="inputError" class="control-label">name</label>
+            <label for="inputError" class="control-label">姓名</label>
             <div class="controls">
               <input type="text" id="" name="name" value="<?php echo $product[0]['name']; ?>" >
               <!--<span class="help-inline">Woohoo!</span>-->
             </div>
           </div>
           <div class="control-group">
-            <label for="inputError" class="control-label">first_line</label>
+            <label for="inputError" class="control-label">地址1</label>
             <div class="controls">
               <input type="text" id="" name="first_line" value="<?php echo $product[0]['first_line']; ?>">
               <!--<span class="help-inline">Cost Price</span>-->
             </div>
           </div>          
           <div class="control-group">
-            <label for="inputError" class="control-label">second_line</label>
+            <label for="inputError" class="control-label">地址2</label>
             <div class="controls">
               <input type="text" id="" name="second_line" value="<?php echo $product[0]['second_line'];?>">
               <!--<span class="help-inline">Cost Price</span>-->
             </div>
           </div>
           <div class="control-group">
-            <label for="inputError" class="control-label">city</label>
+            <label for="inputError" class="control-label">城市</label>
             <div class="controls">
               <input type="text" name="city" value="<?php echo $product[0]['city']; ?>">
               <!--<span class="help-inline">OOps</span>-->
             </div>
           </div>
             <div class="control-group">
-                <label for="inputError" class="control-label">state</label>
+                <label for="inputError" class="control-label">省/州</label>
                 <div class="controls">
                     <input type="text" name="state" value="<?php echo $product[0]['state']; ?>">
                     <!--<span class="help-inline">OOps</span>-->
@@ -95,14 +95,14 @@
             </div>
 
             <div class="control-group">
-                <label for="inputError" class="control-label">zip</label>
+                <label for="inputError" class="control-label">邮编</label>
                 <div class="controls">
                     <input type="text" name="zip" value="<?php echo $product[0]['zip']; ?>">
                     <!--<span class="help-inline">OOps</span>-->
                 </div>
             </div>
             <div class="control-group">
-                <label for="inputError" class="control-label">country</label>
+                <label for="inputError" class="control-label">国家</label>
                 <div class="controls">
                     <input type="text" name="country" value="<?php echo $product[0]['country']; ?>">
                     <!--<span class="help-inline">OOps</span>-->
@@ -116,9 +116,9 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="inputError" class="control-label">message_from_buyer</label>
+                <label for="inputError" class="control-label">买家留言</label>
                 <div class="controls">
-                    <textarea name="message_from_buyer" rows="5"><?php echo $product[0]['message_from_buyer']; ?></textarea>
+                    <textarea name="message_from_buyer" rows="5" readonly="true"><?php echo $product[0]['message_from_buyer']; ?></textarea>
 <!--                    <input type="text" name="message_from_buyer" value="--><?php //echo $product[0]['message_from_buyer']; ?><!--">-->
                     <!--<span class="help-inline">OOps</span>-->
                 </div>
@@ -126,10 +126,7 @@
             <div class="control-group">
                 <label for="inputError" class="control-label">备注</label>
                 <div class="controls">
-                    <textarea name="message_from_seller" rows="5" cols="20">
-                        <?php echo $product[0]['message_from_seller']; ?>
-                    </textarea>
-
+                    <textarea name="message_from_seller" rows="5" cols="20"><?php echo $product[0]['message_from_seller']; ?></textarea>
                     <!--<span class="help-inline">OOps</span>-->
                 </div>
             </div>
@@ -145,9 +142,9 @@
 //          echo '</div">';
           ?>
           <div class="form-actions">
-            <button class="btn btn-primary" type="submit">Save changes</button>
+            <button class="btn btn-primary" type="submit">保存</button>
               <a href="<?php echo  site_url("admin").'/orders' ?>" class="btn">
-                  cancel
+                  取消
               </a>
           </div>
         </fieldset>
