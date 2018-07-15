@@ -53,8 +53,13 @@ class orders_model extends CI_Model {
 			$this->db->where('order_id', $search_string);
 		}
 		if($logistics_id){
-            $this->db->where('import', $logistics_id);
+            if($logistics_id == 1){
+                $this->db->where('Logistics_number', '');
+            }else{
+                $this->db->where('Logistics_number !=', '');
+            }
 		}
+
 		//$this->db->join('manufacturers', 'orders.shop_id = manufacturers.shop_id', 'left');
 		//$this->db->group_by('orders.shop_id');
 //		if($order){
