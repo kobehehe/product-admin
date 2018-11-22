@@ -35,7 +35,7 @@ class Admin_manufacturers extends CI_Controller {
         $order_type = $this->input->post('order_type'); 
 
         //pagination settings
-        $config['per_page'] = 5;
+        $config['per_page'] = 50;
 
         $config['base_url'] = base_url().'admin/manufacturers';
         $config['use_page_numbers'] = TRUE;
@@ -176,6 +176,8 @@ class Admin_manufacturers extends CI_Controller {
                     'name' => $this->input->post('name'),
                     'secret' => $this->input->post('secret'),
                     'key' => $this->input->post('key'),
+					'ip' => $this->input->post('ip'),
+                    'note' => $this->input->post('note')
                 );
                 //if the insert has returned true then we show the flash message
                 if($this->manufacturers_model->store_manufacture($data_to_store)){
@@ -213,6 +215,10 @@ class Admin_manufacturers extends CI_Controller {
     
                 $data_to_store = array(
                     'name' => $this->input->post('name'),
+					'secret' => $this->input->post('secret'),
+                    'key' => $this->input->post('key'),
+					'ip' => $this->input->post('ip'),
+                    'note' => $this->input->post('note')
                 );
                 //if the insert has returned true then we show the flash message
                 if($this->manufacturers_model->update_manufacture($id, $data_to_store) == TRUE){

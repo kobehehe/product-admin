@@ -47,10 +47,18 @@ $route['admin/create_member'] = 'user/create_member';
 $route['admin/login'] = 'user/index';
 $route['admin/logout'] = 'user/logout';
 $route['admin/login/validate_credentials'] = 'user/validate_credentials';
+// $route['admin/orders'] = 'admin_orders/index1';
+$route['admin/orders'] = 'admin_orders/indexView';
+// test
+// $route['admin/list'] = 'admin_orders/indexView';
 
-$route['admin/orders'] = 'admin_orders/index';
+// 
+$route['admin/ordersList'] = 'admin_orders/index';
 $route['admin/orders/add'] = 'admin_orders/add';
 $route['admin/orders/update'] = 'admin_orders/update';
+$route['admin/orders/noStock'] = 'admin_orders/noStock';
+$route['admin/orders/recoverys'] = 'admin_orders/recoverys';
+
 $route['admin/orders/update/(:any)'] = 'admin_orders/update/$1';
 $route['admin/orders/delete/(:any)'] = 'admin_orders/delete/$1';
 $route['admin/orders/(:any)'] = 'admin_orders/index/$1'; //$1 = page number
@@ -58,6 +66,11 @@ $route['admin/orders/exportorder'] = 'admin_orders/exportorder';
 $route['admin/orders/uploadorder'] = 'admin_orders/uploadorder';
 $route['admin/auth/delivery'] = 'admin_auth/delivery';
 $route['admin/auth/deliveryone'] = 'admin_auth/deliveryone';
+$route['admin/auth/deleteone'] = 'admin_auth/deleteone';
+$route['admin/auth/deleteones'] = 'admin_auth/deleteones';
+
+
+
 
 $route['admin/manufacturers'] = 'admin_manufacturers/index';
 $route['admin/manufacturers/add'] = 'admin_manufacturers/add';
@@ -68,6 +81,7 @@ $route['admin/manufacturers/(:any)'] = 'admin_manufacturers/index/$1'; //$1 = pa
 
 
 $route['admin/auth/index/(:any)'] = 'admin_auth/index/$1';
+$route['admin/auth/pullorderone/(:any)'] = 'admin_auth/pullorderone/$1';
 
 $route['admin/auth/pullorder'] = 'admin_auth/pullorder';
 

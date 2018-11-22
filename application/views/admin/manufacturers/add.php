@@ -67,6 +67,16 @@
             <div class="controls">
                 <input type="text" id="" name="key" value="<?php echo set_value('key'); ?>">
             </div>
+			<br>
+			<label for="inputError" class="control-label">ip</label>
+            <div class="controls">
+                <input type="text" id="" name="ip" value="<?php echo set_value('ip'); ?>">
+            </div>
+			<br>
+			<label for="inputError" class="control-label">note</label>
+			<div class="controls">
+                <input type="text" id="" name="note" value="<?php echo set_value('note'); ?>">
+            </div>
         </div>
         <div class="form-actions">
             <button class="btn btn-primary" type="submit">保存</button>

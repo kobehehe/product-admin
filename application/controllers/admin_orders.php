@@ -29,9 +29,20 @@ class Admin_orders extends CI_Controller
         //all the posts sent by the view
         $manufacture_id = $this->input->post('manufacture_id');
         $logistics_id = $this->input->post('logistics_id');
+        $status = $this->input->post('status');
         $search_string = $this->input->post('search_string');
-        $order = $this->input->post('order');
+        $order = $this->input->post('order'); 
         $order_type = $this->input->post('order_type');
+        $time = $this->input->post('time');
+        //默认时间降序
+        if(!$order){
+            $order='orders.creatdTime';
+        }
+        if($status==1){
+            $order_type='Asc';
+        }else{
+            $order_type='Desc';
+        }
         //pagination settings
         $config['per_page'] = 100;
         $config['base_url'] = base_url() . 'admin/orders';
@@ -45,8 +56,8 @@ class Admin_orders extends CI_Controller
         $config['cur_tag_close'] = '</a></li>';
 
         //limit end
-        $page = $this->uri->segment(3);
-
+        $page =  $this->input->post('page');
+        // $page = $this->uri->segment(3);
         //math to get the initial record to be select in the database
         $limit_end = ($page * $config['per_page']) - $config['per_page'];
         if ($limit_end < 0) {
@@ -62,7 +73,7 @@ class Admin_orders extends CI_Controller
                 $order_type = $this->session->userdata('order_type');
             } else {
                 //if we have nothing inside session, so it's the default "Asc"
-                $order_type = 'Asc';
+                $order_type = 'Desc';
             }
         }
 //        //make the data type var avaible to our view
@@ -75,7 +86,7 @@ class Admin_orders extends CI_Controller
         //if any filter post was sent but we are in some page, we must load the session data
 
         //filtered && || paginated
-        if ($manufacture_id !== false && $search_string !== false && $logistics_id !== false || $this->uri->segment(3) == true) {
+        if ($manufacture_id !== false && $search_string !== false && $logistics_id !== false || $status !== false || $this->uri->segment(3) == true || $time) {
 
             /*
             The comments here are the same for line 79 until 99
@@ -100,8 +111,14 @@ class Admin_orders extends CI_Controller
                     $logistics_id = $this->session->userdata('logistics_selected');
                 }
 
+            if ($status  || $status!==false) {
+                $filter_session_data['status_selected'] = $logistics_id;
+            } else {
+                $status = $this->session->userdata('status_selected');
+            }
             $data['manufacture_selected'] = $manufacture_id;
             $data ['logistics_selected'] = $logistics_id;
+            $data['status_selected'] = $status;
             if ($search_string) {
                 $filter_session_data['search_string_selected'] = $search_string;
             } else {
@@ -120,31 +137,74 @@ class Admin_orders extends CI_Controller
             $this->session->set_userdata($filter_session_data);
 
             //fetch manufacturers data into arrays
-            $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
+            $data['manufactures'] = $this->manufacturers_model->get_manufacturers2($logistics_id,$status,$time);
+            // $shops = $this->manufacturers_model->count_manufacturers(); 
+           
             $shopid2name=[];
             foreach ($data['manufactures'] as $val){
+                // echo json_encode($val['shop_id']);die;
                 $shopid2name[$val['shop_id']] = $val['name'];
             }
             $data['shopid2name'] =$shopid2name;
-            $data['count_orders'] = $this->orders_model->count_orders($manufacture_id, $search_string, $order,$logistics_id);
+            $data['count_orders'] = $this->orders_model->count_orders($manufacture_id, $search_string, $order,$logistics_id,$status,$time);
+
+            // 订单状态分类 逻辑
+
+            $data['menuList'] =[
+                "全部订单"=>[
+                    "len"=>$this->orders_model->count_orders(0, '', '',0,0),
+                    "type" =>'0,0'
+                ],
+                "新订单"=>[
+                    "len"=> $this->orders_model->count_orders(0, '', '',1,1),
+                    "type" =>'1,1'
+                ],
+                "待发货"=>[
+                    "len"=>$this->orders_model->count_orders(0, '', '',2,1),
+                    "type" =>'1,2'
+                ],
+                "已发货"=>[
+                    "len"=>$this->orders_model->count_orders(0, '', '',2,2),
+                    "type" =>'2,2'
+                ],
+                "缺货"=>[
+                    "len"=>$this->orders_model->count_orders(0, '', '',0,4),
+                    "type" =>'4,0'
+                ],
+                "已搁置"=>[
+                    "len"=>$this->orders_model->count_orders(0, '', '',0,3),
+                    "type" =>'3,0'
+                ]
+
+            ];
+
+         
             $config['total_rows'] = $data['count_orders'];
             //fetch sql data into arrays
+
+            
             if ($search_string) {
+               
                 if ($order) {
                     $data['orders'] = $this->orders_model->get_orders($manufacture_id, $search_string, $order, $order_type, $config['per_page'], $limit_end);
                 } else {
                     $data['orders'] = $this->orders_model->get_orders($manufacture_id, $search_string, '', $order_type, $config['per_page'], $limit_end);
                 }
             } else {
+                
                 if ($order) {
-                    $data['orders'] = $this->orders_model->get_orders($manufacture_id, '', $order, $order_type, $config['per_page'], $limit_end);
+                    $data['orders'] = $this->orders_model->get_orders($manufacture_id, '', $order, $order_type, $config['per_page'], $limit_end,$logistics_id,$status,$time);
+                    // echo 123;die;
                 } else {
-                    $data['orders'] = $this->orders_model->get_orders($manufacture_id, '', '', $order_type, $config['per_page'], $limit_end,$logistics_id);
+                    $data['orders'] = $this->orders_model->get_orders($manufacture_id, '', '', $order_type, $config['per_page'], $limit_end,$logistics_id,$status,$time);
+                
                 }
             }
             //print_r($data);die;
+            
 
         } else {
+            
 
             //clean filter data inside section
             $filter_session_data['manufacture_selected'] = null;
@@ -158,6 +218,7 @@ class Admin_orders extends CI_Controller
             $data['manufacture_selected'] = 0;
             $data['order'] = 'id';
             $data['logistics_selected']=1;
+            $data['status_selected']=1;
             //fetch sql data into arrays
             $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
             $shopid2name=[];
@@ -168,25 +229,36 @@ class Admin_orders extends CI_Controller
             $data['count_orders'] = $this->orders_model->count_orders();
 
             $data['orders'] = $this->orders_model->get_orders('', '', '', $order_type, $config['per_page'], $limit_end,$data['logistics_selected']);
+            
             $config['total_rows'] = $data['count_orders'];
             //print_r($data['orders']);die;
 
         }//
-
+        // echo json_encode($data);die;
+        
         //initializate the panination helper
         $this->pagination->initialize($config);
 
         //整理数据
-        $handledata=[];
-        foreach ($data['orders'] as $val){
-            $handledata[$val['order_id']][] = $val;
-        }
-        $data['orders']=$handledata;
+        // $handledata=[];
+      
+        // foreach ($data['orders'] as $val){
+        //     $val['checked']=false;
+        //     $handledata[$val['order_id']][] = $val;
+        // }
+        // $data['orders']=$handledata;
+        // $this->apiOut($data['orders']);
         //load the view
         $data['main_content'] = 'admin/orders/list';
+        $this->apiOut($data);
+        // echo json_encode("'店铺：' $manufacture_id ，'物流：' $logistics_id ,'状态：'  $status ，'id'  $search_string  ,'order' $order ,'type' $order_type" ); die;
         $this->load->view('includes/template', $data);
 
     }//index
+    public function indexView(){
+        $data['main_content'] = 'admin/orders/order';
+        $this->load->view('includes/template', $data);
+    }
 
     public function add()
     {
@@ -234,21 +306,10 @@ class Admin_orders extends CI_Controller
     public function update()
     {
         //product id
-        $id = $this->uri->segment(4);
-
+        $id = $this->input->post('id');
+        $data['id']=$id;
         //if save button was clicked, get the data sent via post
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            //form validation
-            $this->form_validation->set_rules('name', 'name', 'required');
-            $this->form_validation->set_rules('first_line', 'first_line', 'required');
-            $this->form_validation->set_rules('city', 'city', 'required|string');
-            $this->form_validation->set_rules('state', 'state', 'required|string');
-            $this->form_validation->set_rules('zip', 'zip', 'required');
-            //$this->form_validation->set_rules('phone', 'phone', 'required|numeric');
-            $this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
-            //if the form has passed through the validation
-            if ($this->form_validation->run()) {
-
                 $data_to_store = array(
                     'name' => $this->input->post('name'),
                     'first_line' => $this->input->post('first_line'),
@@ -258,32 +319,25 @@ class Admin_orders extends CI_Controller
                     'zip' => $this->input->post('zip'),
                     'country' => $this->input->post('country'),
                     'phone' => $this->input->post('phone'),
+                    'carrier_name' => $this->input->post('carrier_name'),
+                    'tracking_code' => $this->input->post('tracking_code'),
                     'message_from_buyer' => $this->input->post('message_from_buyer'),
                     'message_from_seller' => $this->input->post('message_from_seller'),
                 );
+                // $this->apiOut($data_to_store);
                 //if the insert has returned true then we show the flash message
-                if ($this->orders_model->update_product($id, $data_to_store) == TRUE) {
+				$data['order'] = $this->orders_model->get_product_by_id($id);
+				$order_id = $data['order'][0]['order_id'];
+				//echo json_encode($order_id);die;
+                if ($this->orders_model->update_product_by_order_id($order_id, $data_to_store) == TRUE) {
                     $this->session->set_flashdata('flash_message', 'updated');
+                    $data['code']=1;
                 } else {
                     $this->session->set_flashdata('flash_message', 'not_updated');
+                    $data['code']=0;
                 }
-                redirect('admin/orders/update/' . $id . '');
-
-            }//validation run
-
         }
-
-        //if we are updating, and the data did not pass trough the validation
-        //the code below wel reload the current data
-
-        //product data
-        $data['product'] = $this->orders_model->get_product_by_id($id);
-        //fetch manufactures data to populate the select field
-        $data['manufactures'] = $this->manufacturers_model->get_manufacturers();
-        //load the view
-        $data['main_content'] = 'admin/orders/edit';
-        $this->load->view('includes/template', $data);
-
+        $this->apiOut($data);
     }//update
 
     /**
@@ -343,10 +397,15 @@ class Admin_orders extends CI_Controller
             ->setCellValue('T1', '申报重量(USD)')
             ->setCellValue('U1', '海关编码(USD)');
 
-        $orderid = isset($_GET['orderid']) ?  $_GET['orderid'] :0;
-        $shopid = isset($_GET['shopid']) ?  $_GET['shopid'] : 0;
-        $lostype = isset($_GET['logstype']) ? $_GET['logstype'] : 0;
+        $orderid = isset($_POST['orderid']) ?  $_POST['orderid'] :0;
+        $shopid = isset($_POST['shopid']) ?  $_POST['shopid'] : 0;
+        $logistics = isset($_POST['logistics']) ? $_POST['logistics'] : 0;
+        $import = isset($_POST['impt']) ? $_POST['impt'] : 0;
+        $query = $_POST['query'];
+        $time= $_POST['time'];
 
+        // echo json_encode($query);die;
+        // echo  'import:'.$import.' 物流：'.$logistics.' arr:'.json_encode($query).' orderid:'.$orderid.' shopid:'.$shopid;die;
         $this->db->where('status', 1);
         if(!empty($orderid)){
             $this->db->where('order_id', $orderid);
@@ -354,9 +413,30 @@ class Admin_orders extends CI_Controller
         if(!empty($shopid)){
             $this->db->where('shop_id', $shopid);
         }
-        if(!empty($lostype)){
-            $this->db->where('import', $lostype);
+        if(!empty($logistics)){
+            if($logistics == 1){
+                $this->db->where('tracking_code', '');
+            }else{
+                $this->db->where('tracking_code !=', '');
+            }
         }
+        if(!empty($import)){
+            $this->db->where('import', $import);
+        }
+        if($time&&$time!=null&&$time!=""){
+            $this->db->where('creatdTime >=', $time[0]/1000);
+            $this->db->where('creatdTime <=', $time[1]/1000+86400);
+        }
+        if($query){
+            $this->db->where_in('order_id', $query);
+        }
+        if($import==1){
+            $this->db->order_by('orders.creatdTime', 'Asc');
+        }else{
+            $this->db->order_by('orders.creatdTime', 'Desc');
+        }
+        // 
+
         $orderinfo = $this->db->get('orders')->result_array();
         foreach ($orderinfo as $key => $val) {
             $objPHPExcel->getActiveSheet(0)->setCellValue('A' . ($key + 2), $val['order_id']);
@@ -367,7 +447,7 @@ class Admin_orders extends CI_Controller
             $objPHPExcel->getActiveSheet(0)->setCellValue('F' . ($key + 2), $val['first_line']);
 			$objPHPExcel->getActiveSheet(0)->setCellValue('G' . ($key + 2), $val['second_line']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('H' . ($key + 2), $val['city']);
-            $objPHPExcel->getActiveSheet(0)->setCellValue('I' . ($key + 2), $val['state']);
+            $objPHPExcel->getActiveSheet(0)->setCellValue('I' . ($key + 2), $val['state']?$val['state']:$val['city']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('J' . ($key + 2), $val['country_code']);
             $objPHPExcel->getActiveSheet(0)->setCellValue('K' . ($key + 2), $val['zip']);
         }
@@ -378,22 +458,33 @@ class Admin_orders extends CI_Controller
 
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $objPHPExcel->setActiveSheetIndex(0);
-
-
+        $fileName = '订单汇总表(' . date('Ymd') . ').xls';
         // Redirect output to a client’s web browser (Excel5)
         ob_end_clean();//清除缓冲区,避免乱码
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="订单汇总表(' . date('Ymd') . ').xls"');
-        header('Cache-Control: max-age=0');
 
+        $savePath='/assets/excel/';
+       
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+        $_fileName = iconv("utf-8", "gb2312", $fileName);
+        $_savePath = '.'.$savePath.$_fileName;
+        try{
+            $objWriter->save($_savePath);
+        }catch(Excplode $e){
+            $res=$e;
+        }
+        $ret=['code'=>1,'path'=>$savePath.$fileName];
 
-    }
+        if($res){
+            $ret['code']=0;
+            $ret['path']= $res;
+        }
+       $this->apiOut($ret);
+	}
 
     //更新物流
     public function uploadorder()
     {
+        $this -> output -> enable_profiler(TRUE); 
         $reader = PHPExcel_IOFactory::createReader('Excel2007'); //设置以Excel5格式(Excel97-2003工作簿)
         if (!$reader->canRead($_FILES["file"]["tmp_name"])) {
             $reader = PHPExcel_IOFactory::createReader('Excel5');
@@ -406,28 +497,64 @@ class Admin_orders extends CI_Controller
         $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
         $highestRow = $sheet->getHighestRow(); // 取得总行数
         $highestColumm = $sheet->getHighestColumn(); // 取得总列数
-
-
         $data = []; //下面是读取想要获取的列的内容
+        $num = $highestRow - 1 ;
+        $num1 = 0 ;
         for ($rowIndex = 2; $rowIndex <= $highestRow; $rowIndex++) {
-            $data[] = [
+            $temp= [
                 'order_id' => $cell = $sheet->getCell('A' . $rowIndex)->getValue(),
-                'Logistics_mode' => $cell = $sheet->getCell('B' . $rowIndex)->getValue(),
-                'Logistics_number' => $cell = $sheet->getCell('C' . $rowIndex)->getValue(),
-                'import' =>2,
+                'carrier_name' => $cell = $sheet->getCell('B' . $rowIndex)->getValue(),
+                'tracking_code' => $cell = $sheet->getCell('C' . $rowIndex)->getValue(),
+                //'import' =>2,
             ];
+            if($temp['order_id']!=null&&$temp['carrier_name']!=null&&$temp['tracking_code']!=null){
+                try{
+                    //updata  缺货 if have id ; import=4 ;  => import = 1 ;
+
+                    $this->db->update('orders',array('import'=>1),array('order_id'=>$temp['order_id'],'import'=>4));
+                    // by  wennjie 
+                    $this->db->select('*');
+                    $this->db->from('orders');
+                    $this->db->where('order_id', $temp['order_id']);
+                    $query = $this->db->get()->result_array();
+                    $len = count($query);
+                    if($len){
+                        $this->db->where('order_id', $temp['order_id'])->update('orders', $temp);
+                        $res=$this->db->affected_rows();  //yrue 成功更新 //0 更新失败 -1无该id 其他都为成功
+                    }else{
+                        $res = -1 ; // 查无id
+                    }
+                    
+                }catch(Excplode $e){
+                    $res=$e;
+                }
+            }else{
+                $num1+=1;
+            }
+            if($res>0){
+                $num--;
+            }
+            $str='';
+            if($temp['order_id']==null) {
+              $str="订单id为空,"; 
+            }
+            if($temp['carrier_name']==null) {
+                $str="$str 物流公司名为空,";
+            };
+            if($temp['tracking_code']==null){
+                $str="$str 物流单号为空";
+            };
+          
+            $temp["res"]=$res;
+            $temp["len"]=$len;
+            $temp['msg']=$str;
+            // $temp["sql"]=$this->db->last_query();
+            $data[] = array($temp);
         }
-
-
-        $this->db->update_batch('orders', $data, 'order_id');
-        $res = $this->db->affected_rows();
-
-        if($res !== null){
-            echo json_encode(['code'=>0,'msg'=>'success']);
-        }else{
-            echo json_encode(['code'=>-1,'msg'=>'fileds']);
-        }
-
+        $datares['data']=$data;
+        $datares['err']=$num;
+        $datares['err1']=$num1;
+        $this->apiOut($datares);
     }
 
     //发货
@@ -441,5 +568,49 @@ class Admin_orders extends CI_Controller
 //        }
 //        print_r($orders);die;
 //    }
+
+
+
+//TODO  by wennjie
+    public function noStock(){
+        $array = $this->input->post('arr');
+        $data = array('import'=>4);
+        try{
+            foreach ($array as $val){
+                $id = array('order_id'=>$val['order_id']);
+                $this->db->update('orders',$data,$id);
+            };
+        }catch(Excplode $e){
+            $res=$e;
+        }
+    
+        $res=[
+            'code'=>1,
+            "message"=>'缺货成功'
+        ];
+        $this->apiOut($res);
+    }
+    public function recoverys(){
+        $array = $this->input->post('arr');
+        $data = array('import'=>1);
+
+        try{
+            foreach ($array as $val){
+                // $id = array('order_id'=>$val['order_id'],'import'=>4);
+                $id = array('order_id'=>$val['order_id']);
+                $this->db->update('orders',$data,$id);
+            };
+        }catch(Excplode $e){
+            $res=$e;
+        }
+
+        $res=[
+            'code'=>1,
+            "message"=>'恢复成功'
+        ];
+        $this->apiOut($res);
+        
+        
+    }
 
 }

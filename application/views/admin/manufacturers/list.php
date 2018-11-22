@@ -16,7 +16,7 @@
         <h2>
           <?php echo  'shops';?>
           <a  href="<?php echo site_url("admin").'/'.$this->uri->segment(2); ?>/add" class="btn btn-success">增加店铺</a>
-            <a  href="<?php echo site_url("admin").'/auth/pullorder';?>" class="btn btn-failed">拉取订单</a>
+            <a  href="<?php echo site_url("admin").'/auth/pullorder';?>" class="btn">拉取订单</a>
         </h2>
       </div>
       
@@ -64,6 +64,8 @@
                   <th class="yellow header headerSortDown">Name</th>
                   <th class="yellow header headerSortDown">user_id</th>
                   <th class="yellow header headerSortDown">shop_id</th>
+				  <th class="yellow header headerSortDown">ip</th>
+				  <th class="yellow header headerSortDown">note</th>
                   <th class="yellow header headerSortDown">操作</th>
               </tr>
             </thead>
@@ -76,9 +78,12 @@
                 echo '<td>'.$row['name'].'</td>';
                 echo '<td>'.$row['user_id'].'</td>';
                 echo '<td>'.$row['shop_id'].'</td>';
-                echo '<td class="crud-actions">
+				echo '<td>'.$row['ip'].'</td>';
+                echo '<td>'.$row['note'].'</td>';
+                echo '<td>
                   <a href="'.site_url("admin").'/manufacturers/update/'.$row['id'].'" class="btn btn-info">view & edit</a>  
                   <a href="'.site_url("admin").'/auth/index/'.$row['id'].'" class="btn btn-danger">授权</a>
+                  <a href="'.site_url("admin").'/auth/pullorderone/'.$row['id'].'" class="btn">拉取订单</a>
                 </td>';
                 echo '</tr>';
               }

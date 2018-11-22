@@ -70,10 +70,24 @@
             <div class="control-group">
                 <label for="inputError" class="control-label">secret</label>
                 <div class="controls">
-                    <input type="text" id="" name="key" value="<?php echo $manufacture[0]['secret']; ?>" >
+                    <input type="text" id="" name="secret" value="<?php echo $manufacture[0]['secret']; ?>" >
                 </div>
             </div>
 
+            <div class="control-group">
+                <label for="inputError" class="control-label">ip</label>
+                <div class="controls">
+                    <input type="text" id="" name="ip" value="<?php echo $manufacture[0]['ip']; ?>" >
+                </div>
+            </div>
+			
+			<div class="control-group">
+                <label for="inputError" class="control-label">note</label>
+                <div class="controls">
+                    <input type="text" id="" name="note" value="<?php echo $manufacture[0]['note']; ?>" >
+                </div>
+            </div>
+			
           <div class="form-actions">
             <button class="btn btn-primary" type="submit">保存</button>
             <button class="btn" type="reset">Cancel</button>

@@ -64,6 +64,43 @@ class Manufacturers_model extends CI_Model {
 		return $query->result_array(); 	
     }
 
+    public function get_manufacturers2($logistics_id=null,$status=null,$time=null)
+    {
+	    
+		$this->db->select('*');
+		$this->db->from('manufacturers');
+        
+        $result_array = $this->db->get()->result_array();
+        $array = array();
+        foreach ($result_array as $val){
+            $this->db->select('*');
+		    $this->db->from('orders');
+            $this->db->where('orders.shop_id', $val['shop_id']);
+            if($logistics_id){
+                if($logistics_id == 1){
+                    $this->db->where('tracking_code', '');
+                }else{
+                    $this->db->where('tracking_code !=', '');
+                }
+            }
+            if($status){
+                $this->db->where('import', $status);
+            }
+            if($time&&$time!=null&&$time!=""){
+                // echo json_encode($time[0]/1000);die;
+                $this->db->where('creatdTime >=', $time[0]/1000);
+                $this->db->where('creatdTime <=', $time[1]/1000+86400);
+            }
+            $len = $this->db->get()->result_array();
+            $val['len']= count($len);
+            array_push($array,$val);
+            
+        }
+
+		
+		return $array; 	
+    }
+
     /**
     * Count the number of rows
     * @param int $search_string

@@ -29,7 +29,7 @@ define('LOGS_DIR', SITE_DIR . DIRECTORY_SEPARATOR . "logs");
 
 define('DATA_DIR', SITE_DIR . DIRECTORY_SEPARATOR . "data");
 
-define('OAUTH_LOG', true);
+define('OAUTH_LOG', false);
 
 // 业务密钥文件
 define('ETSY_KEY', 'q7teqakic2d6sjpwr9c6dsar');

@@ -57,6 +57,11 @@ class CI_Controller {
 	{
 		return self::$instance;
 	}
+
+	public function apiOut($data){
+		header("Content-Type: application/json; charset=UTF-8");
+		echo json_encode($data);die;
+	}
 }
 // END Controller class
 

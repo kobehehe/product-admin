@@ -34,7 +34,7 @@ abstract class AbstractClient implements ClientInterface
     /**
      * @var int The maximum timeout
      */
-    protected $timeout = 30;
+    protected $timeout = 300;
 
     /**
      * Creates instance

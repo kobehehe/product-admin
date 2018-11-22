@@ -35,9 +35,9 @@ class orders_model extends CI_Model {
     * @param int $limit_end
     * @return array
     */
-    public function get_orders($manufacture_id=null, $search_string=null, $order=null, $order_type='Asc', $limit_start, $limit_end,$logistics_id='')
+    public function get_orders($manufacture_id=null, $search_string=null, $order=null, $order_type='Desc', $limit_start, $limit_end,$logistics_id='',$status='',$time=null)
     {
-
+       
 		$this->db->select('*');
 //		$this->db->select('orders.description');
 //		$this->db->select('orders.stock');
@@ -54,19 +54,29 @@ class orders_model extends CI_Model {
 		}
 		if($logistics_id){
             if($logistics_id == 1){
-                $this->db->where('Logistics_number', '');
+                $this->db->where('tracking_code', '');
             }else{
-                $this->db->where('Logistics_number !=', '');
+                $this->db->where('tracking_code !=', '');
             }
 		}
-
+		if($status){
+            $this->db->where('import', $status);
+        }
+        if($time&&$time!=null&&$time!=""){
+            // echo json_encode($time[0]/1000);die;
+            $this->db->where('creatdTime >=', $time[0]/1000);
+            $this->db->where('creatdTime <=', $time[1]/1000+86400);
+        }
 		//$this->db->join('manufacturers', 'orders.shop_id = manufacturers.shop_id', 'left');
-		//$this->db->group_by('orders.shop_id');
-//		if($order){
-//			$this->db->order_by($order, $order_type);
-//		}else{
-		    $this->db->order_by('orders.id', $order_type);
-		//}
+        //$this->db->group_by('orders.shop_id');
+       
+		if($order){
+
+            $this->db->order_by($order, $order_type);
+           
+		}else{
+		    $this->db->order_by('orders.creatdTime', $order_type);  // if not order   Desc ret 
+		}
 
 		$this->db->limit($limit_start, $limit_end);
 
@@ -83,7 +93,7 @@ class orders_model extends CI_Model {
     * @param int $order
     * @return int
     */
-    function count_orders($manufacture_id=null, $search_string=null, $order=null,$logistics_id=null)
+    function count_orders($manufacture_id=null, $search_string=null, $order=null,$logistics_id=null,$status=null,$time=null)
     {
 		$this->db->select('*');
 		$this->db->from('orders');
@@ -93,8 +103,20 @@ class orders_model extends CI_Model {
 		if($search_string){
 			$this->db->where('order_id', $search_string);
 		}
+        if($status){
+            $this->db->where('import', $status);
+        }
         if($logistics_id){
-            $this->db->where_in('import', $logistics_id);
+            if($logistics_id == 1){
+                $this->db->where('tracking_code', '');
+            }else{
+                $this->db->where('tracking_code !=', '');
+            }
+        }
+        if($time&&$time!=null&&$time!=""){
+           
+            $this->db->where('creatdTime >=', $time[0]/1000);
+            $this->db->where('creatdTime <=', $time[1]/1000+86400);
         }
 		if($order){
 			$this->db->order_by($order, 'Asc');
@@ -136,6 +158,25 @@ class orders_model extends CI_Model {
 		}
 	}
 
+	/**
+    * Update product by order_id
+    * @param array $data - associative array with data to store
+    * @return boolean
+    */
+    function update_product_by_order_id($id, $data)
+    {
+		$this->db->where('order_id', $id);
+		$this->db->update('orders', $data);
+		$report = array();
+		$report['error'] = $this->db->_error_number();
+		$report['message'] = $this->db->_error_message();
+		if($report !== 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
     /**
     * Delete product
     * @param int $id - product id
